@@ -40,7 +40,7 @@ function get_https_file($url) {
     $ch = curl_init();
 
     # !CHANGE THE PATH TO SSL CERTIFICATES!
-    $path = "my/path/to/directory/with/certs";
+    $path = "/home/www/yzk.go/htdocs/app/certs";
 
     // set URL and other options
     curl_setopt($ch, CURLOPT_URL, $url);

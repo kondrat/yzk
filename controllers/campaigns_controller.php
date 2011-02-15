@@ -9,9 +9,8 @@ class CampaignsController extends AppController {
     var $helpers = array('Text');
     var $components = array();
 
-
 //--------------------------------------------------------------------
-    
+
     function beforeFilter() {
 
         //default title
@@ -36,12 +35,41 @@ class CampaignsController extends AppController {
      * 
      */
     function index() {
-        $this->set('title_for_layout', __('Main page', true));
-        $this->set('menuType', 'index');
+        $this->set('title_for_layout', __('Campaigns', true));
+
         $authUserId = $this->Auth->user('id');
-        if ($authUserId) {
-            $this->redirect(array('action' => 'todo'));
+
+
+
+        // create a new cURL resource
+        $ch = curl_init();
+
+        # !CHANGE THE PATH TO SSL CERTIFICATES!
+        $path = "/home/www/yzk.go/htdocs/app/certs";
+        $url = "https://soap.direct.yandex.ru/json-api/v3/";
+        $jsonReq = json_encode(array("method" => "GetClientsList"));
+
+        // set URL and other options
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_CAPATH, $path);
+        curl_setopt($ch, CURLOPT_CAINFO, $path . "/cacert.pem");
+        curl_setopt($ch, CURLOPT_SSLCERT, $path . "/cert.crt");
+        curl_setopt($ch, CURLOPT_SSLKEY, $path . "/private.key");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonReq);
+
+        $result = curl_exec($ch);
+
+        if (curl_errno($ch) != 0) {
+            die('CURL_error: ' . curl_errno($ch) . ', ' . curl_error($ch));
         }
+
+        // close the cURL resource and free the system resources
+        curl_close($ch);
+
+        //echo '<br />HI: '.$result;
     }
 
     /**
@@ -64,9 +92,7 @@ class CampaignsController extends AppController {
 
             $curPrjId = $this->data['Project']['id'] = Sanitize::paranoid($this->params['named']['prj'], array('-'));
             //conditions for items pagination.
-            $pagItemCond = array('Item.user_id' => $authUserId, 'Item.project_id' => $curPrjId, 'Item.status' =>0, 'Item.active' => 1);
-            
-
+            $pagItemCond = array('Item.user_id' => $authUserId, 'Item.project_id' => $curPrjId, 'Item.status' => 0, 'Item.active' => 1);
         } else if (isset($this->params['named']['prj']) && $this->params['named']['prj'] === 'all') {
             //condition for paginatio all the projects that user has.
             $pagItemCond = array('Item.user_id' => $authUserId, 'Item.active' => 1);
@@ -88,27 +114,25 @@ class CampaignsController extends AppController {
                 $userPrj[0] = $this->Item->Project->read();
             }
             $curPrjId = $userPrj[0]['Project']['id'];
-            $pagItemCond = array('Item.user_id' => $authUserId, 'Item.project_id' => $curPrjId, 'Item.status' =>0, 'Item.active' => 1);
+            $pagItemCond = array('Item.user_id' => $authUserId, 'Item.project_id' => $curPrjId, 'Item.status' => 0, 'Item.active' => 1);
         }
 
 
         $this->paginate['conditions'] = $pagItemCond;
         $this->paginate['fields'] = array('Item.id', 'Item.item', 'Item.status', 'Item.task', 'Item.target', 'Item.created');
         $this->paginate['order'] = array('Item.created' => 'DESC');
-        $this->paginate['contain'] = array('Tag'=>array(
-            'fields' => array('Tag.name'),
-            'order' => array('Tagged.created' => 'ASC'),
-            'conditions' => array('Tag.identifier' => 'prj-'.$curPrjId)
-        ));
-        
+        $this->paginate['contain'] = array('Tag' => array(
+                'fields' => array('Tag.name'),
+                'order' => array('Tagged.created' => 'ASC'),
+                'conditions' => array('Tag.identifier' => 'prj-' . $curPrjId)
+                ));
+
 //        $this->paginate['contain'] = array(
 //            'Tag' => array('fields' => array('Tag.name'),
 //                'order' => array('Tagged.created' => 'ASC'),
 //                'conditions' => array('Tag.identifier' => 'prj-'.$curPrjId)
 //            )
 //        );
-
-
 //        we are asked by universal pagiane query plugin
         if ($this->RequestHandler->isAjax() && isset($this->params['url']['startIndex']) && isset($this->params['url']['nbItemsByPage'])) {
 
@@ -130,9 +154,8 @@ class CampaignsController extends AppController {
             $contents = json_encode($contents);
             $this->header('Content-Type: application/json');
             return ($contents);
-            
         } else if ($this->RequestHandler->isAjax()) {
-           
+
 //            Configure::write('debug', 0);
 //            $this->autoLayout = false;
 //            $this->autoRender = FALSE;
@@ -161,31 +184,29 @@ class CampaignsController extends AppController {
                     'contain' => false)
                         //        )
         );
-        
-        $tagCloudOld = Set::extract($tagCloudOld,'{n}/Tag/id');
-        
+
+        $tagCloudOld = Set::extract($tagCloudOld, '{n}/Tag/id');
+
         $countTest = $this->Item->Tagged->find(
-                'all',
-                array(
-                    'conditions'=>array('Tagged.tag_id' => $tagCloudOld),
-                    'fields'=>array('Tag.id, Tag.name, COUNT(*) AS occurrence'),
+                        'all', array(
+                    'conditions' => array('Tagged.tag_id' => $tagCloudOld),
+                    'fields' => array('Tag.id, Tag.name, COUNT(*) AS occurrence'),
                     'group' => 'Tag.id'
-                )
-            );
-        
+                        )
+        );
+
         foreach ($tagCloudOld as $singleTag) {
             
         }
-        
+
         $tagCloud = $this->Item->Tagged->find(
-                'cloud',
-                array(
+                        'cloud', array(
                     'conditions' => array('Tag.identifier' => 'prj-' . $curPrjId),
-                    'fields'=>'Tag.*, Tagged.tag_id, COUNT(*) AS occurrence',
+                    'fields' => 'Tag.*, Tagged.tag_id, COUNT(*) AS occurrence',
                     'limit' => 15,
                     'contain' => false
-                    )
-                );
+                        )
+        );
         $this->set('tags', $tagCloud);
         $this->set('tagsOld', $tagCloudOld);
         $this->set('countTest', $countTest);
@@ -198,7 +219,6 @@ class CampaignsController extends AppController {
      * @return type array
      * @access private
      */
-
     function view($id = null) {
         if (!$id) {
             $this->Session->setFlash(__('Invalid Item', true));
