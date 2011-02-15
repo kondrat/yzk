@@ -92,4 +92,10 @@ class DATABASE_CONFIG {
 		'database' => 'test_database_name',
 		'prefix' => '',
 	);
+       
+	var $yandex = array(
+		'datasource' => 'yandex'
+	);
+
+
 }
