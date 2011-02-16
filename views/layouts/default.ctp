@@ -27,7 +27,8 @@
             'jq/jquery-1.5.min',
             'plug/tipsy/javascripts/jquery.tipsy',
             'jq/jquery.tmpl.min',
-            'plug/jquery.universalpaginate'
+            'plug/jquery.universalpaginate',
+            'dev/file1'
         ));
 
         echo $scripts_for_layout;

@@ -48,3 +48,8 @@
  * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
  *
  */
+/*
+ * Current dir configuratin
+ * ex '/mc.go' or ''.
+ */
+    Configure::write('path', '/wr.go');
