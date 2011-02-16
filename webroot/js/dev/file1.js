@@ -6,21 +6,21 @@ jQuery(document).ready(function(){
     var $file1;
     
     
-    var f_file1_getClients = function(){
+    var f_file1_getClientsList = function(){
  
                 $.ajax({
                     dataType:"json",
-                    url: "\/yzk.go\/campaigns\/getYnData",
+                    url: "\/campaigns\/getYnData",
                     type: "POST",
                     data: {
-                        "data[method]":'',
-                        "data[param]":'{"Login":"am_borovikov"}'
+                        "data[method]":'GetClientsList'
+                        
                     },
                     success:function (data, textStatus) {
                         if( data.data) {
                           alert('success');                           
                         } else if(data.error){
-                           alert(data.error);
+                           alert("Error here: "+data.error);
                         } else if(data.error_code){
                             alert(data.error_code+' | '+data.error_detail+' | '+data.error_str);
                         } else {
@@ -36,6 +36,6 @@ jQuery(document).ready(function(){
 
     };
  
-    f_file1_getClients();
+    f_file1_getClientsList();
     
 });

@@ -52,11 +52,15 @@ class CampaignsController extends AppController {
         $ch = curl_init();
 
         //@todo add opportinity to add more certs
-        //$path = "/home/www/yzk.go/htdocs/app/certs";
-        $path = "C:\Program Files\Apache Software Foundation\Apache2.2\htdocs\yzk.go\app\certs";
+        $path = "/home/www/yzk.go/htdocs/app/certs";
+        //$path = "C:\Program Files\Apache Software Foundation\Apache2.2\htdocs\yzk.go\app\certs";
         $url = "https://soap.direct.yandex.ru/json-api/v3/";
-        $jsonReq = json_encode(array("method" => "GetCampaignsList","param"=>array("horpol" ) ) ); 
-
+         
+        //@todo sinitize this
+        $method = $this->data['method'];
+        $params = '';
+        $jsonReq = json_encode(array("method" => "$method","param"=>$params ) );
+        
         if ($this->RequestHandler->isAjax()) {
 
             Configure::write('debug', 0);
