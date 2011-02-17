@@ -10,7 +10,7 @@ jQuery(document).ready(function(){
  
                 $.ajax({
                     dataType:"json",
-                    url: "\/yzk.go\/clients\/getYnClData",
+                    url: "\/clients\/getYnClData",s
                     type: "POST",
                     data: {
                         "data[method]":'GetClientsList'
