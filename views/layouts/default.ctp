@@ -14,7 +14,8 @@
                     'tipsy/stylesheets/tipsy',
                     'screen',
                     'yzk-lt',
-                    'yzk-com'
+                    'yzk-com',
+                    'yzk-clt'
                 )
         );
         echo '<!--[if IE]>';
@@ -38,7 +39,7 @@
         <div class="container" style="position:relative;">
             <div class="lt-pageheader">
                 <div>
-                    <h1><?php echo $this->Html->link(__('yzk.go', true), 'http://yzk.zone4test.ru'); ?></h1>
+                    <h2><?php echo $this->Html->link(__('yzk.go', true), 'http://yzk.zone4test.ru'); ?></h2>
                 </div>           
             </div>
         </div>

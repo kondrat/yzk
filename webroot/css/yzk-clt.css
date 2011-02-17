@@ -1,0 +1,21 @@
+/* 
+    Document   : clt
+    Created on : 17.02.2011, 16:34:07
+    Author     : akv
+    Description:
+        clents page style sheet
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.clt-client{
+    border-bottom: 1px solid #fff;
+}
+.clt-clientHgl{
+   background-color: #eee;
+   border-bottom: 1px solid #ccc;
+}
+

@@ -3,14 +3,14 @@
  * and open the template in the editor.
  */
 jQuery(document).ready(function(){
-    var $file1;
+    var $file1_cltClientListWrp = $("#clt-clientListWrp");
     
     
     var f_file1_getClientsList = function(){
  
                 $.ajax({
                     dataType:"json",
-                    url: "\/campaigns\/getYnData",
+                    url: "\/yzk.go\/clients\/getYnClData",
                     type: "POST",
                     data: {
                         "data[method]":'GetClientsList'
@@ -18,7 +18,12 @@ jQuery(document).ready(function(){
                     },
                     success:function (data, textStatus) {
                         if( data.data) {
-                          alert('success');                           
+                          //alert('success'); 
+
+                          //$("#clt-clientListTmpl").tmpl(data.data).appendTo($file1_cltClientListWrp);
+                         
+
+
                         } else if(data.error){
                            alert("Error here: "+data.error);
                         } else if(data.error_code){
@@ -38,4 +43,12 @@ jQuery(document).ready(function(){
  
     f_file1_getClientsList();
     
+    $file1_cltClientListWrp.delegate(".clt-client","mouseenter",function(){
+        $(this).addClass("clt-clientHgl");
+    })
+     $file1_cltClientListWrp.delegate(".clt-client","mouseleave",function(){
+        $(this).removeClass("clt-clientHgl");
+    })
+ 
+ 
 });

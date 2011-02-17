@@ -1,4 +1,4 @@
-<h3>Clients</h3>
+<h3>My Clients</h3>
 
 <script id="clt-clientListTmpl" type="text/x-jquery-tmpl">
 
