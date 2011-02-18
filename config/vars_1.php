@@ -6,6 +6,9 @@
  * 
  */
 
-    $config['path'] = "/wr.go"
+    $config['path'] = "/wr.go";
+    $config['pathToCerts'] = "/home/www/yzk.go/htdocs/app/certs";
+    
+    
 
 ?>

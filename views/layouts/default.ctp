@@ -46,10 +46,12 @@
     <body>
         <div class="container" style="position:relative;">
             <div class="lt-pageheader">
-                <div>
-                    <h2><?php echo $this->Html->link($this->Html->image(
+                <div style="position:absolute;">
+                    <?php 
+                        echo $this->Html->link($this->Html->image(
                                             'pic/logo.png'
-                                    ), 'http://yzk.zone4test.ru', array('escape' => false)); ?></h2>
+                                    ), '/', array('escape' => false)); 
+                    ?>
                 </div>           
             </div>
         </div>

@@ -204,7 +204,7 @@ class UsersController extends AppController {
 
         if ($this->Auth->user()) {
             $this->Session->setFlash(__d('users', 'You are already registered and logged in!', true));
-            $this->redirect('/');
+            //$this->redirect('/');
         }
 
         $stopWord = '';
@@ -213,7 +213,7 @@ class UsersController extends AppController {
             //prepering data from kcaptch component to check.			
             $this->data['User']['captcha2'] = $this->Session->read('captcha');
             
-            $this->data['User']['group_id'] = '4cdbf51d-a8a8-4f5f-88c9-05cc9be3e0a3';
+            $this->data['User']['group_id'] = '3';
 
             $user = $this->User->register($this->data);
 
@@ -221,7 +221,7 @@ class UsersController extends AppController {
                 //$a = $this->User->read();
                 $this->Auth->login($user);
                 $this->Session->setFlash(__d('users', 'Your account has been created.', true), 'default', array('class' => 'flok'));
-                $this->redirect('/', null, true);
+                $this->redirect(array('controller'=>'clients','action'=>'index'), null, true);
 
                 //verification email version
                 /*
@@ -323,7 +323,7 @@ class UsersController extends AppController {
             $this->User->saveField('last_login', date('Y-m-d H:i:s'));
 
             if ($this->here == $this->Auth->loginRedirect) {
-                $this->Auth->loginRedirect = '/';
+                //$this->Auth->loginRedirect = '/';
             }
 
             $this->Session->setFlash(sprintf(__d('users', '%s you u have successfully logged in', true), $this->Auth->user('username')));
@@ -334,7 +334,7 @@ class UsersController extends AppController {
             if (empty($data['return_to'])) {
                 $data['return_to'] = null;
             }
-            $this->redirect($this->Auth->redirect($data['return_to']));
+            //$this->redirect($this->Auth->redirect($data['return_to']));
         }
 
         if (isset($this->params['named']['return_to'])) {

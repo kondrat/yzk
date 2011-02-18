@@ -41,7 +41,7 @@ jQuery(document).ready(function(){
 
     };
  
-    f_file1_getClientsList();
+    //f_file1_getClientsList();
     
     $file1_cltClientListWrp.delegate(".clt-client","mouseenter",function(){
         $(this).addClass("clt-clientHgl");
