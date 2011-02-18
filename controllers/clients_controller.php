@@ -16,7 +16,7 @@ class ClientsController extends AppController {
         //default title
         $this->set('title_for_layout', __('Companies', true));
         //allowed actions
-        $this->Auth->allow('index', 'view','getYnClData');
+        //$this->Auth->allow('index', 'view','getYnClData');
 
         parent::beforeFilter();
         $this->Auth->autoRedirect = false;
@@ -50,17 +50,20 @@ class ClientsController extends AppController {
      * @access public
      */
     public function getYnClData() {
+        
         // create a new cURL resource
         $ch = curl_init();
 
-        //@todo add opportinity to add more certs
-        $path = "/home/www/yzk.go/htdocs/app/certs";
-        //$path = "C:\Program Files\Apache Software Foundation\Apache2.2\htdocs\yzk.go\app\certs";
+        //@todo add opportinity to add more certs per each user
+      
+        $path = Configure::read('pathToCerts');
+        
         $url = "https://soap.direct.yandex.ru/json-api/v3/";
          
         //@todo sinitize this
         $method = '';//$this->data['method'];
         $params = '';//array('am-borovikov');
+        //request for yandex in json.
         $jsonReq = json_encode(
                 array(
                     "method" => "GetSubClients",

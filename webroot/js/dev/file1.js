@@ -7,10 +7,10 @@ jQuery(document).ready(function(){
     
     
     var f_file1_getClientsList = function(){
- 
+                
                 $.ajax({
                     dataType:"json",
-                    url: "\/clients\/getYnClData",s
+                    url: path+"\/clients\/getYnClData",
                     type: "POST",
                     data: {
                         "data[method]":'GetClientsList'

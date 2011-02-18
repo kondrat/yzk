@@ -3,7 +3,7 @@
 # Server version:               5.0.67-community-nt
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-02-15 21:27:43
+# Date/time:                    2011-02-18 21:53:23
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -27,6 +27,55 @@ CREATE TABLE IF NOT EXISTS `campaigns` (
 DELETE FROM `campaigns`;
 /*!40000 ALTER TABLE `campaigns` DISABLE KEYS */;
 /*!40000 ALTER TABLE `campaigns` ENABLE KEYS */;
+
+
+# Dumping structure for table yzk.clients
+DROP TABLE IF EXISTS `clients`;
+CREATE TABLE IF NOT EXISTS `clients` (
+  `id` int(10) default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+# Dumping data for table yzk.clients: ~0 rows (approximately)
+DELETE FROM `clients`;
+/*!40000 ALTER TABLE `clients` DISABLE KEYS */;
+/*!40000 ALTER TABLE `clients` ENABLE KEYS */;
+
+
+# Dumping structure for table yzk.details
+DROP TABLE IF EXISTS `details`;
+CREATE TABLE IF NOT EXISTS `details` (
+  `id` varchar(36) NOT NULL,
+  `user_id` varchar(36) NOT NULL,
+  `position` float NOT NULL default '1',
+  `field` varchar(255) NOT NULL,
+  `value` text,
+  `input` varchar(16) NOT NULL,
+  `data_type` varchar(16) NOT NULL,
+  `label` varchar(128) NOT NULL,
+  `created` datetime default NULL,
+  `modified` datetime default NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `UNIQUE_PROFILE_PROPERTY` (`field`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+# Dumping data for table yzk.details: ~0 rows (approximately)
+DELETE FROM `details`;
+/*!40000 ALTER TABLE `details` DISABLE KEYS */;
+/*!40000 ALTER TABLE `details` ENABLE KEYS */;
+
+
+# Dumping structure for table yzk.groups
+DROP TABLE IF EXISTS `groups`;
+CREATE TABLE IF NOT EXISTS `groups` (
+  `id` varchar(36) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+# Dumping data for table yzk.groups: ~0 rows (approximately)
+DELETE FROM `groups`;
+/*!40000 ALTER TABLE `groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 
 
 # Dumping structure for table yzk.users

@@ -6,9 +6,7 @@ class AppController extends Controller {
         'Security',
         'Cookie',
         'Session',
-        'Auth',
-        /*
-        'SuperAuth.Auth' => array(
+        'Auth' => array(
             'authorize' => 'actions',
             'actionPath' => 'controllers/',
             'loginAction' => array(
@@ -19,9 +17,7 @@ class AppController extends Controller {
             ),
         //'allowedActions' => array('')
         ),
-        'SuperAuth.Acl',
-         
-         */
+        //'Acl',
         'RequestHandler',
         'Email',
         'DebugKit.Toolbar'
@@ -31,7 +27,7 @@ class AppController extends Controller {
 
 //--------------------------------------------------------------------
     function beforeFilter() {
-
+        //loading file vars.php from conf directory. contains configuration
         Configure::load('vars');
 
 

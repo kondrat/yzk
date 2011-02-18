@@ -15,7 +15,8 @@
                     'screen',
                     'yzk-lt',
                     'yzk-com',
-                    'yzk-clt'
+                    'yzk-clt',
+                    '/users/css/ec-u'
                 )
         );
         echo '<!--[if IE]>';
@@ -29,9 +30,16 @@
             'plug/tipsy/javascripts/jquery.tipsy',
             'jq/jquery.tmpl.min',
             'plug/jquery.universalpaginate',
-            'dev/file1'
+            'dev/file1',
+            '/users/js/dev/reg',
+            '/users/js/dev/func'
         ));
 
+        
+        echo $html->scriptBlock(
+                'var path = "'. Configure::read('path').'";'
+        );
+        
         echo $scripts_for_layout;
         ?>
     </head>
@@ -39,7 +47,9 @@
         <div class="container" style="position:relative;">
             <div class="lt-pageheader">
                 <div>
-                    <h2><?php echo $this->Html->link(__('yzk.go', true), 'http://yzk.zone4test.ru'); ?></h2>
+                    <h2><?php echo $this->Html->link($this->Html->image(
+                                            'pic/logo.png'
+                                    ), 'http://yzk.zone4test.ru', array('escape' => false)); ?></h2>
                 </div>           
             </div>
         </div>
