@@ -3,24 +3,24 @@
  * and open the template in the editor.
  */
 jQuery(document).ready(function(){
-    var $file1_cltClientListWrp = $("#clt-clientListWrp");
+    var $file2_cltClientCampListWrp = $("#clt-clientCampListWrp");
     
     
-    var f_file1_getClientsList = function(){
+    var f_file1_getClientsCampList = function(){
                 
                 $.ajax({
                     dataType:"json",
-                    url: path+"\/clients\/getYnClData",
+                    url: path+"\/campaigns\/getYnCampList",
                     type: "POST",
                     data: {
-                        "data[method]":'GetClientsList'
-                        
+                        "data[method]":'GetClientsList',
+                        "data[clname]":$('#clt-clientCampListWrp').data("clname")
                     },
                     success:function (data, textStatus) {
                         if( data.data) {
                           //alert('success'); 
-                          $file1_cltClientListWrp.empty();
-                          $("#clt-clientListTmpl").tmpl(data.data).appendTo($file1_cltClientListWrp);
+                          $file2_cltClientCampListWrp.empty();
+                          $("#clt-clientCompListTmpl").tmpl(data.data).appendTo($file2_cltClientCampListWrp);
                          
 
 
@@ -41,14 +41,14 @@ jQuery(document).ready(function(){
 
     };
  
-    f_file1_getClientsList();
+    f_file1_getClientsCampList();
     
-    $file1_cltClientListWrp.delegate(".clt-client","mouseenter",function(){
-        $(this).addClass("clt-clientHgl");
-    })
-     $file1_cltClientListWrp.delegate(".clt-client","mouseleave",function(){
-        $(this).removeClass("clt-clientHgl");
-    })
+//    $file1_cltClientListWrp.delegate(".clt-client","mouseenter",function(){
+//        $(this).addClass("clt-clientHgl");
+//    })
+//     $file1_cltClientListWrp.delegate(".clt-client","mouseleave",function(){
+//        $(this).removeClass("clt-clientHgl");
+//    })
  
  
 });

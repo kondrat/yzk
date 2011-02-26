@@ -13,11 +13,17 @@
 
 .lt-pageheader { 
     color: red;
+    margin:10px 0;
 }
 .lt-pagefooter{
     color: blue;
 }
 .lt-footerNote{
     color: green;
+}
+.lt-topMenu{
+    color:green;
+    margin-right: 1em;
+    float:left;
 }
 

@@ -5,7 +5,7 @@ App::import('Sanitize');
 class CampaignsController extends AppController {
 
     var $name = 'Campaigns';
-    var $publicActions = array('getYnData');
+    var $publicActions = array('getYnCampList');
     var $helpers = array('Text');
     var $components = array();
 
@@ -16,7 +16,7 @@ class CampaignsController extends AppController {
         //default title
         $this->set('title_for_layout', __('Companies', true));
         //allowed actions
-        $this->Auth->allow('index', 'view','getYnData');
+        $this->Auth->allow('index', 'view','getYnCampList');
 
         parent::beforeFilter();
         $this->Auth->autoRedirect = false;
@@ -35,9 +35,19 @@ class CampaignsController extends AppController {
      * 
      */
     function index() {
+        $clientName = null;
+        if($this->params['named']['client']){
+            $clientName = $this->params['named']['client'];
+            
+        }
+        $this->set('clientName',$clientName);
         $this->set('title_for_layout', __('Campaigns', true));
-
+        $this->set('menuType','regged');
+        
         $authUserId = $this->Auth->user('id');
+        
+        
+        
     }
 
     /**
@@ -47,19 +57,26 @@ class CampaignsController extends AppController {
      * @return type json
      * @access public
      */
-    function getYnData() {
-        // create a new cURL resource
+    function getYnCampList() {
+         // create a new cURL resource
         $ch = curl_init();
 
-        //@todo add opportinity to add more certs
-        //$path = "/home/www/yzk.go/htdocs/app/certs";
-        $path = "C:\Program Files\Apache Software Foundation\Apache2.2\htdocs\yzk.go\app\certs";
+        //@todo add opportinity to add more certs per each user
+      
+        $path = Configure::read('pathToCerts');
+        
         $url = "https://soap.direct.yandex.ru/json-api/v3/";
          
         //@todo sinitize this
-        $method = $this->data['method'];
-        $params = '';
-        $jsonReq = json_encode(array("method" => "$method","param"=>$params ) );
+        $method = '';//$this->data['method'];
+        $params = array($this->data['clname']);
+        //request for yandex in json.
+        $jsonReq = json_encode(
+                array(
+                    "method" => "GetCampaignsList",
+                    "param"=>$params 
+                    ) 
+                );
         
         if ($this->RequestHandler->isAjax()) {
 
@@ -97,6 +114,7 @@ class CampaignsController extends AppController {
             return ($contents);
         }
     }
+    
 
 
     /*

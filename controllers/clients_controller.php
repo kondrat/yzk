@@ -35,10 +35,11 @@ class ClientsController extends AppController {
      * 
      */
     public function index() {
-        $this->set('title_for_layout', __('Campaigns', true));
+        $this->set('title_for_layout', __('Clients', true));
 
         $authUserId = $this->Auth->user('id');
         
+        $this->set('menuType','regged');
         
     }
 
@@ -66,7 +67,7 @@ class ClientsController extends AppController {
         //request for yandex in json.
         $jsonReq = json_encode(
                 array(
-                    "method" => "GetSubClients",
+                    "method" => "GetClientsList",
                     //"param"=>$params 
                     ) 
                 );

@@ -1,8 +1,6 @@
-<?php //echo $html->script('/users/js/dev/reg', array('inline' => false)); ?> 
+<?php echo $this->element('webroot');?>
 
-<div class="ur-formPageReg">
-
-    <h3 style="color:#db605d;margin:0 0 1em 2.5em;"><span style="color:gray;font-size:small;"><?php __('Join'); ?></span>yzk.go</h3>
+<div class="ur-formPageReg span-24">
 
     <?php
     echo $form->create('User', array(

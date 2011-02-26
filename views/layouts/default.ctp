@@ -15,8 +15,7 @@
                     'screen',
                     'yzk-lt',
                     'yzk-com',
-                    'yzk-clt',
-                    '/users/css/ec-u'
+                    'yzk-clt'
                 )
         );
         echo '<!--[if IE]>';
@@ -25,58 +24,63 @@
 
 
 
-        echo $html->script(array(
-            'jq/jquery-1.5.min',
+        echo $this->Html->script(array(
+            'jq/jquery-1.5.1.min',
             'plug/tipsy/javascripts/jquery.tipsy',
             'jq/jquery.tmpl.min',
-            'plug/jquery.universalpaginate',
-            'dev/file1',
-            '/users/js/dev/reg',
-            '/users/js/dev/func'
+            'plug/jquery.universalpaginate'
+            
         ));
 
-        
-        echo $html->scriptBlock(
-                'var path = "'. Configure::read('path').'";'
+
+        echo $this->Html->scriptBlock(
+                'var path = "' . Configure::read('path') . '";'
         );
-        
+
         echo $scripts_for_layout;
         ?>
     </head>
     <body>
         <div class="container" style="position:relative;">
-            <div class="lt-pageheader">
-                <div style="position:absolute;">
-                    <?php 
-                        echo $this->Html->link($this->Html->image(
-                                            'pic/logo.png'
-                                    ), '/', array('escape' => false)); 
+            <div class="lt-pageheader span-24">
+                <div style="position:absolute;top:0;left:-138px;">
+                    <?php
+                    echo $this->Html->link($this->Html->image(
+                                    'pic/logo.png'
+                            ), '/', array('escape' => false));
                     ?>
-                </div>           
+                </div>
+                <?php
+                
+                if (!isset($menuType) || !in_array($menuType, array('reg', 'login', 'index', 'regged'), true)) {
+                    $menuType = 'default';
+                }
+                echo $this->element('pageHead/topMenu/top_menu', array('menuType' => $menuType));
+                ?>
             </div>
         </div>
-        
+
         <div class="container">
 
-            <div>
 
-                <?php echo $this->Session->flash(); ?>
 
-                <?php echo $content_for_layout; ?>
+            <?php echo $this->Session->flash(); ?>
 
-            </div>
+            <?php echo $content_for_layout; ?>
+
+
 
         </div>
 
         <div class="container" style="">
             <div class="lt-pagefooter"> 
-                    <div class="span-22 prepend-1">
-                        <div class="lt-footerNote">
-                            <?php echo $html->link('www.yzk.zone4test.ru', array('controller' => 'companies', 'action' => 'index')); ?> &copy;<?php echo date('Y'); ?>
-                        </div>
-                    </div>        
+                <div class="span-24s">
+                    <div class="lt-footerNote">
+                        <?php echo $html->link('yzk.go', array('controller' => 'companies', 'action' => 'index')); ?> &copy;<?php echo date('Y'); ?>
+                    </div>
+                </div>        
             </div>
         </div>
-        <?php //echo $this->element('sql_dump'); ?>
+        <?php //echo $this->element('sql_dump');  ?>
     </body>
 </html>

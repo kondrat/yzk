@@ -204,7 +204,7 @@ class UsersController extends AppController {
 
         if ($this->Auth->user()) {
             $this->Session->setFlash(__d('users', 'You are already registered and logged in!', true));
-            //$this->redirect('/');
+            $this->redirect('/');
         }
 
         $stopWord = '';
@@ -322,8 +322,19 @@ class UsersController extends AppController {
             $this->User->id = $this->Auth->user('id');
             $this->User->saveField('last_login', date('Y-m-d H:i:s'));
 
+            $userGroupId = $this->Auth->user('group_id');
+            
+            if($userGroupId == 3){               
+                $this->redirect(array('plugin'=>null,'controller'=>'clients','action'=>'index'));
+            } elseif($userGroupId == 4){
+                $this->redirect(array('plugin'=>null,'controller'=>'campaigns','action'=>'index'));
+            }
+            
             if ($this->here == $this->Auth->loginRedirect) {
-                //$this->Auth->loginRedirect = '/';
+                //debug($this->Auth->loginRedirect);
+                $this->Auth->loginRedirect = '/';
+                //temp solution
+                
             }
 
             $this->Session->setFlash(sprintf(__d('users', '%s you u have successfully logged in', true), $this->Auth->user('username')));

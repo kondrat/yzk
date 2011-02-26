@@ -18,4 +18,9 @@
    background-color: #eee;
    border-bottom: 1px solid #ccc;
 }
+.clt-loader{
+    height: 200px;
+    width: 200px;
+    text-align: center;
+}
 
