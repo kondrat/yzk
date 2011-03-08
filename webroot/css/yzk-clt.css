@@ -13,6 +13,7 @@
 
 .clt-client{
     border-bottom: 1px solid #fff;
+    
 }
 .clt-clientHgl{
    background-color: #eee;
@@ -22,5 +23,27 @@
     height: 200px;
     width: 200px;
     text-align: center;
+}
+.clt-clientListWrp{
+   position: relative; 
+}
+.clt-cltRegWrp{   
+    float:left;
+    padding: 10px;
+}
+.clt-clientAct{
+    border: 1px solid;
+    background-color: #ccc;
+}
+input.clt-inputEmail{
+    margin: 0;
+    padding: 0;
+}
+.clt-cltRegBtn{
+    background-color: #205791;
+    color: wheat;
+    float: left;
+    font-weight: bold;
+    padding: 2px 5px;
 }
 

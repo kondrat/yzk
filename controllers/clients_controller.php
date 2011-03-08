@@ -5,7 +5,7 @@ App::import('Sanitize');
 class ClientsController extends AppController {
 
     var $name = 'Clients';
-    var $publicActions = array('getYnClData');
+    var $publicActions = array('getYnClData','regYnCl');
     var $helpers = array('Text');
     var $components = array();
 
@@ -97,10 +97,28 @@ class ClientsController extends AppController {
                 //$contents["stat"] = 0;
                 $contents["error"] = ('CURL_error: ' . curl_errno($ch) . ', ' . curl_error($ch));
                 $contents = json_encode($contents);
+            } else {
+                
+//                $existedClients = $this->Client->find('all',array(
+//                    'conditions'=>array(),
+//                    'fields'=>array(),
+//                    'contain'=>false
+//                ));
+                
+                
+                $newContensTmp = array();
+                $newContens = json_decode($contents,TRUE);
+                foreach ($newContens['data'] as $k=>$v){
+                    $newContens['data'][$k]['more'] = 'mumu';//$existedClients;           
+                }  
+                
+                $contents = json_encode($newContens);
             }
 
             // close the cURL resource and free the system resources
             curl_close($ch);
+            
+
 
             
             //$content = json_encode($content);
@@ -109,7 +127,32 @@ class ClientsController extends AppController {
         }
     }
 
+    /**
+     * regging new clien 
+     * 
+     * @param
+     * @return type json
+     * @access public
+     */
+    
+    public function regYnCl(){
+        
+        $contents = array();
+        
+        if ($this->RequestHandler->isAjax()) {
 
+            Configure::write('debug', 0);
+            $this->autoLayout = FALSE;
+            $this->autoRender = FALSE;
+            
+            
+            
+            
+            
+            $this->header('Content-Type: application/json');
+            return ($contents);           
+        }
+    }
  
 }
 
