@@ -1,0 +1,21 @@
+/* 
+    Document   : yzk-cmp
+    Created on : Mar 7, 2011, 9:06:43 PM
+    Author     : kondratyev
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.cmp-isactiveYes{
+    color: green;
+    font-weight: bold;
+}
+.cmp-isactiveNo{
+    color: red;
+    font-weight: bold;
+

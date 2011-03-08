@@ -1,6 +1,6 @@
-<h1>
+<h4>
     yzk.go: home page
-</h1>
+</h4>
 <?php if(!$this->Session->read('Auth.User.id')):?>
     <?php echo $this->element('login_toDel',array('plugin'=>'users'));?>
 <?php else: ?>

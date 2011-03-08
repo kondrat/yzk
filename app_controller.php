@@ -13,8 +13,12 @@ class AppController extends Controller {
                 'controller' => 'users',
                 'action' => 'login',
                 'plugin' => 'users',
-                'admin' => false,
+                'admin' => false,               
             ),
+            'fields'=> array(
+                'username' => 'email',
+                'password' => 'password'
+            )
         //'allowedActions' => array('')
         ),
         //'Acl',

@@ -52,4 +52,4 @@
  * Current dir configuratin
  * ex '/mc.go' or ''.
  */
-    Configure::write('path', '/wr.go');
+    //Configure::write('path', '/yzk.go');

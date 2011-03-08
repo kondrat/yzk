@@ -19,11 +19,17 @@
     color: blue;
 }
 .lt-footerNote{
+    border-top: 1px solid;
     color: green;
+    margin-top: 1em;
+    padding-top: 1em;
 }
 .lt-topMenu{
     color:green;
     margin-right: 1em;
     float:left;
+}
+.cmp-client{
+    border-bottom: 1px solid #fff;
 }
 

@@ -44,7 +44,7 @@ if (!isset($menuType)) {
 
         <?php break; ?>
     <?php default: ?>
-        <div>hello</div>
+        <div>hello 1</div>
         <?php break; ?>
 
 

@@ -17,7 +17,7 @@ if (!$this->Session->check('Auth.Users')) {
 			'controller' => 'users',
 			'action' => 'login'),
 		'id' => 'LoginForm'));
-	echo $this->Form->input('username', array(
+	echo $this->Form->input('email', array(
 		'label' => __d('users', 'Email', true)));
 	echo $this->Form->input('password', array(
 		'label' => __d('users', 'Password', true),

@@ -1,18 +1,26 @@
 <?php if($clientName):?>
-    <h3><?php echo $clientName.__("'s companies",true);?> </h3>   
+    <h4><?php echo '<span style="color:gray;font-size:large;">'.$clientName.'</span>'.__("'s companies",true);?> </h4>   
 <?php else: ?>
     <h3><?php __('Client\'s companies');?> </h3>
 <?php endif ?>
 <?php echo $this->Html->script(array('dev/file2'));?>
-<script id="clt-clientCompListTmpl" type="text/x-jquery-tmpl">
+<script id="cmp-clientCompListTmpl" type="text/x-jquery-tmpl">
 
-    <div  class="clt-client  span-17">
-        <div class="clt-login span-4"><?php echo $this->Html->link('${Login}',array("controller"=>"campaings","action"=>"index","client"=>'${Login}'));?></div>
-        <div class="clt-fio span-4">${FIO}</div>
-        <div class="clt-phone span-4">${Phone}</div>
-        <div class="clt-discount span-1">${Discount}%</div>
+    <div  class="cmp-client  span-17">
+        <div class="cmp-name span-4">${Name}</div>
+        <div class="cmp-clicks span-2">${Clicks}</div>
+        {{if IsActive == 'Yes'}}
+            <div class="cmp-isactiveYes span-1">${IsActive}</div>
+        {{else}}
+            <div class="cmp-isactiveNo span-1">${IsActive}</div>
+        {{/if}}
+        <div class="cmp-shows span-2">${Shows}</div>
+        <div class="cmp-startdate span-2">${StartDate}</div>
+        <div class="cmp-sum span-1">${Sum}</div>
     </div>
 
 </script>
 
-<div id="clt-clientCampListWrp" class="span-18" data-clname="<?php echo $clientName;?>"></div>
+<div id="cmp-clientCampListWrp" class="cmp-clientCampListWrp span-14 prepend-1" data-clname="<?php echo $clientName;?>">
+    <div class="clt-loader"><?php echo $this->Html->image('pic/clt-loader.gif');?></div>
+</div>

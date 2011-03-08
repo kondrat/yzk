@@ -16,7 +16,7 @@
             <?php echo $this->Form->label(__('Email', true)); ?>
         </div>
         <div class="formWrapIn">
-            <?php echo $form->input('username', array()); ?>	
+            <?php echo $form->input('email', array()); ?>	
         </div>
     </div>	
 

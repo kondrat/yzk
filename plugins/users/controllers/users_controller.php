@@ -49,33 +49,27 @@ class UsersController extends AppController {
                 //'acoset','aroset','permset','buildAcl'
         );
         $this->Auth->autoRedirect = false;
-        $this->Auth->loginError = "test mess";
+        $this->Auth->loginError = "auth err";
 
         $this->set('model', $this->modelClass);
 
         if ($this->action == 'login' && !empty($this->data)) {
             $data = $this->data;
-            if (isset($data['User']['username']) && strpos($data['User']['username'], '@') !== false) {
-                $user = $this->User->find('first', array('conditions' => array('User.email' => $data['User']['username']), 'contain' => false));
-                if ($user != array()) {
-                    $this->data['User']['username'] = $user['User']['username'];
-                }
-            }
 
-
-            if ($this->referer() === '/' || $this->referer() === 'cards/index') {
-
-                if (!isset($data['_Token']) || !isset($data['_Token']['fields']) || !isset($data['_Token']['key'])) {
-                    return false;
-                }
-                $token = $data['_Token']['key'];
-                if ($this->Session->check('_Token')) {
-                    $tokenData = unserialize($this->Session->read('_Token'));
-                    if ($tokenData['expires'] < time() || $tokenData['key'] !== $token) {
-                        return false;
-                    }
-                }
-            }
+            //for quick login. not to use it
+//            if ($this->referer() === '/' || $this->referer() === 'cards/index') {
+//
+//                if (!isset($data['_Token']) || !isset($data['_Token']['fields']) || !isset($data['_Token']['key'])) {
+//                    return false;
+//                }
+//                $token = $data['_Token']['key'];
+//                if ($this->Session->check('_Token')) {
+//                    $tokenData = unserialize($this->Session->read('_Token'));
+//                    if ($tokenData['expires'] < time() || $tokenData['key'] !== $token) {
+//                        return false;
+//                    }
+//                }
+//            }
         }
 
 

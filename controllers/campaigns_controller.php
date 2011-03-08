@@ -36,7 +36,7 @@ class CampaignsController extends AppController {
      */
     function index() {
         $clientName = null;
-        if($this->params['named']['client']){
+        if( isset($this->params['named']['client']) && $this->params['named']['client'] !== null ){
             $clientName = $this->params['named']['client'];
             
         }
@@ -64,6 +64,7 @@ class CampaignsController extends AppController {
         //@todo add opportinity to add more certs per each user
       
         $path = Configure::read('pathToCerts');
+
         
         $url = "https://soap.direct.yandex.ru/json-api/v3/";
          
