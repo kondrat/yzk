@@ -52,7 +52,7 @@ jQuery(document).ready(function(){
     $file1_cltClientListWrp.delegate(".clt-newCltReg","click",function(event){
         event.preventDefault();
         //@todo replace with plugin play
-        $file1_cltClientListWrp.find(".clt-cltRegWrp").remove().end().find(".clt-clientAct").removeClass(".clt-clientAct");
+        $file1_cltClientListWrp.find(".clt-cltRegWrp").remove().end().find(".clt-clientAct").removeClass("clt-clientAct");
         var $thisWrp = $(this).parent(".clt-client");
         $thisWrp.addClass('clt-clientAct');      
         $("#clt-clientRegtTmpl").tmpl().appendTo($thisWrp);
@@ -70,7 +70,7 @@ jQuery(document).ready(function(){
             url: path+"\/clients\/regYnCl",
             type: "POST",
             data: {
-                "data[login]":userYnLogin,
+                "data[ynLogin]":userYnLogin,
                 "data[email]":thisEmail                      
             },
             success:function (data, textStatus) {

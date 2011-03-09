@@ -145,6 +145,14 @@ class ClientsController extends AppController {
             $this->autoLayout = FALSE;
             $this->autoRender = FALSE;
             
+            if ($this->data['ynLogin'] && $this->data['email']) {
+                $contents["stat"] = 0;
+              
+                
+            } else {
+                $contents["error"] = 'error';
+                $contents = json_encode($contents);
+            }          
             
             
             
