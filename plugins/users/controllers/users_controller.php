@@ -189,9 +189,9 @@ class UsersController extends AppController {
      * @return void
      */
     public function reg() {
-        
+
 //        debug($this->Session->read('captcha'));
-        
+
         $this->set('title_for_layout', __('SignUp', true));
         $this->set('menuType', 'reg');
 
@@ -206,7 +206,7 @@ class UsersController extends AppController {
         if (!empty($this->data)) {
             //prepering data from kcaptch component to check.			
             $this->data['User']['captcha2'] = $this->Session->read('captcha');
-            
+
             $this->data['User']['group_id'] = '3';
 
             $user = $this->User->register($this->data);
@@ -215,7 +215,7 @@ class UsersController extends AppController {
                 //$a = $this->User->read();
                 $this->Auth->login($user);
                 $this->Session->setFlash(__d('users', 'Your account has been created.', true), 'default', array('class' => 'flok'));
-                $this->redirect(array('controller'=>'clients','action'=>'index'), null, true);
+                $this->redirect(array('controller' => 'clients', 'action' => 'index'), null, true);
 
                 //verification email version
                 /*
@@ -237,6 +237,8 @@ class UsersController extends AppController {
             }
         }
     }
+
+
 
     /**
      * Confirm email action
@@ -317,18 +319,17 @@ class UsersController extends AppController {
             $this->User->saveField('last_login', date('Y-m-d H:i:s'));
 
             $userGroupId = $this->Auth->user('group_id');
-            
-            if($userGroupId == 3){               
-                $this->redirect(array('plugin'=>null,'controller'=>'clients','action'=>'index'));
-            } elseif($userGroupId == 4){
-                $this->redirect(array('plugin'=>null,'controller'=>'campaigns','action'=>'index'));
+
+            if ($userGroupId == 3) {
+                $this->redirect(array('plugin' => null, 'controller' => 'clients', 'action' => 'index'));
+            } elseif ($userGroupId == 4) {
+                $this->redirect(array('plugin' => null, 'controller' => 'campaigns', 'action' => 'index'));
             }
-            
+
             if ($this->here == $this->Auth->loginRedirect) {
                 //debug($this->Auth->loginRedirect);
                 $this->Auth->loginRedirect = '/';
                 //temp solution
-                
             }
 
             $this->Session->setFlash(sprintf(__d('users', '%s you u have successfully logged in', true), $this->Auth->user('username')));

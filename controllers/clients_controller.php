@@ -39,6 +39,13 @@ class ClientsController extends AppController {
 
         $authUserId = $this->Auth->user('id');
         
+        $t = $this->Client->find('all',
+                array(
+                    'conditions' => array('user_id' => $authUserId)
+                )
+        );
+        
+        
         $this->set('menuType','regged');
         
     }
@@ -128,7 +135,7 @@ class ClientsController extends AppController {
     }
 
     /**
-     * regging new clien 
+     * regging new client 
      * 
      * @param
      * @return type json
@@ -146,17 +153,24 @@ class ClientsController extends AppController {
             $this->autoRender = FALSE;
             
             if ($this->data['ynLogin'] && $this->data['email']) {
-                $contents["stat"] = 0;
+               
+                if( $this->Client->regclient($this->data['ynLogin'],$this->data['email']) ){
+                    $contents = array('saved'=>'ok');
+                } else {
+                   $contents["error"] = 'not saved';//$this->Client->User->regclient($this->data['ynLogin'],$this->data['email']); 
+                }
+                
+                
               
                 
             } else {
                 $contents["error"] = 'error';
-                $contents = json_encode($contents);
+                
             }          
             
             
             
-            
+            $contents = json_encode($contents);
             $this->header('Content-Type: application/json');
             return ($contents);           
         }

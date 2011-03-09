@@ -48,7 +48,7 @@ class User extends AppModel {
     public $validate = array(
         'username' => array(
             'login' => array(
-                'rule' => '/^[a-z0-9]+$/i',
+                'rule' => '/^[a-z0-9-]+$/i',
             //'message' => 'Only latin letters and integers'
             ),
             'stopWords' => array(
@@ -58,16 +58,6 @@ class User extends AppModel {
             'notEmpty' => array(
                 'rule' => 'notEmpty',
             //'message' => 'This field cannot be left blank',
-            ),
-            'alphaNumeric' => array(
-                'rule' => 'alphaNumeric',
-                'required' => true,
-            //'message' => 'Usernames must only contain letters and numbers.'
-            ),
-            'betweenRus' => array(
-                'rule' => array('betweenRus', 4, 15, 'username'),
-                //'message' => 'Username must be between 2 and 15 characters. long.',
-                'last' => true
             ),
             'checkUnique' => array(
                 'rule' => array('checkUnique', 'username'),
@@ -101,7 +91,7 @@ class User extends AppModel {
             ),
             'checkUnique' => array(
                 'rule' => array('checkUnique', 'email'),
-            //'message' => 'This Email has already been taken!!!',
+                //'message' => 'This Email has already been taken!!!',
             ),
         ),
         'captcha' => array('notEmpty' => array(
@@ -122,16 +112,7 @@ class User extends AppModel {
     );
 
 //--------------------------------------------------------------------
-    function betweenRus($data, $min, $max, $key) {
-        //debug($data);
-        $length = mb_strlen($data[$key], 'utf8');
 
-        if ($length >= $min && $length <= $max) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     function checkUnique($data, $fieldName) {
         $valid = false;
@@ -214,6 +195,10 @@ class User extends AppModel {
         'Detail' => array(
             'className' => 'Users.Detail',
             'foreign_key' => 'user_id'
+        ),
+        'Client' => array(
+            'ClassName' => 'Client',
+            'foreign_key' => 'user_id'
         )
     );
 
@@ -266,9 +251,11 @@ class User extends AppModel {
      *
      * @param array $postData Post data from controller
      * @param boolean $useEmailVerification If set to true a token will be generated
+     * @param boolean $regClient. If true we need to generate password as a random str and send the details to user.
+     * 
      * @return mixed
      */
-    public function register($postData = array(), $useEmailVerification = true) {
+    public function register($postData = array(), $useEmailVerification = true, $regClient = false) {
         if ($useEmailVerification == true) {
             $postData[$this->alias]['email_token'] = $this->generateToken();
             $postData[$this->alias]['email_token_expires'] = date('Y-m-d H:i:s', time() + 86400);
@@ -277,7 +264,7 @@ class User extends AppModel {
         }
         $postData[$this->alias]['active'] = 1;
 
-        //must be in admin panel. We need new logic here;
+        //@todo must be in admin panel. We need new logic here;
         //$this->_removeExpiredRegistrations();
 
         $this->set($postData);
@@ -291,6 +278,10 @@ class User extends AppModel {
         return false;
     }
 
+    
+ 
+    
+    
     /**
      * After save callback
      *
@@ -373,6 +364,24 @@ class User extends AppModel {
             }
         }
         return $token;
+    }
+
+    /**
+     * Generates a password
+     *
+     * @param int $length Password length
+     * @return string
+     */
+    public function generatePassword($length = 10) {
+        srand((double) microtime() * 1000000);
+        $password = '';
+        $vowels = array("a", "e", "i", "o", "u");
+        $cons = array("b", "c", "d", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "u", "v", "w", "tr",
+            "cr", "br", "fr", "th", "dr", "ch", "ph", "wr", "st", "sp", "sw", "pr", "sl", "cl");
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $cons[mt_rand(0, 31)] . $vowels[mt_rand(0, 4)];
+        }
+        return substr($password, 0, $length);
     }
 
     /**
