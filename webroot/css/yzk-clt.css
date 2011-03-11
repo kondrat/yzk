@@ -12,8 +12,15 @@
 */
 
 .clt-client{
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #eee;
     
+}
+.clt-clientArch{
+    text-decoration: line-through;
+    color: #ccc;
+}
+.clt-clientArch a,.clt-clientArch .clt-cltDataEdit{
+    color: #ccc;
 }
 .clt-clientHgl{
    background-color: #eee;
@@ -46,5 +53,10 @@ input.clt-inputEmail{
     font-weight: bold;
     padding: 2px 5px;
     cursor: pointer;
+}
+.clt-cltDataEdit{
+    cursor: pointer;
+    color: #205791;
+    font-weight: bold;
 }
 

@@ -2,22 +2,30 @@
 <?php echo $this->Html->script(array('dev/file1')); ?>
 <script id="clt-clientListTmpl" type="text/x-jquery-tmpl">
 
-    <div  class="clt-client  span-18">
-        <div class="clt-login span-4"><?php echo $this->Html->link('${Login}', array("controller" => "campaigns", "action" => "index", "client" => '${Login}')); ?></div>
-        <div class="clt-fio span-4">${FIO}</div>
-        {{if Phone}}
-        <div class="clt-phone span-3">${Phone}</div>
-        {{else}}
-        <div class="clt-phone span-3">-</div>
-        {{/if}}
-        {{if Discount}}
-        <div class="clt-discount span-1">${Discount}%</div>
-        {{else}}
-        <div class="clt-discount span-1">0%</div>
-        {{/if}}
-        <div class="clt-newCltReg span-1"><?php echo $this->Html->link(__('reg', true), array('plugin' => 'users', 'controller' => 'users', 'action' => 'regclient', "client" => '${Login}')); ?></div>
-        <div class="span-1">${more}</div>
-    </div>
+       {{if StatusArch == 'No'}}
+        <div  class="clt-client  span-17">
+       {{else}}
+        <div  class="clt-client clt-clientArch  span-17">
+       {{/if}}   
+            <div class="clt-login span-4"><?php echo $this->Html->link('${Login}', array("controller" => "campaigns", "action" => "index", "client" => '${Login}')); ?></div>
+            <div class="clt-fio span-4">${FIO}</div>
+            {{if Phone}}
+            <div class="clt-phone span-3">${Phone}</div>
+            {{else}}
+            <div class="clt-phone span-3">-</div>
+            {{/if}}
+            {{if Discount}}
+            <div class="clt-discount span-1">${Discount}%</div>
+            {{else}}
+            <div class="clt-discount span-1">0%</div>
+            {{/if}}
+            {{if reg == 'no'}}
+                <div class="clt-newCltReg span-1"><?php echo $this->Html->link(__('reg', true), array('plugin' => 'users', 'controller' => 'users', 'action' => 'regclient', "client" => '${Login}')); ?></div>
+            {{else}}
+                <div class="clt-cltDataEdit span-2">edit</div>
+            {{/if}}
+
+        </div>
 
 </script>
 <script id="clt-clientRegtTmpl" type="text/x-jquery-tmpl">

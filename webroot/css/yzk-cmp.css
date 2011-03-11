@@ -18,4 +18,9 @@
 .cmp-isactiveNo{
     color: red;
     font-weight: bold;
+}
+.cmp-client{
+    border-bottom: 1px solid #eee;
+}
+
 

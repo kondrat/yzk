@@ -3,24 +3,24 @@
  * and open the template in the editor.
  */
 jQuery(document).ready(function(){
-    var $file2_cltClientCampListWrp = $("#cmp-clientCampListWrp");
+    var $file4_cltClientBannerWrp = $("#cmp-clientBannerWrp");
     
     
-    var f_file2_getClientsCampList = function(){
+    var f_file4_getClientsCampInfo = function(){
                 
         $.ajax({
             dataType:"json",
-            url: path+"\/campaigns\/getYnCampList",
+            url: path+"\/campaigns\/getYnBanInfo",
             type: "POST",
             data: {
-                "data[method]":'GetClientsList',
-                "data[clname]":$('#cmp-clientCampListWrp').data("clname")
+                "data[method]":'GetBannerPhrases',
+                "data[bannid]":$('#cmp-clientBannerWrp').data("bannid")
             },
             success:function (data, textStatus) {
                 if( data.data) {
                     //alert('success'); 
-                    $file2_cltClientCampListWrp.empty();
-                    $("#cmp-clientCompListTmpl").tmpl(data.data).appendTo($file2_cltClientCampListWrp);
+                    $file4_cltClientBannerWrp.empty();
+                    $("#cmp-clientBannerTmpl").tmpl(data.data).appendTo($file4_cltClientBannerWrp);
                          
 
 
@@ -41,12 +41,12 @@ jQuery(document).ready(function(){
 
     };
  
-    f_file2_getClientsCampList();
+    f_file4_getClientsCampInfo();
     
-    $file2_cltClientCampListWrp.delegate(".cmp-client","mouseenter",function(){
+    $file4_cltClientBannerWrp.delegate(".cmp-client","mouseenter",function(){
         $(this).addClass("clt-clientHgl");
     })
-    $file2_cltClientCampListWrp.delegate(".cmp-client","mouseleave",function(){
+    $file4_cltClientBannerWrp.delegate(".cmp-client","mouseleave",function(){
         $(this).removeClass("clt-clientHgl");
     })
  

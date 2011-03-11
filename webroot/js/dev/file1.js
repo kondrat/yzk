@@ -49,6 +49,12 @@ jQuery(document).ready(function(){
     $file1_cltClientListWrp.delegate(".clt-client","mouseleave",function(){
         $(this).removeClass("clt-clientHgl");
     })
+    
+    $file1_cltClientListWrp.delegate(".clt-cltDataEdit","click",function(){
+        alert("Sorry, not done yet");
+    })    
+    
+    
     $file1_cltClientListWrp.delegate(".clt-newCltReg","click",function(event){
         event.preventDefault();
         //@todo replace with plugin play

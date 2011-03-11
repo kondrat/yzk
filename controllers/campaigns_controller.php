@@ -5,7 +5,7 @@ App::import('Sanitize');
 class CampaignsController extends AppController {
 
     var $name = 'Campaigns';
-    var $publicActions = array('getYnCampList');
+    var $publicActions = array('getYnCampList','getYnCampInfo','getYnBanInfo');
     var $helpers = array('Text');
     var $components = array();
 
@@ -16,7 +16,7 @@ class CampaignsController extends AppController {
         //default title
         $this->set('title_for_layout', __('Companies', true));
         //allowed actions
-        $this->Auth->allow('index', 'view','getYnCampList');
+        $this->Auth->allow('index', 'campaign', 'banner');
 
         parent::beforeFilter();
         $this->Auth->autoRedirect = false;
@@ -36,18 +36,14 @@ class CampaignsController extends AppController {
      */
     function index() {
         $clientName = null;
-        if( isset($this->params['named']['client']) && $this->params['named']['client'] !== null ){
+        if (isset($this->params['named']['client']) && $this->params['named']['client'] !== null) {
             $clientName = $this->params['named']['client'];
-            
         }
-        $this->set('clientName',$clientName);
+        $this->set('clientName', $clientName);
         $this->set('title_for_layout', __('Campaigns', true));
-        $this->set('menuType','regged');
-        
+        $this->set('menuType', 'regged');
+
         $authUserId = $this->Auth->user('id');
-        
-        
-        
     }
 
     /**
@@ -57,28 +53,28 @@ class CampaignsController extends AppController {
      * @return type json
      * @access public
      */
-    function getYnCampList() {
-         // create a new cURL resource
+    public function getYnCampList() {
+        // create a new cURL resource
         $ch = curl_init();
 
         //@todo add opportinity to add more certs per each user
-      
+
         $path = Configure::read('pathToCerts');
 
-        
+
         $url = "https://soap.direct.yandex.ru/json-api/v3/";
-         
+
         //@todo sinitize this
-        $method = '';//$this->data['method'];
+        $method = ''; //$this->data['method'];
         $params = array($this->data['clname']);
         //request for yandex in json.
         $jsonReq = json_encode(
                 array(
                     "method" => "GetCampaignsList",
-                    "param"=>$params 
-                    ) 
-                );
-        
+                    "param" => $params
+                )
+        );
+
         if ($this->RequestHandler->isAjax()) {
 
             Configure::write('debug', 0);
@@ -109,13 +105,182 @@ class CampaignsController extends AppController {
             // close the cURL resource and free the system resources
             curl_close($ch);
 
+
+            //$content = json_encode($content);
+            $this->header('Content-Type: application/json');
+            return ($contents);
+        }
+    }
+
+    /**
+     * show info aboud cirtain campaign
+     * 
+     * @return type html
+     */
+    public function campaign() {
+//        $clientName = null;
+//        if( isset($this->params['named']['client']) && $this->params['named']['client'] !== null ){
+//            $clientName = $this->params['named']['client'];
+//            
+//        }
+//        $this->set('clientName',$clientName);
+        $this->set('title_for_layout', __('Campaign', true));
+        $this->set('menuType', 'regged');
+
+        $authUserId = $this->Auth->user('id');
+    }
+
+    /**
+     * retriving data from api.direct.yandex.ru via ajax
+     * @param
+     * 
+     * @return type json
+     * @access public
+     */
+    public function getYnCampInfo() {
+
+        
+        // create a new cURL resource
+        $ch = curl_init();
+
+        $path = Configure::read('pathToCerts');
+
+
+        $url = "https://soap.direct.yandex.ru/json-api/v3/";
+
+        //@todo sinitize this
+        $method = ''; //$this->data['method'];
+        $params = array('CampaignIDS'=>array($this->data['campid']));
+        //request for yandex in json.
+        $jsonReq = json_encode(
+                array(
+                    "method" => "GetBanners",
+                    "param" => $params
+                )
+        );
+
+        if ($this->RequestHandler->isAjax()) {
+
+            Configure::write('debug', 0);
+            $this->autoLayout = false;
+            $this->autoRender = FALSE;
             
+
+
+            // set URL and other options
+            curl_setopt($ch, CURLOPT_URL, $url);
+
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_CAPATH, $path);
+            curl_setopt($ch, CURLOPT_CAINFO, $path . "/cacert.pem");
+            curl_setopt($ch, CURLOPT_SSLCERT, $path . "/cert.crt");
+            curl_setopt($ch, CURLOPT_SSLKEY, $path . "/private.key");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonReq);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+            $contents = curl_exec($ch);
+
+            if (curl_errno($ch) != 0) {
+                //$contents["stat"] = 0;
+                $contents["error"] = ('CURL_error: ' . curl_errno($ch) . ', ' . curl_error($ch));
+                $contents = json_encode($contents);
+            }
+
+            // close the cURL resource and free the system resources
+            curl_close($ch);
+
+
             //$content = json_encode($content);
             $this->header('Content-Type: application/json');
             return ($contents);
         }
     }
     
+    /**
+     * show info aboud cirtain banner
+     * 
+     * @return type html
+     */
+    public function banner(){
+ //        $clientName = null;
+//        if( isset($this->params['named']['client']) && $this->params['named']['client'] !== null ){
+//            $clientName = $this->params['named']['client'];
+//            
+//        }
+//        $this->set('clientName',$clientName);
+        $this->set('title_for_layout', __('Banner', true));
+        $this->set('menuType', 'regged');
+
+        $authUserId = $this->Auth->user('id'); 
+        
+    }
+    /**
+     * retriving data from api.direct.yandex.ru via ajax
+     * 
+     * @param
+     * 
+     * @return type json
+     * @access public
+     */
+    public function getYnBanInfo(){
+        // create a new cURL resource
+        $ch = curl_init();
+
+        $path = Configure::read('pathToCerts');
+
+
+        $url = "https://soap.direct.yandex.ru/json-api/v3/";
+
+        //@todo sinitize this
+        $method = ''; //$this->data['method'];
+        $params = array($this->data['bannid']);
+        //request for yandex in json.
+        $jsonReq = json_encode(
+                array(
+                    "method" => "GetBannerPhrases",
+                    "param" => $params
+                )
+        );
+
+        if ($this->RequestHandler->isAjax()) {
+
+            Configure::write('debug', 0);
+            $this->autoLayout = false;
+            $this->autoRender = FALSE;
+            
+
+
+            // set URL and other options
+            curl_setopt($ch, CURLOPT_URL, $url);
+
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_CAPATH, $path);
+            curl_setopt($ch, CURLOPT_CAINFO, $path . "/cacert.pem");
+            curl_setopt($ch, CURLOPT_SSLCERT, $path . "/cert.crt");
+            curl_setopt($ch, CURLOPT_SSLKEY, $path . "/private.key");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonReq);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+            $contents = curl_exec($ch);
+
+            if (curl_errno($ch) != 0) {
+                //$contents["stat"] = 0;
+                $contents["error"] = ('CURL_error: ' . curl_errno($ch) . ', ' . curl_error($ch));
+                $contents = json_encode($contents);
+            }
+
+            // close the cURL resource and free the system resources
+            curl_close($ch);
+
+
+            //$content = json_encode($content);
+            $this->header('Content-Type: application/json');
+            return ($contents);
+        }       
+    }
+
 
 
     /*

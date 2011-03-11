@@ -5,19 +5,24 @@
 <?php endif ?>
 <?php echo $this->Html->script(array('dev/file2'));?>
 <script id="cmp-clientCompListTmpl" type="text/x-jquery-tmpl">
-
-    <div  class="cmp-client  span-17">
-        <div class="cmp-name span-4">${Name}</div>
-        <div class="cmp-clicks span-2">${Clicks}</div>
-        {{if IsActive == 'Yes'}}
-            <div class="cmp-isactiveYes span-1">${IsActive}</div>
-        {{else}}
-            <div class="cmp-isactiveNo span-1">${IsActive}</div>
-        {{/if}}
-        <div class="cmp-shows span-2">${Shows}</div>
-        <div class="cmp-startdate span-2">${StartDate}</div>
-        <div class="cmp-sum span-1">${Sum}</div>
-    </div>
+    
+    
+        <div  class="cmp-client  span-17">        
+            <div class="cmp-name span-4"><?php echo  $this->Html->link('${Name}',array(
+                        'plugin'=>false,
+                        'controller'=>'campaigns','action'=>'campaign','campid'=>'${CampaignID}','campname'=>'${Name}')
+                    );?>
+            </div>
+            <div class="cmp-clicks span-2">${Clicks}</div>
+            {{if IsActive == 'Yes'}}
+                <div class="cmp-isactiveYes span-1">${IsActive}</div>
+            {{else}}
+                <div class="cmp-isactiveNo span-1">${IsActive}</div>
+            {{/if}}
+            <div class="cmp-shows span-2">${Shows}</div>
+            <div class="cmp-startdate span-2">${StartDate}</div>
+            <div class="cmp-sum span-1">${Sum}</div>
+        </div>
 
 </script>
 

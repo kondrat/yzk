@@ -28,23 +28,25 @@ class Client extends AppModel {
      * @param type $email
      * @return type 
      */
-    public function regclient($ynLog = null, $email = null) {
+    public function regclient($email = null) {
         
-
+        $password = NULL;
         
         $this->data['User']['group_id'] = '4';
-        $this->data['User']['username'] = $ynLog;
+        
         $this->data['User']['email'] = $email;
         //@todo password hash
-        $this->data['User']['password'] = $this->User->generatePassword();
-        
+        $password = $this->User->generatePassword();
+        if($password){
+            $this->data['User']['password'] = sha1(Configure::read('Security.salt') . $password);
+        }
 
         $this->User->set($this->data);
-        if($this->User->validates(array( 'fieldList'=>array('username','email') ) ) ) {
+        if($this->User->validates(array( 'fieldList'=>array('email') ) ) ) {
             
             $this->User->create();            
-            if($this->User->save($this->data,false)){
-                return TRUE;
+            if($this->User->save($this->data,false)){              
+                return array('savedUserId'=>$this->User->id,'savedUserPass'=>$password,'savedUserEmail'=>$email);
             }           
             return FALSE;
 

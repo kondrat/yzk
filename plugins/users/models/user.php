@@ -46,34 +46,18 @@ class User extends AppModel {
      * @var array
      */
     public $validate = array(
-        'username' => array(
-            'login' => array(
-                'rule' => '/^[a-z0-9-]+$/i',
-            //'message' => 'Only latin letters and integers'
-            ),
-            'stopWords' => array(
-                'rule' => array('stopWords', '$this->data'),
-            //'message' => 'This username has already been taken'
-            ),
-            'notEmpty' => array(
-                'rule' => 'notEmpty',
-            //'message' => 'This field cannot be left blank',
-            ),
-            'checkUnique' => array(
-                'rule' => array('checkUnique', 'username'),
-            //'message' => 'This username has already been taken',
-            ),
-        ),
-        'password1' => array('betweenRus' => array(
-                'rule' => array('betweenRus', 4, 10, 'password1'),
-            //'message' => 'Username must be between 4 and 10 characters long'
+
+        'password1' => array(
+            'between'=>array(
+                'rule' => array('between', 4, 15),
             ),
             'obvious' => array(
                 'rule' => array('obvious', '$this->data'),
             //'message' => 'Too obvious'
             ),
         ),
-        'password2' => array('confirmPassword' => array(
+        'password2' => array(
+            'confirmPassword' => array(
                 'rule' => array('confirmPassword', '$this->data'),
             //'message' => 'Please verify your password again'
             )
