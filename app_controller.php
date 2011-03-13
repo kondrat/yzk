@@ -22,6 +22,7 @@ class AppController extends Controller {
         //'allowedActions' => array('')
         ),
         //'Acl',
+        'getYnData',
         'RequestHandler',
         'Email',
         'DebugKit.Toolbar'

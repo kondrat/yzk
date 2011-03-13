@@ -43,8 +43,7 @@ class ClientsController extends AppController {
                     'conditions' => array('user_id' => $authUserId)
                         )
         );
-
-
+        
         $this->set('menuType', 'regged');
     }
 
@@ -147,15 +146,78 @@ class ClientsController extends AppController {
         }
     }
 
-    public function todel(){
-                        $existedClients = $this->Client->find('all', array(
-                            'conditions' => array('Client.agent_id'=> $this->Auth->user('id')),
-                            'fields' => array('ynname'),
-                            'contain' => false
-                        ));
-                        
-                $results = Set::extract('/Client/ynname', $existedClients);
-                debug($results);
+    public function todel() {
+        
+        ini_set("max_execution_time", 300);
+        
+//        $reggedClients = $this->Client->find('all', array(
+//                    'conditions' => array('Client.agent_id' => $this->Auth->user('id')),
+//                    'fields' => array('ynname'),
+//                    'contain' => false
+//                ));
+//
+//        $results = Set::extract('/Client/ynname', $reggedClients);
+//        $this->set('res', $results);
+        
+        //getting an information about clients;
+        $resAllClients = array();
+        $resAllClients = json_decode($this->getYnData->getYnData('GetClientsList'),TRUE);
+        
+        //extractiong active clients only
+        $resActiveClients = array();
+        foreach ($resAllClients['data'] as $k => $v){
+            if($v['StatusArch'] == "No"){              
+              $resActiveClients[] = $v['Login'];  
+            }
+        }
+        
+        //getting information about clients campaigns( filtered not archive);
+        $params = array('Logins'=>$resActiveClients,'Filter'=>array('StatusArchive'=>array('No') ) );
+        $resAllCampaigns = json_decode($this->getYnData->getYnData('GetCampaignsListFilter',$params),TRUE); 
+        
+        
+ 
+        //this due to yandex restrictions to pass only 10 camaigns IDs we make array for the loop.
+        $resAllCampaignsIdbatch10 = array();
+        $i = 0;
+        $j = 0;
+        foreach ($resAllCampaigns['data'] as $k => $v){
+            $resAllCampaignsIdbatch10[$j][$i] = $v['CampaignID'];
+            $i++;
+            if($i == 10){
+                $j++;
+                $i = 0;
+            }
+        }
+        
+        foreach ($resAllCampaignsIdbatch10 as $k2 => $v2){
+            
+            $params2 = array('CampaignIDS'=>$v2,'Filter'=>array('StatusArchive'=>array('No')));
+            $tempBanners = json_decode($this->getYnData->getYnData('GetBanners',$params2),TRUE);
+            $resAllBanners[] = $tempBanners['data'];
+            unset($tempBanners);
+        }
+        //and finaly we get bannersIds as one array. next we need to check if ammount less then 1000 (yandex.api restiction);
+        $resAllBannersIDs = array();
+        foreach ($resAllBanners as $k3=>$v3){
+            foreach ($v3 as $k4=>$v4) {
+               $resAllBannersIDs[] = $v4['BannerID']; 
+            } 
+        }
+        
+        
+        //getting information about phrases( filtered not archive);
+        $params3 = array('BannerIDS'=>$resAllBannersIDs,'FieldsNames'=>array('Price','Max','Min','PremiumMax','PremiumMin' ),'RequestPrices'=>'Yes' );
+        $resAllPhrases = json_decode($this->getYnData->getYnData('GetBannerPhrasesFilter',$params3),TRUE);         
+        
+        
+        
+        
+        //$this->set('clients',$resActiveClients);
+        //$this->set("campaignsId",$resAllCampaignsIdbatch10);
+        $this->set("bla",$resAllPhrases);
+        //$this->set("banners",$resAllBanners);
+        //$this->set('campaigns',$resAllCampaigns);
     }
 
         

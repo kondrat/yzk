@@ -4,6 +4,24 @@
     <h3><?php __('Client\'s companies');?> </h3>
 <?php endif ?>
 <?php echo $this->Html->script(array('dev/file2'));?>
+    
+
+<?php
+    $a = '$a';
+    $c = '$b';
+    $b = '+';
+    $func = $a.$b.$c;
+    $newfunc = create_function('$a,$b', "return(".$func.");");
+    
+    echo "New anonymous function";
+    echo '<br />';
+    echo $newfunc(3,4);
+        echo '<br />';
+    echo $newfunc(1,2);
+?>
+
+ 
+    
 <script id="cmp-clientCompListTmpl" type="text/x-jquery-tmpl">
     
     
