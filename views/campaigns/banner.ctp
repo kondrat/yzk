@@ -5,10 +5,36 @@
 <script id="cmp-clientBannerTmpl" type="text/x-jquery-tmpl">
 
     <div  class="cmp-client  span-17">
-        <div class="cmp-phrase span-15">${Phrase}</div>       
+        <div class="cmp-phrase span-8">${Phrase}</div>       
 
         <div class="cmp-shows span-2 last">${Shows}</div>
 
+        <div class="cmp-modes hide">
+            <?php
+            if (isset($modes) && $modes != array()) {
+                $modesOptions = array();
+                foreach ($modes as $k => $v) {
+                    $modesOptions[$v['name']] = sprintf($v['desc'], 'X');
+                }
+                echo $this->Form->input('mode', array(
+                    'id'=>FALSE,
+                    'default' => 'two',
+                    'empty' => '(choose one)',
+                    'options' => $modesOptions,
+                    'label' => FALSE,
+                    'div'=>FALSE
+                        )
+                );
+            }
+            ?>
+            <span class="cmp-xspan">&nbsp;X&nbsp;=&nbsp;</span><input class="cmp-xinput" name="cmp-x" />&nbsp;
+            <span class="cmp-save"><?php __('Save');?></span>
+            <?php //foreach ($modesOptions as $k => $v): ?>
+                <div data-func="<?php //echo $k;?>"> <?php //echo $v; ?></div>
+            <?php //endforeach; ?>
+        </div>
+        <div class="span-1 cmp-edit"><?php __('edit');?></div>
+        
     </div>
 
 </script>

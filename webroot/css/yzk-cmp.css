@@ -21,6 +21,53 @@
 }
 .cmp-client{
     border-bottom: 1px solid #eee;
+    position: relative;
 }
-
+.cmp-clientActive{
+    color: goldenrod;
+    background-color: SeaShell;
+}
+.cmp-modes{
+    float: left;
+    position: absolute;
+    top: 25px;
+    left: -10px;
+    
+    border: 2px solid gray;
+    background-color: goldenrod;
+    padding: 1em;
+        
+    z-index: 1000;
+}
+.cmp-edit{
+    background-color: #6299C5;
+    border: 1px solid RosyBrown;
+    color: #FFFFFF;
+    text-align: center;
+    cursor: pointer;
+    margin-left: 1em;
+}
+.cmp-clientActive .cmp-edit{
+    background-color: goldenrod;
+}
+.cmp-edit:hover{
+    color: Wheat;
+}
+.cmp-xspan{
+    color: #fff;
+    font-weight: bold;
+}
+.cmp-xinput{
+    width: 2em;
+}
+.cmp-save{
+    background-color: Silver;
+    border: 1px solid gray;
+    color: gray;
+    padding: 0 3px;
+    cursor: pointer;
+}
+.cmp-save:hover{
+    color: black;
+}
 

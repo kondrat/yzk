@@ -203,16 +203,30 @@ class CampaignsController extends AppController {
      * @return type html
      */
     public function banner(){
- //        $clientName = null;
-//        if( isset($this->params['named']['client']) && $this->params['named']['client'] !== null ){
-//            $clientName = $this->params['named']['client'];
-//            
-//        }
-//        $this->set('clientName',$clientName);
+
         $this->set('title_for_layout', __('Banner', true));
         $this->set('menuType', 'regged');
 
         $authUserId = $this->Auth->user('id'); 
+ 
+             $modes = array(
+                array(
+                    "name" => "maxP",
+                    //"func" => "$max/100*$percent+$max",
+                    "desc" => "Warranty + %s%%" //two % to print "%"leteral
+                ),
+                array(
+                    "name" => "maxC",
+                    //"func" => "$max+$cent",
+                    "desc" => "Warranty + %s cent"
+                )
+            );       
+        
+            //printf($modesArray[0]['desc'], '10');
+            
+             //$modes = Set::extract("/desc",$modesArray);
+             
+            $this->set("modes",$modes);
         
     }
     /**
@@ -223,62 +237,49 @@ class CampaignsController extends AppController {
      * @return type json
      * @access public
      */
-    public function getYnBanInfo(){
-        // create a new cURL resource
-        $ch = curl_init();
-
-        $path = Configure::read('pathToCerts');
-
-
-        $url = "https://soap.direct.yandex.ru/json-api/v3/";
-
-        //@todo sinitize this
-        $method = ''; //$this->data['method'];
-        $params = array($this->data['bannid']);
-        //request for yandex in json.
-        $jsonReq = json_encode(
-                array(
-                    "method" => "GetBannerPhrases",
-                    "param" => $params
-                )
-        );
+    public function getYnBanInfo() {
 
         if ($this->RequestHandler->isAjax()) {
 
             Configure::write('debug', 0);
             $this->autoLayout = false;
             $this->autoRender = FALSE;
+
+
+            $modes = array(
+                array(
+                    "name" => "maxP",
+                    //"func" => "$max/100*$percent+$max",
+                    "desc" => "Warranty + %s%%"
+                ),
+                array(
+                    "name" => "maxP",
+                    //"func" => "$max+$cent",
+                    "desc" => "Warranty + %s cent"
+                )
+            );
+            
+            
+            
+            
+            
+            
+            $bannersID = array($this->data['bannid']);
+
+            //getting information about phrases( filtered not archive);
+            $params = array('BannerIDS' => $bannersID, 'FieldsNames' => array('Phrase', 'Shows', 'Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin'), 'RequestPrices' => 'Yes');
+            $resAllPhrases = json_decode($this->getYnData->getYnData('GetBannerPhrasesFilter', $params), TRUE);
+
+
+            
+            
             
 
 
-            // set URL and other options
-            curl_setopt($ch, CURLOPT_URL, $url);
-
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt($ch, CURLOPT_CAPATH, $path);
-            curl_setopt($ch, CURLOPT_CAINFO, $path . "/cacert.pem");
-            curl_setopt($ch, CURLOPT_SSLCERT, $path . "/cert.crt");
-            curl_setopt($ch, CURLOPT_SSLKEY, $path . "/private.key");
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonReq);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-            $contents = curl_exec($ch);
-
-            if (curl_errno($ch) != 0) {
-                //$contents["stat"] = 0;
-                $contents["error"] = ('CURL_error: ' . curl_errno($ch) . ', ' . curl_error($ch));
-                $contents = json_encode($contents);
-            }
-
-            // close the cURL resource and free the system resources
-            curl_close($ch);
-
-
-            //$content = json_encode($content);
+            $content = json_encode($resAllPhrases);
             $this->header('Content-Type: application/json');
-            return ($contents);
-        }       
+            return ($content);
+        }
     }
 
 

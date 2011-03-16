@@ -190,9 +190,10 @@ class ClientsController extends AppController {
             }
         }
         
+        //getting information about banners.
         foreach ($resAllCampaignsIdbatch10 as $k2 => $v2){
             
-            $params2 = array('CampaignIDS'=>$v2,'Filter'=>array('StatusArchive'=>array('Yes')));
+            $params2 = array('CampaignIDS'=>$v2,'Filter'=>array('StatusArchive'=>array('No')));
             $tempBanners = json_decode($this->getYnData->getYnData('GetBanners',$params2),TRUE);
             $resAllBanners[] = $tempBanners['data'];
             unset($tempBanners);
@@ -240,137 +241,13 @@ class ClientsController extends AppController {
 //        $results = Set::extract('/Client/ynname', $reggedClients);
 //        $this->set('res', $results);
  
-    $tempArray = array(
-        
-              array
-                (
-                    "Max" => 1,
-                    "PhraseID" => 44492986,
-                    "CampaignID" => 1642647,
-                    "Min" => 0.94,
-                    "PremiumMax" => 1.03,
-                    "PremiumMin" => 1.03,
-                    "BannerID" => 4331485,
-                    "Price" => 0.3
-                ),
 
-            array
-                (
-                    "Max" => 1,
-                    "PhraseID" => 44492984,
-                    "CampaignID" => 1642647,
-                    "Min" => 0.05,
-                    "PremiumMax" => 1.59,
-                    "PremiumMin" => 1.59,
-                    "BannerID" => 4331485,
-                    "Price" => 0.05
-                ),
-
-            array
-                (
-                    "Max" => 0.61,
-                    "PhraseID" => 44492985,
-                    "CampaignID" => 1642647,
-                    "Min" => 0.14,
-                    "PremiumMax" => 0.78,
-                    "PremiumMin" => 0.68,
-                    "BannerID" => 4331485,
-                    "Price" => 0.15
-                ),
-
-            array
-                (
-                    "ContextPrice" => 0.27,
-                    "PhraseID" => 163197970,
-                    "CampaignID" => 1642647,
-                    "BannerID" => 4331485,
-                    "Price" => 0.27,
-
-                ),
-
-            array
-                (
-                    "Max" => 0.31,
-                    "PhraseID" => 44492983,
-                    "CampaignID" => 1642647,
-                    "Min" => 0.03,
-                    "PremiumMax" => 0.68,
-                    "PremiumMin" => 0.68,
-                    "BannerID" => 4331485,
-                    "Price" => 0.02
-                ),
-
-            array
-                (
-                    "Max" => 0.57,
-                    "PhraseID" => 163197962,
-                    "CampaignID" => 1642647,
-                    "Min" => 0.55,
-                    "PremiumMax" => 1.52,
-                    "PremiumMin" => 0.68,
-                    "BannerID" => 4331485,
-                    "Price" => 0.3,
-                ),
-
-            array
-                (
-                    "ContextPrice" => 0.27,
-                    "PhraseID" => 163197971,
-                    "CampaignID" => 1642647,
-                    "BannerID" => 4331485,
-                    "Price" => 0.27
-
-
-                ),
-
-            array
-                (
-                    "ContextPrice" => 0.45,
-                    "PhraseID" => 163197964,
-                    "CampaignID" => 1642647,
-                    "BannerID" => 4331485,
-                    "Price" => 0.45
-
-
-                ),
-
-            array
-                (
-                    "ContextPrice" => 0.27,
-                    "PhraseID" => 166065142,
-                    "CampaignID" => 1642647,
-                    "BannerID" => 4331485,
-                    "Price" => 0.27
- 
-
-                ),
-
-            array
-                (
-                    "ContextPrice" => 0.27,
-                    "PhraseID" => 166357365,
-                    "CampaignID" => 1642647,
-                    "BannerID" => 4331485,
-                    "Price" => 0.27
-  
-                ),
-
-            array
-                (
-                    "ContextPrice" => 0.27,
-                    "PhraseID" => 166611423,
-                    "CampaignID" => 1642647,
-                    "BannerID" => 4331485,
-                    "Price" => 0.27
-  
-                )
-        );
       
         
-       //$tempBannerIDs = Set::extract("/BannerID");
-       $resAllPhrases = Set::extract("/BannerID",$tempArray);
        
-       $resAllPhrases = array(9433451);
+       //$resAllPhrases = Set::extract("/BannerID",$tempArray);
+       
+       $resAllPhrases = array(9433451,16402247);
         
         $params3 = array('BannerIDS'=>$resAllPhrases,'FieldsNames'=>array('Price','Max','Min','PremiumMax','PremiumMin' ),'RequestPrices'=>'Yes' );
         $resAllPhrases = json_decode($this->getYnData->getYnData('GetBannerPhrasesFilter',$params3),TRUE); 
