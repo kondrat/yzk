@@ -71,7 +71,7 @@ class PhrasesController extends AppController {
             $this->autoRender = FALSE;
 
 
-            if (isset($this->data['mode']) && isset($this->data['modeX'])) {
+            if (isset($this->data['mode']) && isset($this->data['modeX'])) { 
                 
                 $this->data['Phrase']['banner_yn_id'] = $this->data['banId'];
                 $this->data['Phrase']['campaing_yn_id'] = $this->data['campId'];

@@ -7,7 +7,7 @@ class CampaignsController extends AppController {
     var $name = 'Campaigns';
     var $publicActions = array('getYnCampList','getYnCampInfo','getYnBanInfo');
     var $helpers = array('Text');
-    var $components = array();
+    var $components = array('setPrice');
 
 //--------------------------------------------------------------------
 
@@ -208,25 +208,9 @@ class CampaignsController extends AppController {
         $this->set('menuType', 'regged');
 
         $authUserId = $this->Auth->user('id'); 
- 
-             $modes = array(
-                array(
-                    "name" => "maxP",
-                    //"func" => "$max/100*$percent+$max",
-                    "desc" => "Warranty + %s%%" //two % to print "%"leteral
-                ),
-                array(
-                    "name" => "maxC",
-                    //"func" => "$max+$cent",
-                    "desc" => "Warranty + %s cent"
-                )
-            );       
-        
-            //printf($modesArray[0]['desc'], '10');
-            
-             //$modes = Set::extract("/desc",$modesArray);
-             
-            $this->set("modes",$modes);
+
+
+        $this->set("modes",$this->setPrice->modes);
         
     }
     /**
@@ -246,23 +230,7 @@ class CampaignsController extends AppController {
             $this->autoRender = FALSE;
 
 
-            $modes = array(
-                array(
-                    "name" => "maxP",
-                    //"func" => "$max/100*$percent+$max",
-                    "desc" => "Warranty + %s%%"
-                ),
-                array(
-                    "name" => "maxP",
-                    //"func" => "$max+$cent",
-                    "desc" => "Warranty + %s cent"
-                )
-            );
-            
-            
-            
-            
-            
+          
             
             $bannersID = array($this->data['bannid']);
 
