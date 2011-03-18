@@ -33,6 +33,13 @@
                 <div data-func="<?php //echo $k;?>"> <?php //echo $v; ?></div>
             <?php //endforeach; ?>
         </div>
+        <div class="span-3 cmp-string">
+            {{if mode}}
+                <span class="cmp-modeStr">${mode}</span>
+            {{else}}
+                <?php __("no mode set yet");?>
+            {{/if}}
+        </div>
         <div class="span-1 cmp-edit"><?php __('edit');?></div>
         
     </div>

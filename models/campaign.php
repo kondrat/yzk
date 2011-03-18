@@ -10,6 +10,13 @@ class Campaign extends AppModel {
     //@todo to create proper datasource
     // public $useDbConfig = 'yandex';
 
+    
+    
+
+    
+    
+    
+
 }
 
 ?>

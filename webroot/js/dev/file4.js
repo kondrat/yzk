@@ -58,7 +58,7 @@ jQuery(document).ready(function(){
         $file4_cltClientBannerWrp.find(".cmp-modes").hide().end().find(".cmp-client").removeClass("cmp-clientActive");
         $thisParent.addClass("cmp-clientActive");
         
-        $this.prev().toggle();
+        $thisParent.find(".cmp-modes").toggle();
         
     })
 

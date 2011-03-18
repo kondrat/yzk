@@ -70,4 +70,8 @@
 .cmp-save:hover{
     color: black;
 }
+.cmp-modeStr{
+    font-weight: bold;
+    color: #2A801B;
+}
 
