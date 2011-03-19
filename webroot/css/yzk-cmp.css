@@ -39,19 +39,22 @@
         
     z-index: 1000;
 }
-.cmp-edit{
+.cmp-edit, .cmp-delete{
     background-color: #6299C5;
     border: 1px solid RosyBrown;
     color: #FFFFFF;
     text-align: center;
     cursor: pointer;
-    margin-left: 1em;
 }
 .cmp-clientActive .cmp-edit{
     background-color: goldenrod;
 }
 .cmp-edit:hover{
-    color: Wheat;
+    color: green;
+}
+.cmp-delete:hover{
+    color: #ff9999;
+    background-color: #ff0033;
 }
 .cmp-xspan{
     color: #fff;
@@ -60,14 +63,14 @@
 .cmp-xinput{
     width: 2em;
 }
-.cmp-save{
+.cmp-save, .cmp-close {
     background-color: Silver;
     border: 1px solid gray;
     color: gray;
     padding: 0 3px;
     cursor: pointer;
 }
-.cmp-save:hover{
+.cmp-save:hover, .cmp-close:hover{
     color: black;
 }
 .cmp-modeStr{

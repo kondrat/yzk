@@ -4,7 +4,7 @@
  */
 jQuery(document).ready(function(){
     var $file4_cltClientBannerWrp = $("#cmp-clientBannerWrp");
-    
+    var $file4_selectedItem = null;
     
     var f_file4_getClientsCampInfo = function(){
                 
@@ -50,10 +50,10 @@ jQuery(document).ready(function(){
         $(this).removeClass("clt-clientHgl");
     })
     
-     $file4_cltClientBannerWrp.delegate(".cmp-edit","click",function(){
+    $file4_cltClientBannerWrp.delegate(".cmp-edit","click",function(){
          
-        $this = $(this);
-        $thisParent = $this.parents(".cmp-client");
+        var $this = $(this);
+        var $thisParent = $this.parents(".cmp-client");
         
         $file4_cltClientBannerWrp.find(".cmp-modes").hide().end().find(".cmp-client").removeClass("cmp-clientActive");
         $thisParent.addClass("cmp-clientActive");
@@ -62,22 +62,61 @@ jQuery(document).ready(function(){
         
     })
 
+    //saving phrase.
+    var f_file4_savePhraseMode = function(action){
 
-   var f_file4_savePhraseMode = function(here){
-           
-          
-           
+        var $this = $(this);
+        var $thisParent = $this.parents(".cmp-client");
+
+        $file4_selectedItem  = $.tmplItem(this);
+
+
+
+        var mode = $thisParent.find("select").val();
+        
+        var modeX = $thisParent.find(".cmp-xinput").val();
+
+        if(mode ==""){
+            alert("Please, select the mode");
+            return;
+        }
+        if(modeX ==""){
+            alert("Please, select the number");
+            return;
+        }
+
+
+        //var tmplItem = $thisParent.tmplItem();
+        
+        //        var campId = tmplItem.data.CampaignID;
+        //        var banId = tmplItem.data.BannerID;
+        //        var phrId = tmplItem.data.PhraseID;
+        
+        var campId = $file4_selectedItem.data.CampaignID;
+        var banId = $file4_selectedItem.data.BannerID;
+        var phrId = $file4_selectedItem.data.PhraseID; 
+        
+        var modeData = {
+            "data[mode]":mode,
+            "data[modeX]":modeX,
+            "data[campId]":campId,
+            "data[banId]":banId,
+            "data[phrId]":phrId
+        };
+ 
+        
            
         $.ajax({
             dataType:"json",
             url: path+"\/phrases\/savePhrMode",
             type: "POST",
-            data: here,
+            data: modeData,
             success:function (data, textStatus) {
                 if( data.data) {
-                    alert('success'); 
-
-                         
+                    //alert(data.data.mode);
+                    $file4_selectedItem.data.mode = data.data.mode;
+                    $file4_selectedItem.update();
+                    $file4_selectedItem = null;     
 
 
                 } else if(data.error){
@@ -99,26 +138,68 @@ jQuery(document).ready(function(){
 
 
 
-      $file4_cltClientBannerWrp.delegate(".cmp-save","click",function(){
+    $file4_cltClientBannerWrp.delegate(".cmp-save","click",f_file4_savePhraseMode);
          
-        var $this = $(this);
-        var $thisParent = $this.parents(".cmp-client");
-        
-        var mode = $thisParent.find("select").val();
-        
-        var modeX = $thisParent.find(".cmp-xinput").val();
-        
-        var tmplItem = $thisParent.tmplItem();
-        
-        var campId = tmplItem.data.CampaignID;
-        var banId = tmplItem.data.BannerID;
-        var phrId = tmplItem.data.PhraseID;
-        
-        var modeData = {"data[mode]":mode,"data[modeX]":modeX,"data[campId]":campId,"data[banId]":banId,"data[phrId]":phrId};
+
 
         
         
-        f_file4_savePhraseMode(modeData);
+ 
+     
+    
+    $file4_cltClientBannerWrp.delegate(".cmp-close","click",function(){
+        var $this = $(this);
+        var $thisParent = $this.parents(".cmp-client");
         
+        $thisParent.find(".cmp-modes").hide().end().removeClass("cmp-clientActive");
+
+
+    })
+    
+    $file4_cltClientBannerWrp.delegate(".cmp-delete","click",function(){
+       
+        if (confirm('Are you sure to delete?')) {
+            var $this = $(this);
+            var $thisParent = $this.parents(".cmp-client");
+        
+            $file4_selectedItem  = $.tmplItem(this);
+
+            var campId = $file4_selectedItem.data.CampaignID;
+            var banId = $file4_selectedItem.data.BannerID;
+            var phrId = $file4_selectedItem.data.PhraseID; 
+        
+            var modeData = {
+                "data[campId]":campId,
+                "data[banId]":banId,
+                "data[phrId]":phrId
+            }; 
+        
+            $.ajax({
+                dataType:"json",
+                url: path+"\/phrases\/delPhr",
+                type: "POST",
+                data: modeData,
+                success:function (data, textStatus) {
+                    if( data.data) {
+                        //alert(data.data.mode);
+                        $file4_selectedItem.data.mode = null;
+                        $file4_selectedItem.update();
+                        $file4_selectedItem = null;     
+
+                    } else if(data.error){
+                        alert("Error here: "+data.error);
+                    } else if(data.error_code){
+                        alert(data.error_code+' | '+data.error_detail+' | '+data.error_str);
+                    } else {
+                        //flash_message("Couldn't be deleted", "fler" );
+                        alert('No Data')
+                    }
+                },
+                    
+                error:function(){
+                    alert('Problem with the server. Try again later.');
+                }
+            }); 
+        }
     })
 });

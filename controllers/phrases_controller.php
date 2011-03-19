@@ -5,9 +5,9 @@ App::import('Sanitize');
 class PhrasesController extends AppController {
 
     var $name = 'Phrases';
-    var $publicActions = array('savePhrMode');
+    var $publicActions = array('savePhrMode','delPhr');
     var $helpers = array();
-    var $components = array();
+    var $components = array('setPrice');
 
 //--------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ class PhrasesController extends AppController {
 
 
             if (isset($this->data['mode']) && isset($this->data['modeX'])) { 
-                
+                //@todo sanitize this
                 $this->data['Phrase']['banner_yn_id'] = $this->data['banId'];
                 $this->data['Phrase']['campaing_yn_id'] = $this->data['campId'];
                 $this->data['Phrase']['phrase_yn_id'] = $this->data['phrId'];
@@ -90,7 +90,15 @@ class PhrasesController extends AppController {
                 
                 $this->Phrase->create();
                 if( $this->Phrase->save($this->data) ){
-                   $content['data'] = 'saved'; 
+                    
+                   $modes = $this->setPrice->modes; 
+                   foreach ($modes as $k => $v){
+                       if($this->data['Phrase']['mode'] == $v['name']){
+                           $mode = sprintf($v['desc'],$this->data['Phrase']['mode_x'] );
+                       }
+                   }
+                   $content['data']['mode'] = $mode;
+                   
                 } else {
                    $content['error'] = 'not saved'; 
                 }
@@ -103,7 +111,47 @@ class PhrasesController extends AppController {
         $this->header('Content-Type: application/json');
         return ($contents);
     }
+    
+    /**
+     *
+     * @return json
+     */
+    public function delPhr() {
+        
+        $content = array();
+        
+        if ($this->RequestHandler->isAjax()) {
 
+            Configure::write('debug', 0);
+            $this->autoLayout = false;
+            $this->autoRender = FALSE;
+            
+            $phrToDel = array();
+            
+            $this->data['Phrase']['phrase_yn_id'] = $this->data['phrId'];
+            
+            $phrToDel = $this->Phrase->find('first',array(
+                'conditions'=>array('Phrase.phrase_yn_id'=>$this->data['Phrase']['phrase_yn_id']),
+                'contain'=>FALSE
+            ));
+            
+            if($phrToDel != array()){
+                
+                if($this->Phrase->delete($phrToDel['Phrase']['id'])){
+                    $content['data'] = 'ok';
+                } else {
+                    $content['error'] = 'Problem with deleting';
+                }
+                
+            }
+          
+        }
+
+
+        $contents = json_encode($content);
+        $this->header('Content-Type: application/json');
+        return ($contents);
+    }
 
 }
 

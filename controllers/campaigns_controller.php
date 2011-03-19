@@ -54,61 +54,24 @@ class CampaignsController extends AppController {
      * @access public
      */
     public function getYnCampList() {
-        // create a new cURL resource
-        $ch = curl_init();
 
-        //@todo add opportinity to add more certs per each user
-
-        $path = Configure::read('pathToCerts');
-
-
-        $url = "https://soap.direct.yandex.ru/json-api/v3/";
-
-        //@todo sinitize this
-        $method = ''; //$this->data['method'];
-        $params = array($this->data['clname']);
-        //request for yandex in json.
-        $jsonReq = json_encode(
-                array(
-                    "method" => "GetCampaignsList",
-                    "param" => $params
-                )
-        );
 
         if ($this->RequestHandler->isAjax()) {
 
             Configure::write('debug', 0);
             $this->autoLayout = false;
             $this->autoRender = FALSE;
+            
+            //@todo sinitize this
+            $params = array($this->data['clname']);
+            
+            $resAllCampaigns = json_decode($this->getYnData->getYnData('GetCampaignsList', $params), TRUE);  
 
+ 
 
-            // set URL and other options
-            curl_setopt($ch, CURLOPT_URL, $url);
-
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt($ch, CURLOPT_CAPATH, $path);
-            curl_setopt($ch, CURLOPT_CAINFO, $path . "/cacert.pem");
-            curl_setopt($ch, CURLOPT_SSLCERT, $path . "/cert.crt");
-            curl_setopt($ch, CURLOPT_SSLKEY, $path . "/private.key");
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonReq);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-            $contents = curl_exec($ch);
-
-            if (curl_errno($ch) != 0) {
-                //$contents["stat"] = 0;
-                $contents["error"] = ('CURL_error: ' . curl_errno($ch) . ', ' . curl_error($ch));
-                $contents = json_encode($contents);
-            }
-
-            // close the cURL resource and free the system resources
-            curl_close($ch);
-
-
-            //$content = json_encode($content);
+            $content = json_encode( $resAllCampaigns );
             $this->header('Content-Type: application/json');
-            return ($contents);
+            return ($content);
         }
     }
 
@@ -139,61 +102,21 @@ class CampaignsController extends AppController {
      */
     public function getYnCampInfo() {
 
-        
-        // create a new cURL resource
-        $ch = curl_init();
-
-        $path = Configure::read('pathToCerts');
-
-
-        $url = "https://soap.direct.yandex.ru/json-api/v3/";
-
-        //@todo sinitize this
-        $method = ''; //$this->data['method'];
-        $params = array('CampaignIDS'=>array($this->data['campid']));
-        //request for yandex in json.
-        $jsonReq = json_encode(
-                array(
-                    "method" => "GetBanners",
-                    "param" => $params
-                )
-        );
-
         if ($this->RequestHandler->isAjax()) {
 
             Configure::write('debug', 0);
             $this->autoLayout = false;
             $this->autoRender = FALSE;
             
+            $params = array('CampaignIDS'=>array($this->data['campid']));
+            
+            $resAllBanners = json_decode($this->getYnData->getYnData('GetBanners', $params), TRUE);          
+            
+            
 
-
-            // set URL and other options
-            curl_setopt($ch, CURLOPT_URL, $url);
-
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt($ch, CURLOPT_CAPATH, $path);
-            curl_setopt($ch, CURLOPT_CAINFO, $path . "/cacert.pem");
-            curl_setopt($ch, CURLOPT_SSLCERT, $path . "/cert.crt");
-            curl_setopt($ch, CURLOPT_SSLKEY, $path . "/private.key");
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonReq);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-            $contents = curl_exec($ch);
-
-            if (curl_errno($ch) != 0) {
-                //$contents["stat"] = 0;
-                $contents["error"] = ('CURL_error: ' . curl_errno($ch) . ', ' . curl_error($ch));
-                $contents = json_encode($contents);
-            }
-
-            // close the cURL resource and free the system resources
-            curl_close($ch);
-
-
-            //$content = json_encode($content);
+            $content = json_encode( $resAllBanners );
             $this->header('Content-Type: application/json');
-            return ($contents);
+            return ($content);
         }
     }
     
@@ -209,34 +132,7 @@ class CampaignsController extends AppController {
 
         $authUserId = $this->Auth->user('id');
         
-//        $this->loadModel('Phrase');
-//        $phrasesFromDb = $this->Phrase->find("all");
 
-                   
-
-       //getting information about phrases( filtered not archive);
-//        $bannersID = array($this->params['named']['bannid']);
-//        $params = array('BannerIDS' => $bannersID, 'FieldsNames' => array('Phrase', 'Shows', 'Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin'), 'RequestPrices' => 'Yes');
-//        $resAllPhrases = json_decode($this->getYnData->getYnData('GetBannerPhrasesFilter', $params), TRUE);
-//  
-//            foreach ($resAllPhrases['data'] as $k => $v){
-//                
-//                foreach ($phrasesFromDb as $k2=>$v2){
-//                    if( $v["PhraseID"] == $v2['Phrase']['phrase_yn_id']){
-//                        $resAllPhrases['data'][$k]['mode'] = $v2['Phrase']['mode'];
-//                        $resAllPhrases['data'][$k]['modeX'] = $v2['Phrase']['moce_x'];
-//                    }
-//                }
-//                
-//                
-//                
-//            }      
-//        
-//        
-//        
-//        $this->set("resAll",$resAllPhrases);
-//        
-//        $this->set("phrase", $phrasesFromDb);
 
         $this->set("modes", $this->setPrice->modes);
     }
