@@ -62,7 +62,7 @@ class CampaignsController extends AppController {
             $this->autoLayout = false;
             $this->autoRender = FALSE;
             
-            //@todo sinitize this
+            //@todo sinitize this and remove decode - encode
             $params = array($this->data['clname']);
             
             $resAllCampaigns = json_decode($this->getYnData->getYnData('GetCampaignsList', $params), TRUE);  
@@ -204,124 +204,6 @@ class CampaignsController extends AppController {
         }
     }
 
-
-
-    /*
-      function view($id = null) {
-      if (!$id) {
-      $this->Session->setFlash(__('Invalid Item', true));
-      $this->redirect(array('action' => 'index'));
-      }
-      $this->set('Item', $this->Item->read(null, $id));
-      }
-
-      function add() {
-      if (!empty($this->data)) {
-      $this->Item->create();
-      if ($this->Item->save($this->data)) {
-      $this->Session->setFlash(__('The Item has been saved', true));
-      $this->redirect(array('action' => 'index'));
-      } else {
-      $this->Session->setFlash(__('The Item could not be saved. Please, try again.', true));
-      }
-      }
-      $users = $this->Item->User->find('list');
-      $this->set(compact('users'));
-      }
-
-      function edit($id = null) {
-      if (!$id && empty($this->data)) {
-      $this->Session->setFlash(__('Invalid Item', true));
-      $this->redirect(array('action' => 'index'));
-      }
-      if (!empty($this->data)) {
-      if ($this->Item->save($this->data)) {
-      $this->Session->setFlash(__('The Item has been saved', true));
-      $this->redirect(array('action' => 'index'));
-      } else {
-      $this->Session->setFlash(__('The Item could not be saved. Please, try again.', true));
-      }
-      }
-      if (empty($this->data)) {
-      $this->data = $this->Item->read(null, $id);
-      }
-      $users = $this->Item->User->find('list');
-      $this->set(compact('users'));
-      }
-
-      function delete($id = null) {
-      if (!$id) {
-      $this->Session->setFlash(__('Invalid id for Item', true));
-      $this->redirect(array('action' => 'index'));
-      }
-      if ($this->Item->delete($id)) {
-      $this->Session->setFlash(__('Item deleted', true));
-      $this->redirect(array('action' => 'index'));
-      }
-      $this->Session->setFlash(__('Item was not deleted', true));
-      $this->redirect(array('action' => 'index'));
-      }
-
-      function admin_index() {
-      $this->Item->recursive = 0;
-      $this->set('Items', $this->paginate());
-      }
-
-      function admin_view($id = null) {
-      if (!$id) {
-      $this->Session->setFlash(__('Invalid Item', true));
-      $this->redirect(array('action' => 'index'));
-      }
-      $this->set('Item', $this->Item->read(null, $id));
-      }
-
-      function admin_add() {
-      if (!empty($this->data)) {
-      $this->Item->create();
-      if ($this->Item->save($this->data)) {
-      $this->Session->setFlash(__('The Item has been saved', true));
-      $this->redirect(array('action' => 'index'));
-      } else {
-      $this->Session->setFlash(__('The Item could not be saved. Please, try again.', true));
-      }
-      }
-      $users = $this->Item->User->find('list');
-      $this->set(compact('users'));
-      }
-
-      function admin_edit($id = null) {
-      if (!$id && empty($this->data)) {
-      $this->Session->setFlash(__('Invalid Item', true));
-      $this->redirect(array('action' => 'index'));
-      }
-      if (!empty($this->data)) {
-      if ($this->Item->save($this->data)) {
-      $this->Session->setFlash(__('The Item has been saved', true));
-      $this->redirect(array('action' => 'index'));
-      } else {
-      $this->Session->setFlash(__('The Item could not be saved. Please, try again.', true));
-      }
-      }
-      if (empty($this->data)) {
-      $this->data = $this->Item->read(null, $id);
-      }
-      $users = $this->Item->User->find('list');
-      $this->set(compact('users'));
-      }
-
-      function admin_delete($id = null) {
-      if (!$id) {
-      $this->Session->setFlash(__('Invalid id for Item', true));
-      $this->redirect(array('action' => 'index'));
-      }
-      if ($this->Item->delete($id)) {
-      $this->Session->setFlash(__('Item deleted', true));
-      $this->redirect(array('action' => 'index'));
-      }
-      $this->Session->setFlash(__('Item was not deleted', true));
-      $this->redirect(array('action' => 'index'));
-      }
-     */
 }
 
 ?>

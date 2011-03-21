@@ -200,10 +200,22 @@ class UsersController extends AppController {
             $this->Session->setFlash(__d('users', 'You are already registered and logged in!', true));
             $this->redirect('/');
         }
+        
 
+        
+        
         $stopWord = '';
 
         if (!empty($this->data)) {
+            
+
+            /*
+             * @todo remove this 3 lines after we open public registation
+             */
+            unset($this->data['User']['captcha']);
+            $this->Session->setFlash(__d('users', 'Registration hasn\'t been opened yet. Sorry for inconvinience', true), 'default', array('class' => 'fler'));       
+            $this->redirect('/');           
+            
             //prepering data from kcaptch component to check.			
             $this->data['User']['captcha2'] = $this->Session->read('captcha');
 

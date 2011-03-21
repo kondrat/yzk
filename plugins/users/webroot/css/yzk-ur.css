@@ -20,6 +20,11 @@
 
 }
 
+.ur-formSubmitReg, .ur-formSubmitLog {
+    float:left;
+    margin:0 0 1.5em 175px;
+    width: 662px;
+}
 
 /*signUp button in login form*/
 .reg {
@@ -53,24 +58,23 @@
 }
 
 /*quick Login Calss*/
-.autoLogin label {
+.ur-autoLogin label {
     color:gray;
     font-weight:normal;
     vertical-align:sub;
 }
-.autoLogin input {
+.ur-autoLogin input {
     margin: 0 3px 0 0;
 }
 
 /*form classes*/
 .ur-formPageReg {   
-    height:250px;
-    margin:20px 0 0 0;
+    margin:40px 0 0;
     position:relative;    
 }
 .ur-formPageLog {
-    height:250px;
-    margin:20px 0 0 0;
+    
+    margin:60px 0;
     position:relative;   
 }
 
@@ -89,14 +93,15 @@
     width: 200px;
     margin: 0 0 5px;
     padding: 5px;
-    -moz-border-radius:5px;
-    -webkit-border-radius:5px;
     float:left;
+    
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;    
 }
 
 
 
-.inputFormWrap{
+.ur-inputFormWrap{
     margin: 0;
     padding: 0 0 1em 0;
     position:relative;
@@ -104,33 +109,33 @@
     float:left;
     width:662px;
 }
-div.formWrapLabel{
+div.ur-formWrapLabel{
     float:left;
     width:165px;
     margin: 0.1em 10px 0 0;
     text-align: right;
-    color:gray;
+    color:#000;
     display:block;
 }
-div.formWrapLabel label{
+div.ur-formWrapLabel label{
     font-weight:normal;
     font-size:15px;
 }
-div.formWrapIn{
+div.ur-formWrapIn{
     float:left;
     margin-top:1px;
     width:217px;
 }
-div.formWrapTip{	
+div.ur-formWrapTip{	
     float:left;
     width:265px;
 }
-div.formWrapTip div{
+div.ur-formWrapTip div{
     -moz-border-radius:5px;
     min-height:27px;
     padding: 2px 0 0 4px;
 }
-div.formWrapTip div img{
+div.ur-formWrapTip div img{
     margin-right: 3px;
 }
 
@@ -156,7 +161,7 @@ div.error {
 }
 
 
-div.inputFormWrap input.form-error {
+div.ur-inputFormWrap input.form-error {
     background-color: #eee;
 }
 

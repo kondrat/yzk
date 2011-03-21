@@ -58,26 +58,6 @@ class ClientsController extends AppController {
      */
     public function getYnClData() {
 
-        // create a new cURL resource
-        $ch = curl_init();
-
-        //@todo add opportinity to add more certs per each user
-
-        $path = Configure::read('pathToCerts');
-
-        $url = "https://soap.direct.yandex.ru/json-api/v3/";
-
-        //@todo sinitize this
-        $method = ''; //$this->data['method'];
-        $params = ''; //array('am-borovikov');
-        //request for yandex in json.
-        $jsonReq = json_encode(
-                array(
-                    "method" => "GetClientsList",
-                //"param"=>$params 
-                )
-        );
-
         if ($this->RequestHandler->isAjax()) {
 
             Configure::write('debug', 0);
@@ -85,62 +65,41 @@ class ClientsController extends AppController {
             $this->autoRender = FALSE;
 
 
-            // set URL and other options
-            curl_setopt($ch, CURLOPT_URL, $url);
-
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt($ch, CURLOPT_CAPATH, $path);
-            curl_setopt($ch, CURLOPT_CAINFO, $path . "/cacert.pem");
-            curl_setopt($ch, CURLOPT_SSLCERT, $path . "/cert.crt");
-            curl_setopt($ch, CURLOPT_SSLKEY, $path . "/private.key");
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonReq);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-            $contents = curl_exec($ch);
-
-            if (curl_errno($ch) != 0) {
-                //$contents["stat"] = 0;
-                $contents["error"] = ('CURL_error: ' . curl_errno($ch) . ', ' . curl_error($ch));
-                $contents = json_encode($contents);
-            } else {
-
-                $existedClients = $this->Client->find('all', array(
-                            'conditions' => array('Client.agent_id'=> $this->Auth->user('id')),
-                            'fields' => array('ynname'),
-                            'contain' => false
-                        ));
-                $existedClients = Set::extract('/Client/ynname', $existedClients);
-                
-                //$newContensTmp = array();
-                $newContens = json_decode($contents, TRUE);
-                
-                foreach ($newContens['data'] as $k => $v) {
+            $resAllClients = array();
+            
+            $params = "";
+            
+            $resAllClients = json_decode($this->getYnData->getYnData('GetClientsList', $params), TRUE);           
+                            
+                if( isset($resAllClients["data"]) && $resAllClients['data'] != array() ) {
+                     $existedClients = $this->Client->find('all', array(
+                                'conditions' => array('Client.agent_id'=> $this->Auth->user('id')),
+                                'fields' => array('ynname'),
+                                'contain' => false
+                            ));
+                    $existedClients = Set::extract('/Client/ynname', $existedClients);
                     
-                    foreach ($existedClients as $val){
-                        if($newContens['data'][$k]['Login'] == $val){
-                            $newContens['data'][$k]['reg'] = 'yes'; 
-                            break;
-                        } else {
-                            $newContens['data'][$k]['reg'] = 'no';
+                    $newContens = $resAllClients;//json_decode($contents, TRUE);
+                    
+                      foreach ($newContens['data'] as $k => $v) {
+
+                        foreach ($existedClients as $val){
+                            if($newContens['data'][$k]['Login'] == $val){
+                                $newContens['data'][$k]['reg'] = 'yes'; 
+                                break;
+                            } else {
+                                $newContens['data'][$k]['reg'] = 'no';
+                            }
                         }
-                    }
+
+
+                    }                  
                     
-                              
+                   $contents = json_encode($newContens); 
+                } else {
+                   $contents = json_encode($resAllClients);
                 }
-                
 
-                
-                $contents = json_encode($newContens);
-            }
-
-            // close the cURL resource and free the system resources
-            curl_close($ch);
-
-
-
-
-            //$content = json_encode($content);
             $this->header('Content-Type: application/json');
             return ($contents);
         }
@@ -272,7 +231,7 @@ class ClientsController extends AppController {
             $this->autoLayout = FALSE;
             $this->autoRender = FALSE;
 
-            if ($this->data['ynLogin'] && $this->data['email']) {
+            if (isset($this->data['ynLogin']) && isset($this->data['email'])) {
 
                 $userSavingRes = $this->Client->regclient($this->data['email']);
 
@@ -301,8 +260,8 @@ class ClientsController extends AppController {
                                 'port'=>'465',
                                 'timeout'=>'30',
                                 'host' => 'ssl://smtp.gmail.com',
-                                'username'=>'alexey.kondratyev@gmail.com',
-                                'password'=>'kt19_Zpg',
+                                'username'=>'quoondo@gmail.com',
+                                'password'=>'Quoondo01',
                             );
                             
                             $this->set('User', $userSavingRes);

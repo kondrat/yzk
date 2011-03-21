@@ -37,6 +37,9 @@
 .clt-cltRegWrp{   
     float:left;
     padding: 10px;
+    border: 1px solid #ccc;
+    position: relative;
+    margin: 5px;
 }
 .clt-clientAct{
     border: 1px solid;
@@ -54,9 +57,30 @@ input.clt-inputEmail{
     padding: 2px 5px;
     cursor: pointer;
 }
+.clt-cltRegBtn:hover{
+    color: #ff9999;
+}
 .clt-cltDataEdit{
     cursor: pointer;
-    color: #205791;
+    color: #8a1f11;
     font-weight: bold;
 }
-
+.clt-closeFormBtn{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: grey;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    padding: 0 2px;
+}
+.clt-closeFormBtn:hover{
+    color: black;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+.clt-ynLogReg{
+    border-bottom:1px solid #ccc;
+    margin-bottom:10px;
+    padding-bottom:5px;    
+}

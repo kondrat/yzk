@@ -44,7 +44,7 @@ if (!isset($menuType)) {
 
         <?php break; ?>
     <?php default: ?>
-        <div>hello 1</div>
+        <div><?php echo $this->Html->link($_SERVER['HTTP_HOST'],"/");?></div>
         <?php break; ?>
 
 

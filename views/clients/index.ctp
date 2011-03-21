@@ -30,13 +30,16 @@
 </script>
 <script id="clt-clientRegtTmpl" type="text/x-jquery-tmpl">
     <div  class="clt-cltRegWrp span-14">
-      
-            <?php echo $this->Form->create('Client');?>
+        
+        <div class="span-14"><?php __('Registation form for client');?>:&nbsp;<b>${FIO}</b></div>
+        <div class="span-14 clt-ynLogReg"><?php __('Client\'s yandex login');?>:&nbsp;<b>${Login}</b></div>
+            
         <div class="span-1"><?php __('Email: ');?></div>
         <div class="span-4 last">
-            <?php echo $this->Form->input('email',array('class'=>'clt-inputEmail','label'=>false,'div'=>false));?>
+            <?php echo $this->Form->input('email',array('id'=>'clt-inputEmail','class'=>'clt-inputEmail','label'=>false,'div'=>false));?>
         </div>
-        <div id="clt-cltRegBtn" class="clt-cltRegBtn"><?php __('Send');?></div>   
+        <div id="clt-cltRegBtn" class="clt-cltRegBtn"><?php __('Send');?></div>
+        <div id="clt-closeFormBtn" class="clt-closeFormBtn"><?php __('Close');?></div>
              
     </div>
 </script>

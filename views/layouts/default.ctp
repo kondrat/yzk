@@ -3,7 +3,7 @@
     <head>
         <?php echo $this->Html->charset(); ?>
         <title>
-            <?php __('yzk.go:'); ?>
+            <?php echo $_SERVER['HTTP_HOST']; ?>
             <?php echo $title_for_layout; ?>
         </title>
         <?php
@@ -29,7 +29,8 @@
             'jq/jquery-1.5.1.min',
             'plug/tipsy/javascripts/jquery.tipsy',
             'jq/jquery.tmpl.min',
-            'plug/jquery.universalpaginate'
+            'plug/jquery.universalpaginate',
+            'dev/comfunc'
             
         ));
 
@@ -72,8 +73,9 @@
         <div class="container">
 
 
-
-            <?php echo $this->Session->flash(); ?>
+            <div class="span-20" style="position:relative;">
+                <?php echo $this->Session->flash(); ?>
+            </div>
 
             <?php echo $content_for_layout; ?>
 
@@ -85,7 +87,7 @@
             <div class="lt-pagefooter"> 
                 <div class="span-24s">
                     <div class="lt-footerNote">
-                        <?php echo $html->link('yzk.go', array('controller' => 'companies', 'action' => 'index')); ?> &copy;<?php echo date('Y'); ?>
+                        <?php echo $html->link($_SERVER['HTTP_HOST'], "/"); ?> &copy;<?php echo date('Y'); ?>
                     </div>
                 </div>        
             </div>

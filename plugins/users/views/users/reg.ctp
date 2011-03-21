@@ -1,4 +1,4 @@
-<?php echo $this->element('webroot');?>
+<?php echo $this->element('webroot_for_ur');?>
 
 <div class="ur-formPageReg span-24">
 
@@ -44,16 +44,16 @@
     ?>
 
 
-    <div class="inputFormWrap">
+    <div class="ur-inputFormWrap">
 
-        <div class="formWrapLabel">
+        <div class="ur-formWrapLabel">
 <?php echo $form->label(__('Username', true)); ?>
         </div>
-        <div class="formWrapIn">
+        <div class="ur-formWrapIn">
 <?php echo $form->input('username', array('div' => array("id" => "usernameWrap"), 'error' => false, 'class' => false)); ?>								
         </div>
 
-        <div id="rName" class="formWrapTip">
+        <div id="rName" class="ur-formWrapTip">
 <?php
 $errNameClass = 'hide';
 $okNameClass = 'hide';
@@ -95,17 +95,17 @@ echo $form->error('username', $errors['username'], array('wrap' => null)) . $sto
 
     </div>
 
-    <div class="inputFormWrap">
+    <div class="ur-inputFormWrap">
 
-        <div class="formWrapLabel">
+        <div class="ur-formWrapLabel">
 <?php echo $form->label(__('Password', true)); ?>
         </div>
 
-        <div class="formWrapIn">
+        <div class="ur-formWrapIn">
 <?php echo $form->input('password1', array('type' => 'password', 'div' => array("id" => "passWrap"), 'error' => false)); ?>
         </div>
 
-        <div id="rPass1" class="formWrapTip">	
+        <div id="rPass1" class="ur-formWrapTip">	
 
 <?php
 $errPass1Class = 'hide';
@@ -130,15 +130,15 @@ if (isset($this->validationErrors['User']['password1'])) {
         </div>
     </div>	
 
-    <div class="inputFormWrap">	
-        <div class="formWrapLabel">
+    <div class="ur-inputFormWrap">	
+        <div class="ur-formWrapLabel">
 <?php echo $form->label(__('Confirm Password', true)); ?>
         </div>
-        <div class="formWrapIn">
+        <div class="ur-formWrapIn">
             <?php echo $form->input('password2', array('type' => 'password', 'div' => array("id" => "pass2Wrap"), 'error' => false)); ?>
         </div>
 
-        <div id="rPass2" class="formWrapTip">
+        <div id="rPass2" class="ur-formWrapTip">
 <?php
 $errPass2Class = 'hide';
 $okPass2Class = 'hide';
@@ -172,14 +172,14 @@ if (isset($this->validationErrors['User']['password2'])) {
         </div>
     </div>	
 
-    <div class="inputFormWrap">	
-        <div class="formWrapLabel">
+    <div class="ur-inputFormWrap">	
+        <div class="ur-formWrapLabel">
 <?php echo $form->label(__('Email', true)); ?>
         </div>
-        <div class="formWrapIn">
+        <div class="ur-formWrapIn">
             <?php echo $form->input('email', array('div' => array("id" => "emailWrap"), "class" => "email required", 'error' => false)); ?>	
         </div>
-        <div id="rEmail" class="formWrapTip">
+        <div id="rEmail" class="ur-formWrapTip">
 
 <?php
 $errEmailClass = 'hide';
@@ -213,7 +213,7 @@ if (isset($this->validationErrors['User']['email'])) {
         </div>					
     </div>		
 
-    <div class="inputFormWrap">
+    <div class="ur-inputFormWrap">
 
 <?php
 $errCapClass = 'hide';
@@ -234,7 +234,7 @@ if (isset($this->validationErrors['User']['captcha'])) {
             <div><?php __('Please type in the code'); ?></div>				
 <?php echo $form->input('captcha', array('div' => array("id" => "captchaWrap"), 'error' => false)); ?>								
         </div>
-        <div id="rCap" class="formWrapTip" style="width:185px;margin-top:17px;">	
+        <div id="rCap" class="ur-formWrapTip" style="width:185px;margin-top:17px;">	
             <div id="rCapTip" class="rTip hide">																	
 <?php __('Type the letters from picture'); ?>								  																	
             </div>
@@ -246,9 +246,9 @@ if (isset($this->validationErrors['User']['captcha'])) {
 
     </div>
 
-    <div class="inputFormWrap">
+    <div class="ur-inputFormWrap">
 
-        <div id="reg_tos" class="formWrapIn" style="text-align:right;">
+        <div id="reg_tos" class="ur-formWrapIn" style="text-align:right;">
 <?php echo $this->Form->input('tos', array('type'=>'checkbox','label' => false)); ?>
         </div>
         <div class="">
@@ -259,7 +259,7 @@ if (isset($this->validationErrors['User']['captcha'])) {
         </div>							
 
     </div>
-    <div class="" style="float:left;margin:0 0 1.5em 175px;">			
+    <div class="ur-formSubmitReg">			
         <span><?php echo $form->button(__('Submit', true), array('type' => 'submit', 'id' => 'regSubmit')); ?></span>
     </div>
 

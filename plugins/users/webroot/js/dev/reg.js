@@ -25,13 +25,14 @@ jQuery(document).ready( function(){
 	
     $("#UserRegForm input").blur(function(){
         if( $(this).val().length === 0 ) {
-            $(this).parents(".inputFormWrap").find(".formWrapTip div").hide();
+            $(this).parents(".ur-inputFormWrap").find(".ur-formWrapTip div").hide();
         }
-    });		
+    });	
+    
     $("#UserRegForm input").focus(function(){	
         if( $(this).val().length === 0 ) {
-            $(this).parents(".inputFormWrap").find(".formWrapTip div").hide();
-            $(this).parents(".inputFormWrap").find(".formWrapTip div:first").show();
+            $(this).parents(".ur-inputFormWrap").find(".ur-formWrapTip div").hide();
+            $(this).parents(".ur-inputFormWrap").find(".ur-formWrapTip div:first").show();
         }	
     });
 	
