@@ -3,8 +3,18 @@ App::import('Component','getYnData');
 class UpdatePriceShell extends Shell {
 
     var $uses = array('Phrase');
+ 
+    function getTime() {
+        $a = explode(' ', microtime());
+        return(double) $a[0] + $a[1];
+    }
+    
+    
+    
     
     function main() {
+        
+        $Start = $this->getTime(); 
         
         $this->out('result:' . "\n");
         
@@ -80,21 +90,27 @@ class UpdatePriceShell extends Shell {
         foreach ($resAllBanners as $k3=>$v3){
             foreach ($v3 as $k4=>$v4) {
                $resAllBannersIDs[] = $v4['BannerID'];
-               //$this->out($v4['BannerID']."\n");
+               $this->out($v4['BannerID']."\n");
             } 
         }
-        //$this->out( count($resAllBannersIDs )."\n");
+        $this->out( count($resAllBannersIDs )."\n");
+        
+        
         
         //getting information about phrases( filtered not archive);
-        //$params3 = array('BannerIDS'=>$resAllBannersIDs,'FieldsNames'=>array('Price','Max','Min','PremiumMax','PremiumMin' ),'RequestPrices'=>'Yes' );
-        $params3 = array('BannerIDS'=>array(4335335,20958173),'FieldsNames'=>array('Price','Max','Min','PremiumMax','PremiumMin' ),'RequestPrices'=>'Yes' );
+        $params3 = array('BannerIDS'=>$resAllBannersIDs,'FieldsNames'=>array('Price','Max','Min','PremiumMax','PremiumMin' ),'RequestPrices'=>'Yes' );
+        
+        $params3 = array('BannerIDS'=>array(4345227),'FieldsNames'=>array('Price','Max','Min','PremiumMax','PremiumMin' ),'RequestPrices'=>'Yes' );
         
         $resAllPhrases = json_decode($getYnData->getYnData($pathToCerts,'GetBannerPhrasesFilter',$params3),TRUE);  
         
-        $resAllPhrases = print_r($resAllPhrases);
-        $this->out($resAllPhrases);
+        $resAllPhrases = $forCount = print_r($resAllPhrases);
+        $this->out(count($forCount));
         $this->out('----------------------------------------' . "\n");
         
+        $End = $this->getTime();
+        $this->out("Time taken = ".number_format(($End - $Start),2)." secs\n");
+
       
         
     }
