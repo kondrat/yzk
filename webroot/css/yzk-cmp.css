@@ -11,17 +11,11 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
-.cmp-isactiveYes{
-    color: green;
-    font-weight: bold;
-}
-.cmp-isactiveNo{
-    color: red;
-    font-weight: bold;
-}
+
 .cmp-client{
     border-bottom: 1px solid #eee;
     position: relative;
+    padding-bottom: 4px;
 }
 .cmp-clientActive{
     color: goldenrod;

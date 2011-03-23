@@ -43,10 +43,10 @@
             {{/if}}
         </div>
         {{if mode}}
-            <div class="span-1 cmp-edit"><?php __('edit');?></div>       
+            <div class="span-1 cmp-edit"><?php __('eidt');?></div>       
             <div class="span-1 cmp-delete"><?php __('del');?></div>
         {{else}}
-            <div class="span-1 cmp-edit"><?php __('crete');?></div>
+            <div class="span-2 cmp-edit"><?php __('create');?></div>
         {{/if}}
     </div>
 

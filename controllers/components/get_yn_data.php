@@ -13,14 +13,15 @@ class getYnDataComponent extends Object {
      * @param array $params
      * @return json 
      */
-    function getYnData($method=null, $params=array()) {
+    function getYnData($pathToCerts = NULL, $method= NULL, $params=array()) {
         // create a new cURL resource
         $ch = curl_init();
 
         //@todo add opportinity to add more certs per each user
 
-        $path = Configure::read('pathToCerts');
-
+        //$pathToCerts = Configure::read('pathToCerts');
+        
+        
 
         $url = "https://soap.direct.yandex.ru/json-api/v3/";
 
@@ -42,20 +43,19 @@ class getYnDataComponent extends Object {
             curl_setopt($ch, CURLOPT_URL, $url);
 
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt($ch, CURLOPT_CAPATH, $path);
-            curl_setopt($ch, CURLOPT_CAINFO, $path . "/cacert.pem");
-            curl_setopt($ch, CURLOPT_SSLCERT, $path . "/cert.crt");
-            curl_setopt($ch, CURLOPT_SSLKEY, $path . "/private.key");
+            curl_setopt($ch, CURLOPT_CAPATH, $pathToCerts);
+            curl_setopt($ch, CURLOPT_CAINFO, $pathToCerts."/cacert.pem");
+            curl_setopt($ch, CURLOPT_SSLCERT, $pathToCerts."/cert.crt");
+            curl_setopt($ch, CURLOPT_SSLKEY, $pathToCerts."/private.key");
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonReq);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
             $contents = curl_exec($ch);
 
-            if (curl_errno($ch) != 0) {
-                //$contents["stat"] = 0;
+            if (curl_errno($ch) != 0) {               
                 $contents["error"] = ('CURL_error: ' . curl_errno($ch) . ', ' . curl_error($ch));
-                
+                $contents = json_encode($contents);            
             }
 
             // close the cURL resource and free the system resources

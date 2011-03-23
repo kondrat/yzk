@@ -4,9 +4,7 @@
 
        {{if StatusArch == 'No'}}
         <div  class="clt-client  span-17">
-       {{else}}
-        <div  class="clt-client clt-clientArch  span-17">
-       {{/if}}   
+          
             <div class="clt-login span-4"><?php echo $this->Html->link('${Login}', array("controller" => "campaigns", "action" => "index", "client" => '${Login}')); ?></div>
             <div class="clt-fio span-4">${FIO}</div>
             {{if Phone}}
@@ -22,11 +20,11 @@
             {{if reg == 'no'}}
                 <div class="clt-newCltReg span-1"><?php echo $this->Html->link(__('reg', true), array('plugin' => 'users', 'controller' => 'users', 'action' => 'regclient', "client" => '${Login}')); ?></div>
             {{else}}
-                <div class="clt-cltDataEdit span-2">edit</div>
+                <div class="clt-cltDataEdit span-2"><?php __('view');?></div>
             {{/if}}
 
         </div>
-
+    {{/if}}
 </script>
 <script id="clt-clientRegtTmpl" type="text/x-jquery-tmpl">
     <div  class="clt-cltRegWrp span-14">

@@ -15,13 +15,8 @@
     border-bottom: 1px solid #eee;
     
 }
-.clt-clientArch{
-    text-decoration: line-through;
-    color: #ccc;
-}
-.clt-clientArch a,.clt-clientArch .clt-cltDataEdit{
-    color: #ccc;
-}
+
+
 .clt-clientHgl{
    background-color: #eee;
    border-bottom: 1px solid #ccc;

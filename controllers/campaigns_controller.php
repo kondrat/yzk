@@ -35,15 +35,19 @@ class CampaignsController extends AppController {
      * 
      */
     function index() {
+        
+        $this->set('title_for_layout', __('Campaigns', true));
+        $this->set('menuType', 'regged');
+        
         $clientName = null;
         if (isset($this->params['named']['client']) && $this->params['named']['client'] !== null) {
             $clientName = $this->params['named']['client'];
+        } else {
+            
         }
+        
         $this->set('clientName', $clientName);
-        $this->set('title_for_layout', __('Campaigns', true));
-        $this->set('menuType', 'regged');
-
-        $authUserId = $this->Auth->user('id');
+        //$authUserId = $this->Auth->user('id');
     }
 
     /**
@@ -62,10 +66,12 @@ class CampaignsController extends AppController {
             $this->autoLayout = false;
             $this->autoRender = FALSE;
             
+            $pathToCerts = Configure::read('pathToCerts');
+            
             //@todo sinitize this and remove decode - encode
             $params = array($this->data['clname']);
             
-            $resAllCampaigns = json_decode($this->getYnData->getYnData('GetCampaignsList', $params), TRUE);  
+            $resAllCampaigns = json_decode($this->getYnData->getYnData($pathToCerts,'GetCampaignsList', $params), TRUE);  
 
  
 
@@ -108,9 +114,10 @@ class CampaignsController extends AppController {
             $this->autoLayout = false;
             $this->autoRender = FALSE;
             
+            $pathToCerts = Configure::read('pathToCerts');
             $params = array('CampaignIDS'=>array($this->data['campid']));
             
-            $resAllBanners = json_decode($this->getYnData->getYnData('GetBanners', $params), TRUE);          
+            $resAllBanners = json_decode($this->getYnData->getYnData($pathToCerts,'GetBanners', $params), TRUE);          
             
             
 
@@ -160,10 +167,11 @@ class CampaignsController extends AppController {
             $bannersID = array($this->data['bannid']);
 
             //getting information about phrases( filtered not archive);
+            $pathToCerts = Configure::read('pathToCerts');
             $params = array('BannerIDS' => $bannersID, 'FieldsNames' => array('Phrase', 'Shows', 'Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin'), 'RequestPrices' => 'Yes');
             
             
-            $resAllPhrases = json_decode($this->getYnData->getYnData('GetBannerPhrasesFilter', $params), TRUE);
+            $resAllPhrases = json_decode($this->getYnData->getYnData($pathToCerts,'GetBannerPhrasesFilter', $params), TRUE);
 
             $this->loadModel('Phrase');
             $phrasesFromDb = $this->Phrase->find("all",

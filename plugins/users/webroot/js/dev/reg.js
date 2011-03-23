@@ -89,7 +89,7 @@ jQuery(document).ready( function(){
                         }
                     },
                     error: function(response, status) {
-                        alert('An unexpected error has occurred! ');
+                        alert('An unexpected error has occurred! 1');
                     //$('.tempTest').html('Problem with the server. Try again later.');
                     }
 
@@ -177,7 +177,7 @@ jQuery(document).ready( function(){
                         }
                     },
                     error: function(response, status) {
-                        alert('An unexpected error has occurred! ');
+                        alert('An unexpected error has occurred! 2');
                     //$('.tempTest').html('Problem with the server. Try again later.');
                     }
 

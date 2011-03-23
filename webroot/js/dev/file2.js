@@ -13,7 +13,6 @@ jQuery(document).ready(function(){
             url: path+"\/campaigns\/getYnCampList",
             type: "POST",
             data: {
-                "data[method]":'GetClientsList',
                 "data[clname]":$('#cmp-clientCampListWrp').data("clname")
             },
             success:function (data, textStatus) {
@@ -42,7 +41,8 @@ jQuery(document).ready(function(){
     };
  
     f_file2_getClientsCampList();
-    
+
+
     $file2_cltClientCampListWrp.delegate(".cmp-client","mouseenter",function(){
         $(this).addClass("clt-clientHgl");
     })

@@ -321,13 +321,12 @@ class UsersController extends AppController {
      */
     public function login() {
 
-        $user = array();
         $this->set('title_for_layout', __('Login', true));
         $this->set('menuType', 'login');
 
         if ($this->Auth->user()) {
             //debug($this->Auth->user('id'));
-            $this->User->id = $this->Auth->user('id');
+            $userId = $this->User->id = $this->Auth->user('id');
             $this->User->saveField('last_login', date('Y-m-d H:i:s'));
 
             $userGroupId = $this->Auth->user('group_id');
@@ -335,7 +334,14 @@ class UsersController extends AppController {
             if ($userGroupId == 3) {
                 $this->redirect(array('plugin' => null, 'controller' => 'clients', 'action' => 'index'));
             } elseif ($userGroupId == 4) {
-                $this->redirect(array('plugin' => null, 'controller' => 'campaigns', 'action' => 'index'));
+                echo 'i\'m user';
+                $regUserYnLogin = $this->User->Client->find('first',array(
+                    'conditions'=>array( 'Client.user_id'=>$userId),
+                    'contain'=>false
+                ));
+                
+                
+                $this->redirect(array('plugin' => null, 'controller' => 'campaigns', 'action' => 'index','client'=>$regUserYnLogin['Client']['ynname']));
             }
 
             if ($this->here == $this->Auth->loginRedirect) {
