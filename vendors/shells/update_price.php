@@ -25,9 +25,28 @@ class UpdatePriceShell extends Shell {
         $pathToCerts = Configure::read('pathToCerts');
         
         //getting an information about clients;
+        $allDbPharses = array();
+        
         $resAllClients = array();
         $resAllPhrases = array();
         $resAllBanners = array();
+ 
+        
+        $allDbPharses = $this->Phrase->find('all');
+ 
+        if($allDbPharses == array()){
+            $this->out("allDbPharses = array()");
+            return;
+        }
+        
+        
+        
+//        print_r($allDbPharses);
+//        
+//        $End = $this->getTime();
+//        $this->out("Time taken = ".number_format(($End - $Start),2)." secs\n");
+//        return;
+        
         
         $resAllClients = json_decode($getYnData->getYnData($pathToCerts,'GetClientsList'),TRUE);
         //$resAllPhrases = $resAllClients = $getYnData->getYnData('GetClientsList');
@@ -55,7 +74,8 @@ class UpdatePriceShell extends Shell {
             $this->out("resAllCampaigns = array()");
             return;
         }
-        
+ 
+
  
         //this due to yandex restrictions to pass only 10 camaigns IDs we make array for the loop.
         $resAllCampaignsIdbatch10 = array();
@@ -83,29 +103,69 @@ class UpdatePriceShell extends Shell {
             $this->out("resAllBanners = array()");
             return;
         }
-        $this->out(count($resAllBanners));
+        //$this->out(count($resAllBanners));
         
         //and finaly we get bannersIds as one array. next we need to check if ammount less then 1000 (yandex.api restiction);
         $resAllBannersIDs = array();
         foreach ($resAllBanners as $k3=>$v3){
             foreach ($v3 as $k4=>$v4) {
                $resAllBannersIDs[] = $v4['BannerID'];
-               $this->out($v4['BannerID']."\n");
+               //$this->out($v4['BannerID']."\n");
             } 
         }
-        $this->out( count($resAllBannersIDs )."\n");
+        //$this->out( count($resAllBannersIDs )."\n");
         
         
         
         //getting information about phrases( filtered not archive);
-        $params3 = array('BannerIDS'=>$resAllBannersIDs,'FieldsNames'=>array('Price','Max','Min','PremiumMax','PremiumMin' ),'RequestPrices'=>'Yes' );
+        //$params3 = array('BannerIDS'=>$resAllBannersIDs,'FieldsNames'=>array('Price','Max','Min','PremiumMax','PremiumMin' ),'RequestPrices'=>'Yes' );
         
         $params3 = array('BannerIDS'=>array(4345227),'FieldsNames'=>array('Price','Max','Min','PremiumMax','PremiumMin' ),'RequestPrices'=>'Yes' );
         
-        $resAllPhrases = json_decode($getYnData->getYnData($pathToCerts,'GetBannerPhrasesFilter',$params3),TRUE);  
+        $resAllPhrases = json_decode($getYnData->getYnData($pathToCerts,'GetBannerPhrasesFilter',$params3),TRUE); 
+        if(!isset($resAllPhrases['data']) ) {
+            return;
+        }
         
-        $resAllPhrases = $forCount = print_r($resAllPhrases);
-        $this->out(count($forCount));
+        //print_r($resAllPhrases['data'][0]);
+        //$this->out(count($forCount));
+        print_r($resAllPhrases);
+        $this->out("res\n");
+        return;
+        
+        $phraseToUpdate = array();
+        $i2 = 0;
+        foreach ($allDbPharses as $k5 => $v5){
+            
+            
+            foreach($resAllPhrases['data'] as $k6=>$v6){
+                
+                $i2++;
+                if( $v5['Phrase']['phrase_yn_id'] == $v6['PhraseID'] && $v5['Phrase']['campaing_yn_id'] == $v6['CampaignID'] && $v5['Phrase']['banner_yn_id'] == $v6['BannerID'] ){
+                  $phraseToUpdate[$k5]['id'][] = $v5['Phrase']['id'];
+ 
+                    $phraseToUpdate[$k5]['coun'][] = $i2;
+                    $i2 = 0; 
+                  
+                  break;
+                } else {
+                  $phraseToUpdate[$k5]['id'][] = 'no id';
+                  $phraseToUpdate[$k5]['coun'][] = 'no count';
+                }
+                
+                 
+                
+                
+            }
+                      
+            
+        }
+        print_r($phraseToUpdate);
+        
+        
+        
+        
+        
         $this->out('----------------------------------------' . "\n");
         
         $End = $this->getTime();
