@@ -17,11 +17,7 @@
             );
             ?>
         </div>
-        <div class="cmp-clicks span-2">${Clicks}</div>
 
-        <div class="cmp-shows span-2">${Shows}</div>
-        <div class="cmp-startdate span-2">${StartDate}</div>
-        <div class="cmp-sum span-1">${Sum}</div>
     </div>
     {{/if}}
 </script>
@@ -33,4 +29,14 @@
 
 <div id="cmp-clientCampInfoWrp" class="cmp-clientCampInfoWrp span-14 prepend-1" data-campid="<?php echo $this->params['named']['campid'] ?>">
     <div class="clt-loader"><?php echo $this->Html->image('pic/clt-loader.gif'); ?></div>
+ 
+        <div  class="clt-clientHd  span-17 hide">
+        
+            <div class="cmp-titleHd span-12"><?php __('Title');?></div>
+           
+            <div class="cmp-phraseHd span-4"><?php __('Phrase');?></div>
+            
+    </div>  
+    
+    
 </div>

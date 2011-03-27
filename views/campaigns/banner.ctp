@@ -8,8 +8,28 @@
         <div class="cmp-phrase span-8">${Phrase}</div>       
 
         <div class="cmp-shows span-2 last">${Shows}</div>
+        <div class="cmp-price span-2 last">${Price}</div>
+      
+        <div class="span-3 cmp-string">
+            {{if mode}}
+                <span class="cmp-modeStr">${mode}</span>
+            {{else}}
+                <?php __("no mode set yet");?>
+            {{/if}}
+        </div>
+        {{if mode}}
+            <div class="span-1 cmp-edit"><?php __('eidt');?></div>       
+            <div class="span-1 last cmp-delete"><?php __('del');?></div>
+        {{else}}
+            <div class="span-2 last cmp-edit"><?php __('create');?></div>
+        {{/if}}
+    </div>
 
-        <div class="cmp-modes hide">
+</script>
+
+
+<script id="cmp-modesTmpl" type="text/x-jquery-tmpl">
+        <div class="cmp-modes">
             <?php
             if (isset($modes) && $modes != array()) {
                 $modesOptions = array();
@@ -30,33 +50,26 @@
             <span class="cmp-xspan">&nbsp;X&nbsp;=&nbsp;</span><input class="cmp-xinput" name="cmp-x" />&nbsp;
             <span class="cmp-save"><?php __('Save');?></span>
             <span class="cmp-close"><?php __('Close');?></span>
-            <?php //foreach ($modesOptions as $k => $v): ?>
-                <div data-func="<?php //echo $k;?>"> <?php //echo $v; ?></div>
-            <?php //endforeach; ?>
-        </div>
-      
-        <div class="span-3 cmp-string">
-            {{if mode}}
-                <span class="cmp-modeStr">${mode}</span>
-            {{else}}
-                <?php __("no mode set yet");?>
-            {{/if}}
-        </div>
-        {{if mode}}
-            <div class="span-1 cmp-edit"><?php __('eidt');?></div>       
-            <div class="span-1 cmp-delete"><?php __('del');?></div>
-        {{else}}
-            <div class="span-2 cmp-edit"><?php __('create');?></div>
-        {{/if}}
-    </div>
 
+        </div>
 </script>
 
 
+<div id="cmp-setModeBtn" class="cmp-setModeBtn span-17"><?php __('Set mode for all');?></div>
+<div id="cmp-setModeWrp" class="cmp-setModeWrp span-17 hide"></div>
 
-
-
-
-<div id="cmp-clientBannerWrp" class="cmp-clientBannerWrp span-14 prepend-1" data-bannid="<?php echo $this->params['named']['bannid'];?>">
+<div id="cmp-clientBannerWrp" class="cmp-clientBannerWrp span-17 prepend-1" data-bannid="<?php echo $this->params['named']['bannid'];?>">
     <div class="clt-loader"><?php echo $this->Html->image('pic/clt-loader.gif');?></div>
+    
+     <div  class="clt-clientHd  span-17 hide">
+
+        <div class="cmp-phraseHd span-8"><?php __('Phrase'); ?></div>
+        <div class="cmp-showsHd span-2"><?php __('Shows'); ?></div>
+        <div class="cmp-priceHd span-2"><?php __('Price'); ?></div>
+        <div class="cmp-modeHd span-3"><?php __('Mode'); ?></div>
+        <div class="cmp-actionHd span-2 last"><?php __('Action'); ?></div>
+        
+
+    </div>   
+    
 </div>

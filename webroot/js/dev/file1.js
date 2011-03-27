@@ -19,7 +19,8 @@ jQuery(document).ready(function(){
             success:function (data, textStatus) {
                 if( data.data) {
                     //alert('success'); 
-                    $file1_cltClientListWrp.empty();
+                    $file1_cltClientListWrp.find(".clt-loader").hide();
+                    $file1_cltClientListWrp.find(".clt-clientHd").show();
                     $("#clt-clientListTmpl").tmpl(data.data).appendTo($file1_cltClientListWrp);
                          
 

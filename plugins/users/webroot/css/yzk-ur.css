@@ -88,7 +88,7 @@
 }
 
 
-
+/*
 #UserUsername, #UserPassword, #UserPassword1, #UserPassword2,#UserEmail,#UserEmailReset {
     width: 200px;
     margin: 0 0 5px;
@@ -98,7 +98,16 @@
     -moz-border-radius:5px;
     -webkit-border-radius:5px;    
 }
-
+*/
+.ur-formWrapIn input{
+    width: 200px;
+    margin: 0 0 5px;
+    padding: 5px;
+    float:left;
+    
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;    
+}
 
 
 .ur-inputFormWrap{
@@ -298,12 +307,21 @@ span.mark{
     text-decoration:underline;
 }  
 
-#UserCaptcha {
+
+#ur-userCapchaReg {
     width: 120px;	
     margin:0;
-    -moz-border-radius:5px;
-    -webkit-border-radius:5px;
     padding:5px;
+    
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;     
+}
+
+
+#ur-userTosReg{
+    width: 20px;
+    float: right;
+    margin-right: 10px;
 }
 
 .capReset {
@@ -332,7 +350,7 @@ span.mark{
     -webkit-border-radius:5px;
     padding:2px;
 }
-#logSubmit, #regSubmit {
+#ur-userSubmitLog, #ur-userSubmitReg {
     padding: 0 1.3em;
 }
 

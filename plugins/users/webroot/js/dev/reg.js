@@ -1,13 +1,13 @@
 jQuery(document).ready( function(){
 	
-    var $reg_username = $("#UserUsername");
-    var $reg_email = $("#UserEmail");
+    var $reg_username = $("#ur-userNameReg");
+    var $reg_email = $("#ur-userEmailReg");
     var $reg_token = $("input[id^='Token']");
     var $reg_validEmail = '';
-    var $reg_usercaptcha = $("#UserCaptcha");
+    var $reg_usercaptcha = $("#ur-userCapchaReg");
     var $reg_userpass = {
-            pass1: $("#UserPassword1"),
-            pass2: $("#UserPassword2")
+            pass1: $("#ur-userPassReg1"),
+            pass2: $("#ur-userPassReg2")
         };
 
 
@@ -113,7 +113,7 @@ jQuery(document).ready( function(){
 
 
 
-    $('#UserPassword1').passStrengthCheck(
+    $reg_userpass.pass1.passStrengthCheck(
         "#rPass1Check",															        		
         {
             username: function(){
@@ -129,7 +129,7 @@ jQuery(document).ready( function(){
 
 
 
-    $('#UserPassword2').passIdentCheck(2,$reg_userpass);
+    $reg_userpass.pass2.passIdentCheck(2,$reg_userpass);
 																        	
 
 

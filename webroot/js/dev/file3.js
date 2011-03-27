@@ -18,8 +18,8 @@ jQuery(document).ready(function(){
             },
             success:function (data, textStatus) {
                 if( data.data) {
-                    //alert('success'); 
-                    $file3_cltClientCampInfoWrp.empty();
+                    $file3_cltClientCampInfoWrp.find(".clt-loader").hide();
+                    $file3_cltClientCampInfoWrp.find(".clt-clientHd").show();
                     $("#cmp-clientCompInfoTmpl").tmpl(data.data).appendTo($file3_cltClientCampInfoWrp);
                          
 

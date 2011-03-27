@@ -1,21 +1,3 @@
-<?php
-
-//if (!$this->Session->check('Auth.Users')) {
-//	echo $this->Form->create('User', array(
-//		'url' => array(
-//			'admin' => false,
-//			'plugin' => 'users',
-//			'controller' => 'users',
-//			'action' => 'login'),
-//		'id' => 'LoginForm'));
-//	echo $this->Form->input('email', array(
-//		'label' => __d('users', 'Email', true)));
-//	echo $this->Form->input('password', array(
-//		'label' => __d('users', 'Password', true),
-//		'type' => 'password'));
-//	echo $this->Form->end(__d('users', 'Login', true));
-//}
-//?>
 <?php echo $this->element('webroot_for_ur'); ?>
 <div class="ur-formPageLog span-24">
 	
@@ -40,7 +22,7 @@
             <?php echo $this->Form->label(__('Email', true)); ?>
         </div>
         <div class="ur-formWrapIn">
-            <?php echo $form->input('email', array()); ?>	
+            <?php echo $form->input('email', array('id'=>'ur-userEmailLog')); ?>	
         </div>
     </div>	
 
@@ -49,7 +31,7 @@
             <?php echo $form->label(__('Password', true)); ?>
         </div>
         <div class="ur-formWrapIn">
-            <?php echo $form->input('password', array('type' => 'password')); ?>
+            <?php echo $form->input('password', array('id'=>'ur-userPassLog','type' => 'password')); ?>
         </div>
         <div class="ur-formWrapTip">
             <div style="margin-top: 5px;">
@@ -71,7 +53,7 @@
 
 
     <div class="ur-formSubmitLog">			
-        <span><?php echo $form->button(__('Submit', true), array('type' => 'submit', 'id' => 'logSubmit')); ?></span>
+        <span><?php echo $form->button(__('Submit', true), array('type' => 'submit', 'id' => 'ur-userSubmitLog')); ?></span>
     </div>
 
     <?php echo $form->end(); ?>

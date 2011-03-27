@@ -17,8 +17,8 @@ jQuery(document).ready(function(){
             },
             success:function (data, textStatus) {
                 if( data.data) {
-                    //alert('success'); 
-                    $file2_cltClientCampListWrp.empty();
+                    $file2_cltClientCampListWrp.find(".clt-loader").hide();
+                    $file2_cltClientCampListWrp.find(".clt-clientHd").show();
                     $("#cmp-clientCompListTmpl").tmpl(data.data).appendTo($file2_cltClientCampListWrp);
                          
 

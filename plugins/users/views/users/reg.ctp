@@ -1,4 +1,4 @@
-<?php echo $this->element('webroot_for_ur');?>
+<?php echo $this->element('webroot_for_ur'); ?>
 
 <div class="ur-formPageReg span-24">
 
@@ -47,27 +47,27 @@
     <div class="ur-inputFormWrap">
 
         <div class="ur-formWrapLabel">
-<?php echo $form->label(__('Username', true)); ?>
+            <?php echo $form->label(__('Username', true)); ?>
         </div>
         <div class="ur-formWrapIn">
-<?php echo $form->input('username', array('div' => array("id" => "usernameWrap"), 'error' => false, 'class' => false)); ?>								
+            <?php echo $form->input('username', array('id' => 'ur-userNameReg', 'error' => false, 'class' => false)); ?>								
         </div>
 
         <div id="rName" class="ur-formWrapTip">
-<?php
-$errNameClass = 'hide';
-$okNameClass = 'hide';
-if (isset($this->validationErrors['User']['username'])) {
-    $errNameClass = '';
-} else {
-    if (isset($this->data['User']['username'])) {
-        $okNameClass = '';
-    }
-}
-?>
+            <?php
+            $errNameClass = 'hide';
+            $okNameClass = 'hide';
+            if (isset($this->validationErrors['User']['username'])) {
+                $errNameClass = '';
+            } else {
+                if (isset($this->data['User']['username'])) {
+                    $okNameClass = '';
+                }
+            }
+            ?>
 
             <div id="rNameTip" class="rTip hide">																	
-<?php __('Only letters and numbers, 16 char max.'); ?>							  																	
+                <?php __('Only letters and numbers, 16 char max.'); ?>							  																	
             </div>
 
             <div id="rNameCheck" class="rCheck hide">
@@ -76,19 +76,19 @@ if (isset($this->validationErrors['User']['username'])) {
             </div>
 
             <div id="rNameError" class="rError <?php echo $errNameClass; ?>">
-<?php
-if (isset($stopWord) && $stopWord) {
-    $stopWord = ' "' . $stopWord . '"';
-} else {
-    $stopWord = '';
-}
-echo $form->error('username', $errors['username'], array('wrap' => null)) . $stopWord;
-?>
+                <?php
+                if (isset($stopWord) && $stopWord) {
+                    $stopWord = ' "' . $stopWord . '"';
+                } else {
+                    $stopWord = '';
+                }
+                echo $form->error('username', $errors['username'], array('wrap' => null)) . $stopWord;
+                ?>
             </div>
 
             <div id="rNameOk" class="rOk <?php echo $okNameClass; ?>">
                 <span class="mark"></span>
-<?php __('Login is free'); ?>
+                <?php __('Login is free'); ?>
             </div>
 
         </div>
@@ -98,24 +98,24 @@ echo $form->error('username', $errors['username'], array('wrap' => null)) . $sto
     <div class="ur-inputFormWrap">
 
         <div class="ur-formWrapLabel">
-<?php echo $form->label(__('Password', true)); ?>
+            <?php echo $form->label(__('Password', true)); ?>
         </div>
 
         <div class="ur-formWrapIn">
-<?php echo $form->input('password1', array('type' => 'password', 'div' => array("id" => "passWrap"), 'error' => false)); ?>
+            <?php echo $form->input('password1', array('id'=>'ur-userPassReg1','type' => 'password', 'error' => false)); ?>
         </div>
 
         <div id="rPass1" class="ur-formWrapTip">	
 
-<?php
-$errPass1Class = 'hide';
-if (isset($this->validationErrors['User']['password1'])) {
-    $errPass1Class = '';
-}
-?>
+            <?php
+            $errPass1Class = 'hide';
+            if (isset($this->validationErrors['User']['password1'])) {
+                $errPass1Class = '';
+            }
+            ?>
 
             <div id="rPass1Tip" class="rTip hide">																	
-            <?php __('6 characters or more'); ?>								  																	
+                <?php __('6 characters or more'); ?>								  																	
             </div>
 
             <div id="rPass1Check" class="rCheck hide">
@@ -124,7 +124,7 @@ if (isset($this->validationErrors['User']['password1'])) {
             </div>
 
             <div id="rPass1Error" class="rError <?php echo $errPass1Class; ?>">
-<?php echo $form->error('password1', $errors['password1'], array('wrap' => null)); ?>
+                <?php echo $form->error('password1', $errors['password1'], array('wrap' => null)); ?>
             </div>
 
         </div>
@@ -132,36 +132,36 @@ if (isset($this->validationErrors['User']['password1'])) {
 
     <div class="ur-inputFormWrap">	
         <div class="ur-formWrapLabel">
-<?php echo $form->label(__('Confirm Password', true)); ?>
+            <?php echo $form->label(__('Confirm Password', true)); ?>
         </div>
         <div class="ur-formWrapIn">
-            <?php echo $form->input('password2', array('type' => 'password', 'div' => array("id" => "pass2Wrap"), 'error' => false)); ?>
+            <?php echo $form->input('password2', array('id'=>'ur-userPassReg2','type' => 'password', 'error' => false)); ?>
         </div>
 
         <div id="rPass2" class="ur-formWrapTip">
-<?php
-$errPass2Class = 'hide';
-$okPass2Class = 'hide';
-if (isset($this->validationErrors['User']['password2'])) {
-    $errPass2Class = '';
-} else {
-    if (isset($this->data['User']['password2']) && $this->data['User']['password2'] !== '') {
-        $okPass2Class = '';
-    }
-}
-?>
+            <?php
+            $errPass2Class = 'hide';
+            $okPass2Class = 'hide';
+            if (isset($this->validationErrors['User']['password2'])) {
+                $errPass2Class = '';
+            } else {
+                if (isset($this->data['User']['password2']) && $this->data['User']['password2'] !== '') {
+                    $okPass2Class = '';
+                }
+            }
+            ?>
 
             <div id="rPass2Tip" class="rTip hide">																	
-            <?php __('Passwords must be equal'); ?>								  																	
+                <?php __('Passwords must be equal'); ?>								  																	
             </div>							
 
             <div id="rPass2Check" class="rCheck hide">
 
-<?php __('Checking password'); ?>
+                <?php __('Checking password'); ?>
             </div>
 
             <div id="rPass2Error" class="rError <?php echo $errPass2Class; ?>">
-<?php echo $errors['password2']['passidentity']; ?>
+                <?php echo $errors['password2']['passidentity']; ?>
             </div>
 
             <div id="rPass2Ok" class="rOk <?php echo $okPass2Class; ?>">
@@ -174,35 +174,35 @@ if (isset($this->validationErrors['User']['password2'])) {
 
     <div class="ur-inputFormWrap">	
         <div class="ur-formWrapLabel">
-<?php echo $form->label(__('Email', true)); ?>
+            <?php echo $form->label(__('Email', true)); ?>
         </div>
         <div class="ur-formWrapIn">
-            <?php echo $form->input('email', array('div' => array("id" => "emailWrap"), "class" => "email required", 'error' => false)); ?>	
+            <?php echo $form->input('email', array('id'=>'ur-userEmailReg', "class" => "email required", 'error' => false)); ?>	
         </div>
         <div id="rEmail" class="ur-formWrapTip">
 
-<?php
-$errEmailClass = 'hide';
-$okEmailClass = 'hide';
-if (isset($this->validationErrors['User']['email'])) {
-    $errEmailClass = '';
-} else {
-    if (isset($this->data['User']['email'])) {
-        $okEmailClass = '';
-    }
-}
-?>
+            <?php
+            $errEmailClass = 'hide';
+            $okEmailClass = 'hide';
+            if (isset($this->validationErrors['User']['email'])) {
+                $errEmailClass = '';
+            } else {
+                if (isset($this->data['User']['email'])) {
+                    $okEmailClass = '';
+                }
+            }
+            ?>
 
             <div id="rEmailTip" class="rTip hide">																	
-            <?php __('Enter valid Email'); ?>								  																	
+                <?php __('Enter valid Email'); ?>								  																	
             </div>							
 
             <div id="rEmailCheck" class="rCheck hide">
-<?php __('Checking Email'); ?>
+                <?php __('Checking Email'); ?>
             </div>
 
             <div id="rEmailError" class="rError <?php echo $errEmailClass; ?>">
-<?php echo $form->error('email', $errors['email'], array('wrap' => null)); ?>
+                <?php echo $form->error('email', $errors['email'], array('wrap' => null)); ?>
             </div>
 
             <div id="rEmailOk" class="rOk <?php echo $okEmailClass; ?>">
@@ -215,28 +215,28 @@ if (isset($this->validationErrors['User']['email'])) {
 
     <div class="ur-inputFormWrap">
 
-<?php
-$errCapClass = 'hide';
+        <?php
+        $errCapClass = 'hide';
 
-if (isset($this->validationErrors['User']['captcha'])) {
-    $errCapClass = '';
-}
-?>
+        if (isset($this->validationErrors['User']['captcha'])) {
+            $errCapClass = '';
+        }
+        ?>
 
         <div class="span-4" style="padding-left: 175px;">	
-            <div class="capPlace"><?php echo $html->image(array('plugin'=>'users','controller' => 'users', 'action' => 'kcaptcha', time()), array('id' => 'capImg')); ?></div>				
+            <div class="capPlace"><?php echo $html->image(array('plugin' => 'users', 'controller' => 'users', 'action' => 'kcaptcha', time()), array('id' => 'capImg')); ?></div>				
             <div class="span-4 capReset">
-<?php echo $html->image("icons/ajax-loader1-stat.png"); ?>
+                <?php echo $html->image("icons/ajax-loader1-stat.png"); ?>
                 <span><?php __('Couldn\'t see'); ?></span>
             </div>								
         </div>					
         <div class="" style="float:left;margin:0 5px 0 0;">	
             <div><?php __('Please type in the code'); ?></div>				
-<?php echo $form->input('captcha', array('div' => array("id" => "captchaWrap"), 'error' => false)); ?>								
+            <?php echo $form->input('captcha', array('id'=>'ur-userCapchaReg', 'error' => false)); ?>								
         </div>
         <div id="rCap" class="ur-formWrapTip" style="width:185px;margin-top:17px;">	
             <div id="rCapTip" class="rTip hide">																	
-<?php __('Type the letters from picture'); ?>								  																	
+                <?php __('Type the letters from picture'); ?>								  																	
             </div>
             <div id="rCapError" class="rError <?php echo $errCapClass; ?>">
                 <?php __('Please, correct the code.') ?>
@@ -248,8 +248,8 @@ if (isset($this->validationErrors['User']['captcha'])) {
 
     <div class="ur-inputFormWrap">
 
-        <div id="reg_tos" class="ur-formWrapIn" style="text-align:right;">
-<?php echo $this->Form->input('tos', array('type'=>'checkbox','label' => false)); ?>
+        <div class="ur-formWrapIn">
+            <?php echo $this->Form->input('tos', array('id'=>'ur-userTosReg','type' => 'checkbox', 'label' => false)); ?>
         </div>
         <div class="">
             <?php echo $form->label('User', __d('users', 'I have read and agreed to ', true) . $this->Html->link(__d('users', 'Terms of Service', true), array('controller' => 'pages', 'action' => 'tos'))); ?>
@@ -260,10 +260,10 @@ if (isset($this->validationErrors['User']['captcha'])) {
 
     </div>
     <div class="ur-formSubmitReg">			
-        <span><?php echo $form->button(__('Submit', true), array('type' => 'submit', 'id' => 'regSubmit')); ?></span>
+        <span><?php echo $form->button(__('Submit', true), array('type' => 'submit', 'id' => 'ur-userSubmitReg')); ?></span>
     </div>
 
-<?php echo $form->end(); ?>
+    <?php echo $form->end(); ?>
 
 </div>
 

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 jQuery(document).ready(function(){
-    var $file4_cltClientBannerWrp = $("#cmp-clientBannerWrp");
+    var $file4_cmpClientBannerWrp = $("#cmp-clientBannerWrp");
     var $file4_selectedItem = null;
     
     var f_file4_getClientsCampInfo = function(){
@@ -18,11 +18,9 @@ jQuery(document).ready(function(){
             },
             success:function (data, textStatus) {
                 if( data.data) {
-                    //alert('success'); 
-                    $file4_cltClientBannerWrp.empty();
-                    $("#cmp-clientBannerTmpl").tmpl(data.data).appendTo($file4_cltClientBannerWrp);
-                         
-
+                    $file4_cmpClientBannerWrp.find(".clt-loader").hide();
+                    $file4_cmpClientBannerWrp.find(".clt-clientHd").show();
+                    $("#cmp-clientBannerTmpl").tmpl(data.data).appendTo($file4_cmpClientBannerWrp);
 
                 } else if(data.error){
                     alert("Error here: "+data.error);
@@ -41,21 +39,21 @@ jQuery(document).ready(function(){
 
     };
  
-    f_file4_getClientsCampInfo();
+    //f_file4_getClientsCampInfo();
     
-    $file4_cltClientBannerWrp.delegate(".cmp-client","mouseenter",function(){
+    $file4_cmpClientBannerWrp.delegate(".cmp-client","mouseenter",function(){
         $(this).addClass("clt-clientHgl");
     })
-    $file4_cltClientBannerWrp.delegate(".cmp-client","mouseleave",function(){
+    $file4_cmpClientBannerWrp.delegate(".cmp-client","mouseleave",function(){
         $(this).removeClass("clt-clientHgl");
     })
     
-    $file4_cltClientBannerWrp.delegate(".cmp-edit","click",function(){
+    $file4_cmpClientBannerWrp.delegate(".cmp-edit","click",function(){
          
         var $this = $(this);
         var $thisParent = $this.parents(".cmp-client");
         
-        $file4_cltClientBannerWrp.find(".cmp-modes").hide().end().find(".cmp-client").removeClass("cmp-clientActive");
+        $file4_cmpClientBannerWrp.find(".cmp-modes").hide().end().find(".cmp-client").removeClass("cmp-clientActive");
         $thisParent.addClass("cmp-clientActive");
         
         $thisParent.find(".cmp-modes").toggle();
@@ -138,7 +136,7 @@ jQuery(document).ready(function(){
 
 
 
-    $file4_cltClientBannerWrp.delegate(".cmp-save","click",f_file4_savePhraseMode);
+    $file4_cmpClientBannerWrp.delegate(".cmp-save","click",f_file4_savePhraseMode);
          
 
 
@@ -147,7 +145,7 @@ jQuery(document).ready(function(){
  
      
     
-    $file4_cltClientBannerWrp.delegate(".cmp-close","click",function(){
+    $file4_cmpClientBannerWrp.delegate(".cmp-close","click",function(){
         var $this = $(this);
         var $thisParent = $this.parents(".cmp-client");
         
@@ -156,7 +154,7 @@ jQuery(document).ready(function(){
 
     })
     
-    $file4_cltClientBannerWrp.delegate(".cmp-delete","click",function(){
+    $file4_cmpClientBannerWrp.delegate(".cmp-delete","click",function(){
        
         if (confirm('Are you sure to delete?')) {
             var $this = $(this);
@@ -202,4 +200,16 @@ jQuery(document).ready(function(){
             }); 
         }
     })
+    
+    
+    var $file4_cmpSetModeWrp = $("#cmp-setModeWrp");
+    
+    $("#cmp-setModeBtn").click(function(){
+        $("#cmp-modesTmpl").tmpl().appendTo($file4_cmpSetModeWrp);
+        $file4_cmpSetModeWrp.toggle();
+    })
+    
+    
+    
+    
 });
