@@ -22,14 +22,15 @@
     background-color: SeaShell;
 }
 .cmp-modes{
-    float: left;
+    /*float: left;
     position: absolute;
     top: 25px;
     left: -10px;
-    
+    */
     border: 2px solid gray;
     background-color: goldenrod;
     padding: 1em;
+    margin: 5px 0;
         
     z-index: 1000;
 }
