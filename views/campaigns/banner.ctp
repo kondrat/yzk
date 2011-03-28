@@ -1,7 +1,4 @@
 <?php echo $this->Html->script(array('dev/file4'));?>
-<h4>Campaign: </h4>
-
-
 <script id="cmp-clientBannerTmpl" type="text/x-jquery-tmpl">
 
     <div  class="cmp-client  span-18">
@@ -27,8 +24,6 @@
     </div>
 
 </script>
-
-
 <script id="cmp-modesTmpl" type="text/x-jquery-tmpl">
         <div class="cmp-modes">
             <?php
@@ -55,6 +50,26 @@
         </div>
 </script>
 
+<div class="span-17" style="background-color: #EEEEEE; margin-bottom: 5px;padding: 3px;">
+    <div class="span-17">
+        <?php echo $this->Html->link(__("clients",true),array('plugin'=>null,'controller'=>'clients','action'=>'index'));?>&nbsp;/&nbsp;
+        <?php echo $this->Html->link(__("campaigns",true),array('plugin'=>null,'controller'=>'campaigns','action'=>'index','client'=>$this->params['named']['client']));?>&nbsp;/&nbsp;
+        <?php echo $this->Html->link(__("banners",true),
+                array('plugin'=>null,
+                    'controller'=>'campaigns',
+                    'action'=>'campaign',
+                    'campid'=>$this->params['named']['campid'],
+                    'campname'=>$this->params['named']['campname'],
+                    'client'=>$this->params['named']['client'])
+                );?>&nbsp;/&nbsp;
+        <?php __('phrases'); ?>:
+    </div>
+    <div class="span-17">
+        <?php __('Client');?>:&nbsp;<span style="font-style: italic;color: brown;"><?php echo $this->params['named']['client'];?></span>,
+        <?php __('Campaign');?>:&nbsp;<span style="font-style: italic;color: brown;"><?php echo $this->params['named']['campname'];?></span>,
+        <?php __('Banner');?>:&nbsp;<span style="font-style: italic;color: brown;"><?php echo $this->params['named']['banname'];?></span>
+    </div>
+</div
 
 <div id="cmp-setModeBtn" class="cmp-setModeBtn span-17"><?php __('Set mode for all');?></div>
 <div id="cmp-setModeWrp" class="cmp-setModeWrp span-17 hide"></div>

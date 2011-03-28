@@ -1,4 +1,3 @@
-<h3><?php __('Clients'); ?> </h3>
 <?php echo $this->Html->script(array('dev/file1')); ?>
 <script id="clt-clientListTmpl" type="text/x-jquery-tmpl">
 
@@ -42,6 +41,7 @@
     </div>
 </script>
 
+<div class="span-17" style="background-color: #EEEEEE; margin-bottom: 5px;padding: 3px;"><?php __('Clients list for agancy:'); ?>&nbsp;<b><?php echo $this->Session->read('Auth.User.email');?></b></div>
 <div id="clt-clientListWrp" class="clt-clientListWrp span-14 prepend-1">
     
     <div class="clt-loader"><?php echo $this->Html->image('pic/clt-loader.gif'); ?></div>

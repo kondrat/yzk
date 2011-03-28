@@ -66,7 +66,7 @@ class PagesController extends AppController {
                 if($this->Auth->user('group_id') == 3 ){
                     $this->redirect(array('plugin'=> null,'controller'=>'clients','action'=>'index'));
                 } elseif ($this->Auth->user('group_id') == 4) {
-                    $this->redirect(array('plugin'=> null,'controller'=>'campaigns','action'=>'index'));
+                    $this->redirect(array('plugin'=> null,'controller'=>'campaigns','action'=>'index','client'=>$this->Auth->user('ynLogin')));
                 } else {
                     
                 }

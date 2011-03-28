@@ -334,13 +334,13 @@ class UsersController extends AppController {
             if ($userGroupId == 3) {
                 $this->redirect(array('plugin' => null, 'controller' => 'clients', 'action' => 'index'));
             } elseif ($userGroupId == 4) {
-                echo 'i\'m user';
+                
                 $regUserYnLogin = $this->User->Client->find('first',array(
                     'conditions'=>array( 'Client.user_id'=>$userId),
                     'contain'=>false
                 ));
                 
-                
+                $this->Session->write('Auth.User.ynLogin', $regUserYnLogin['Client']['ynname']);
                 $this->redirect(array('plugin' => null, 'controller' => 'campaigns', 'action' => 'index','client'=>$regUserYnLogin['Client']['ynname']));
             }
 

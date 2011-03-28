@@ -51,7 +51,7 @@
                     if($this->Session->read('Auth.User.group_id') == 3){
                         $whereTheHomePage = array('plugin'=>null,'controller'=>'clients','action'=>'index');
                     } elseif ($this->Session->read('Auth.User.group_id') == 4) {
-                        $whereTheHomePage = array('plugin'=>null,'controller'=>'campaings','action'=>'index');
+                        $whereTheHomePage = array('plugin'=>null,'controller'=>'campaigns','action'=>'index','client'=>$this->Session->read('Auth.User.ynLogin'));
                     } else {
                         $whereTheHomePage = '/';
                     }

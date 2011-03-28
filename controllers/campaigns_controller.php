@@ -35,47 +35,73 @@ class CampaignsController extends AppController {
      * 
      */
     function index() {
-        
+
         $this->set('title_for_layout', __('Campaigns', true));
         $this->set('menuType', 'regged');
-        
+
         $clientName = null;
+
+
         if (isset($this->params['named']['client']) && $this->params['named']['client'] !== null) {
-            $clientName = $this->params['named']['client'];
-        } else {
+
+            if ($this->Auth->user('group_id') == 4) {
+                
+                $clientName = $this->Auth->user('ynLogin');
+                if($clientName != $this->params['named']['client']){
+                    $this->redirect('/');
+                }
+                
+                
+            } else {
+                $clientName = Sanitize::paranoid($this->params['named']['client'], array('-'));
+            }
             
+        } else {
+            if ($this->Auth->user('group_id') == 4) {
+                $clientName = $this->Auth->user('ynLogin');
+            }
         }
-        
+
+
         $this->set('clientName', $clientName);
         //$authUserId = $this->Auth->user('id');
     }
 
     /**
-     *  retriving data from api.direct.yandex.ru via ajax
+     *  retriving given client's campaings from api.direct.yandex.ru via ajax
      * @param
      * 
-     * @return type json
+     * @return json
      * @access public
      */
     public function getYnCampList() {
 
+        $clientName = NULL;
 
         if ($this->RequestHandler->isAjax()) {
 
             Configure::write('debug', 0);
             $this->autoLayout = false;
             $this->autoRender = FALSE;
-            
+
             $pathToCerts = Configure::read('pathToCerts');
-            
-            //@todo sinitize this and remove decode - encode
-            $params = array($this->data['clname']);
-            
-            $resAllCampaigns = json_decode($this->getYnData->getYnData($pathToCerts,'GetCampaignsList', $params), TRUE);  
 
- 
+            $clientName = Sanitize::paranoid($this->data['clname'], array('-'));
 
-            $content = json_encode( $resAllCampaigns );
+  
+
+                if ($this->Auth->user('group_id') == 4) {
+                    $clientName = $this->Auth->user('ynLogin');
+                } else {
+                    $clientName = Sanitize::paranoid($this->data['clname'], array('-'));
+                }
+
+
+                $params = array($clientName);
+                $content = $this->getYnData->getYnData($pathToCerts, 'GetCampaignsList', $params);
+
+
+            
             $this->header('Content-Type: application/json');
             return ($content);
         }

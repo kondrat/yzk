@@ -1,12 +1,4 @@
 <?php echo $this->Html->script(array('dev/file2')); ?>
-
-<?php if ($clientName): ?>
-    <h4><?php echo '<span style="color:gray;font-size:large;">' . $clientName . '</span>' . __("'s companies", true); ?> </h4>   
-<?php else: ?>
-    <h3><?php __('Client\'s companies'); ?> </h3>
-<?php endif ?>
-
-
     <script id="cmp-clientCompListTmpl" type="text/x-jquery-tmpl">
         
         {{if IsActive == 'Yes'}}
@@ -15,7 +7,7 @@
             <div class="cmp-name span-4">
             <?php echo $this->Html->link('${Name}', array(
                 'plugin' => false,
-                'controller' => 'campaigns', 'action' => 'campaign', 'campid' => '${CampaignID}', 'campname' => '${Name}')
+                'controller' => 'campaigns', 'action' => 'campaign', 'campid' => '${CampaignID}', 'campname' => '${Name}','client'=>$clientName)
             );
             ?>
             </div>
@@ -27,6 +19,11 @@
         {{/if}}
     </script>
 
+<div class="span-17" style="background-color: #EEEEEE; margin-bottom: 5px;padding: 3px;">
+    <div class="span-17"><?php echo $this->Html->link(__("clients",true),array('plugin'=>null,'controller'=>'clients','action'=>'index'));?>&nbsp;/&nbsp;<?php __('campagins'); ?>:</div>
+    <div class="span-17"><?php __('Client');?>:&nbsp;<span style="font-style: italic;color: brown;"><?php echo $clientName;?></span></div>
+</div>
+    
 <div id="cmp-clientCampListWrp" class="cmp-clientCampListWrp span-14 prepend-1" data-clname="<?php echo $clientName; ?>">
     <div class="clt-loader"><?php echo $this->Html->image('pic/clt-loader.gif'); ?></div>
 
@@ -39,8 +36,5 @@
         <div class="cmp-sumHd span-1"><?php __('Sum'); ?></div>
 
     </div>    
-
-
-
-
+    
 </div>
