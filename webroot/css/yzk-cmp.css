@@ -15,11 +15,13 @@
 .cmp-client{
     border-bottom: 1px solid #eee;
     position: relative;
-    padding-bottom: 4px;
+    padding: 4px 0;
 }
 .cmp-clientActive{
     color: goldenrod;
     background-color: SeaShell;
+    border-bottom: 2px solid;
+    border-top: 2px solid;
 }
 .cmp-modes{
     /*float: left;
@@ -27,9 +29,9 @@
     top: 25px;
     left: -10px;
     */
-    border: 2px solid gray;
-    background-color: goldenrod;
-    padding: 1em;
+    border: 2px solid #ddd;
+    background-color: #529214;
+    padding: 2px 20px;
     margin: 5px 0;
         
     z-index: 1000;
@@ -41,11 +43,20 @@
     text-align: center;
     cursor: pointer;
 }
+.cmp-modesEditWrp .cmp-modes{
+    background-color: goldenrod;
+}
 .cmp-clientActive .cmp-edit{
     background-color: goldenrod;
 }
 .cmp-edit:hover{
     color: green;
+}
+.cmp-editDis{
+    background-color: #ddd;
+    border: 1px solid #eee;
+    color: #FFFFFF;
+    text-align: center;   
 }
 .cmp-delete:hover{
     color: #ff9999;
@@ -73,6 +84,12 @@
     color: #2A801B;
 }
 .cmp-setModeBtn{
+    background-color: #529214;
+    border: 1px solid #2A801B;
+    color: #FFFFFF;
     cursor: pointer;
+    float: left;
+    margin: 5px;
+    padding: 2px 5px;
 }
 

@@ -2,7 +2,7 @@
 <script id="cmp-clientBannerTmpl" type="text/x-jquery-tmpl">
 
     <div  class="cmp-client  span-18">
-        <div class="span-1"><?php echo $this->Form->checkbox('toMode');?></div>
+        <div class="span-1"><?php echo $this->Form->checkbox('toMode', array('id'=>'ch-${PhraseID}' ,'disabled'=>'disabled'));?></div>
         <div class="cmp-phrase span-8">${Phrase}</div>       
 
         <div class="cmp-shows span-2 last">${Shows}</div>
@@ -21,6 +21,7 @@
         {{else}}
             <div class="span-2 last cmp-edit"><?php __('create');?></div>
         {{/if}}
+        <div class="cmp-modesEditWrp span-18"></div>
     </div>
 
 </script>
@@ -71,21 +72,22 @@
     </div>
 </div
 
-<div id="cmp-setModeBtn" class="cmp-setModeBtn span-17"><?php __('Set mode for all');?></div>
+<div class="span-17">
+    <div id="cmp-setModeBtn" class="cmp-setModeBtn"><?php __('Set mode for all phrases');?></div>
+</div>
 <div id="cmp-setModeWrp" class="cmp-setModeWrp span-17 hide"></div>
 
 <div id="cmp-clientBannerWrp" class="cmp-clientBannerWrp span-18" data-bannid="<?php echo $this->params['named']['bannid'];?>">
     <div class="clt-loader"><?php echo $this->Html->image('pic/clt-loader.gif');?></div>
     
      <div  class="clt-clientHd  span-18 hide">
-        <div class="span-1"><?php echo $this->Form->checkbox('toMode');?></div>
+        <div class="span-1"><?php echo $this->Form->checkbox('toMode', array('disabled'=>'disabled'));?></div>
         <div class="cmp-phraseHd span-8"><?php __('Phrase'); ?></div>
         <div class="cmp-showsHd span-2"><?php __('Shows'); ?></div>
         <div class="cmp-priceHd span-2"><?php __('Price'); ?></div>
         <div class="cmp-modeHd span-3"><?php __('Mode'); ?></div>
         <div class="cmp-actionHd span-2 last"><?php __('Action'); ?></div>
         
-
     </div>   
     
 </div>

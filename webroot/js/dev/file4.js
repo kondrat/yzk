@@ -5,6 +5,9 @@
 jQuery(document).ready(function(){
     var $file4_cmpClientBannerWrp = $("#cmp-clientBannerWrp");
     var $file4_selectedItem = null;
+    var $file4_checkBoxes = null;
+    var $file4_checkBoxesCh = null;
+    var $file4_modeEditBtn = null;
     
     var f_file4_getClientsCampInfo = function(){
                 
@@ -22,6 +25,11 @@ jQuery(document).ready(function(){
                     $file4_cmpClientBannerWrp.find(".clt-clientHd").show();
                     $("#cmp-clientBannerTmpl").tmpl(data.data).appendTo($file4_cmpClientBannerWrp);
 
+                    $file4_checkBoxes = $file4_cmpClientBannerWrp.find("input:checkbox");
+                    $file4_checkBoxesCh = $file4_cmpClientBannerWrp.find('input[id|="ch"]');
+                    $file4_modeEditBtn = $file4_cmpClientBannerWrp.find('.cmp-edit');
+                    
+                    
                 } else if(data.error){
                     alert("Error here: "+data.error);
                 } else if(data.error_code){
@@ -52,11 +60,11 @@ jQuery(document).ready(function(){
          
         var $this = $(this);
         var $thisParent = $this.parents(".cmp-client");
-        
-        $file4_cmpClientBannerWrp.find(".cmp-modes").hide().end().find(".cmp-client").removeClass("cmp-clientActive");
+        var $thisModesEditor = $thisParent.find(".cmp-modesEditWrp");
+        $file4_cmpClientBannerWrp.find(".cmp-modes").remove().end().find(".cmp-client").removeClass("cmp-clientActive");
         $thisParent.addClass("cmp-clientActive");
-        
-        $thisParent.find(".cmp-modes").toggle();
+       
+        $("#cmp-modesTmpl").tmpl().appendTo($thisModesEditor);
         
     })
 
@@ -67,7 +75,8 @@ jQuery(document).ready(function(){
         var $thisParent = $this.parents(".cmp-client");
 
         $file4_selectedItem  = $.tmplItem(this);
-
+        
+        console.log($file4_selectedItem);
 
 
         var mode = $thisParent.find("select").val();
@@ -203,14 +212,36 @@ jQuery(document).ready(function(){
     
     
     var $file4_cmpSetModeWrp = $("#cmp-setModeWrp");
+    
     $("#cmp-modesTmpl").tmpl().appendTo($file4_cmpSetModeWrp);
     
     $("#cmp-setModeBtn").click(function(){
+        $this = $(this);
         
-        $file4_cmpSetModeWrp.toggle();
+        if( $file4_cmpSetModeWrp.is(":hidden") ){
+           $file4_checkBoxes.attr({"disabled":false});
+           $file4_checkBoxes.attr({"checked":true});
+           $file4_cmpSetModeWrp.show();
+           $file4_modeEditBtn.removeClass('cmp-edit').addClass('cmp-editDis');
+        } else {
+           $file4_checkBoxes.attr({"disabled":"disabled"}); 
+           $file4_checkBoxes.attr({"checked":false}); 
+           $file4_cmpSetModeWrp.hide();
+           $file4_modeEditBtn.removeClass('cmp-editDis').addClass('cmp-edit');
+        }
+        
+
+    })    
+
+    $("#toMode").click(function(){
+        var $this = $(this);
+        if($this.attr("checked") == true){
+           $file4_checkBoxesCh.attr({"checked":true});
+        } else if($this.attr("checked") == false) {
+           $file4_checkBoxesCh.attr({"checked":false}); 
+        }      
     })
-    
-    
+
     
     
 });
