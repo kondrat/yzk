@@ -75,7 +75,7 @@
 <div class="span-17">
     <div id="cmp-setModeBtn" class="cmp-setModeBtn"><?php __('Set mode for all phrases');?></div>
 </div>
-<div id="cmp-setModeWrp" class="cmp-setModeWrp span-17 hide"></div>
+<div id="cmp-setModeWrp" class="cmp-setModeWrp span-18 hide"></div>
 
 <div id="cmp-clientBannerWrp" class="cmp-clientBannerWrp span-18" data-bannid="<?php echo $this->params['named']['bannid'];?>">
     <div class="clt-loader"><?php echo $this->Html->image('pic/clt-loader.gif');?></div>

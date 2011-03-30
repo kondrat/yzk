@@ -37,11 +37,15 @@
     z-index: 1000;
 }
 .cmp-edit, .cmp-delete{
-    background-color: #6299C5;
-    border: 1px solid RosyBrown;
+    background-color: #ccc;
+    border: 1px solid #ddd;
     color: #FFFFFF;
     text-align: center;
     cursor: pointer;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 .cmp-modesEditWrp .cmp-modes{
     background-color: goldenrod;
@@ -50,16 +54,20 @@
     background-color: goldenrod;
 }
 .cmp-edit:hover{
-    color: green;
+    background-color: goldenrod;
+    
 }
-.cmp-editDis{
+.cmp-editDis, .cmp-deleteDis{
     background-color: #ddd;
     border: 1px solid #eee;
     color: #FFFFFF;
-    text-align: center;   
+    text-align: center;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 .cmp-delete:hover{
-    color: #ff9999;
     background-color: #ff0033;
 }
 .cmp-xspan{
@@ -91,5 +99,9 @@
     float: left;
     margin: 5px;
     padding: 2px 5px;
+    
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 

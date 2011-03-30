@@ -8,6 +8,7 @@ jQuery(document).ready(function(){
     var $file4_checkBoxes = null;
     var $file4_checkBoxesCh = null;
     var $file4_modeEditBtn = null;
+    var $file4_modeDelBtn = null;
     
     var f_file4_getClientsCampInfo = function(){
                 
@@ -26,8 +27,9 @@ jQuery(document).ready(function(){
                     $("#cmp-clientBannerTmpl").tmpl(data.data).appendTo($file4_cmpClientBannerWrp);
 
                     $file4_checkBoxes = $file4_cmpClientBannerWrp.find("input:checkbox");
-                    $file4_checkBoxesCh = $file4_cmpClientBannerWrp.find('input[id|="ch"]');
+                    //$file4_checkBoxesCh = $file4_cmpClientBannerWrp.find('input[id|="ch"]');
                     $file4_modeEditBtn = $file4_cmpClientBannerWrp.find('.cmp-edit');
+                    $file4_modeDelBtn = $file4_cmpClientBannerWrp.find('.cmp-delete');
                     
                     
                 } else if(data.error){
@@ -68,17 +70,25 @@ jQuery(document).ready(function(){
         
     })
 
+    $file4_cmpClientBannerWrp.delegate(".cmp-close","click",function(){
+        var $this = $(this);
+        var $thisParent = $this.parents(".cmp-client");
+        
+        $thisParent.find(".cmp-modes").hide().end().removeClass("cmp-clientActive");
+
+
+    })
+
+
+
     //saving phrase.
     var f_file4_savePhraseMode = function(action){
 
         var $this = $(this);
         var $thisParent = $this.parents(".cmp-client");
 
-        $file4_selectedItem  = $.tmplItem(this);
+        $file4_selectedItem  = $.tmplItem($thisParent);
         
-        console.log($file4_selectedItem);
-
-
         var mode = $thisParent.find("select").val();
         
         var modeX = $thisParent.find(".cmp-xinput").val();
@@ -143,8 +153,6 @@ jQuery(document).ready(function(){
 
     };
 
-
-
     $file4_cmpClientBannerWrp.delegate(".cmp-save","click",f_file4_savePhraseMode);
          
 
@@ -154,14 +162,7 @@ jQuery(document).ready(function(){
  
      
     
-    $file4_cmpClientBannerWrp.delegate(".cmp-close","click",function(){
-        var $this = $(this);
-        var $thisParent = $this.parents(".cmp-client");
-        
-        $thisParent.find(".cmp-modes").hide().end().removeClass("cmp-clientActive");
 
-
-    })
     
     $file4_cmpClientBannerWrp.delegate(".cmp-delete","click",function(){
        
@@ -169,7 +170,7 @@ jQuery(document).ready(function(){
             var $this = $(this);
             var $thisParent = $this.parents(".cmp-client");
         
-            $file4_selectedItem  = $.tmplItem(this);
+            $file4_selectedItem  = $.tmplItem($thisParent);
 
             var campId = $file4_selectedItem.data.CampaignID;
             var banId = $file4_selectedItem.data.BannerID;
@@ -216,18 +217,21 @@ jQuery(document).ready(function(){
     $("#cmp-modesTmpl").tmpl().appendTo($file4_cmpSetModeWrp);
     
     $("#cmp-setModeBtn").click(function(){
-        $this = $(this);
+        var $this = $(this);
         
         if( $file4_cmpSetModeWrp.is(":hidden") ){
            $file4_checkBoxes.attr({"disabled":false});
            $file4_checkBoxes.attr({"checked":true});
            $file4_cmpSetModeWrp.show();
            $file4_modeEditBtn.removeClass('cmp-edit').addClass('cmp-editDis');
+           $file4_modeDelBtn.removeClass('cmp-delete').addClass('cmp-deleteDis');
+           $file4_cmpClientBannerWrp.find(".cmp-modes").remove().end().find(".cmp-client").removeClass("cmp-clientActive");
         } else {
            $file4_checkBoxes.attr({"disabled":"disabled"}); 
            $file4_checkBoxes.attr({"checked":false}); 
            $file4_cmpSetModeWrp.hide();
            $file4_modeEditBtn.removeClass('cmp-editDis').addClass('cmp-edit');
+           $file4_modeDelBtn.removeClass('cmp-deleteDis').addClass('cmp-delete');
         }
         
 
@@ -236,12 +240,100 @@ jQuery(document).ready(function(){
     $("#toMode").click(function(){
         var $this = $(this);
         if($this.attr("checked") == true){
-           $file4_checkBoxesCh.attr({"checked":true});
+           $file4_cmpClientBannerWrp.find('input[id|="ch"]').attr({"checked":true});
         } else if($this.attr("checked") == false) {
-           $file4_checkBoxesCh.attr({"checked":false}); 
+           $file4_cmpClientBannerWrp.find('input[id|="ch"]').attr({"checked":false}); 
         }      
     })
 
+ 
+    var f_file4_savePhraseModeAll = function(){
+        
+        var $this = $(this);
+        
+        var $phrases = $file4_cmpClientBannerWrp.find(".cmp-client");
+        var allData = new Object;
+        var updated = new Object;
+        $phrases.each(function(i){
+            updated[i] = 0;
+            if( $(this).find('input[id|="ch"]').next().attr("checked") == true ){
+                
+                var $item  = $.tmplItem(this);
+                allData[i] = new Object;
+                allData[i].phId = $item.data.PhraseID;
+                allData[i].bnId = $item.data.BannerID;
+                allData[i].cmId = $item.data.CampaignID;
+                updated[i] = 1;
+            } 
+        }) 
+        //console.log(allData);
+        
+        var mode = $("#cmp-setModeWrp").find("select").val();
+        
+        var modeX = $("#cmp-setModeWrp").find(".cmp-xinput").val();
+
+        if(mode ==""){
+            alert("Please, select the mode");
+            return;
+        }
+        if(modeX ==""){
+            alert("Please, select the number");
+            return;
+        }       
+        
+        var modeData = {
+            "data[mode]":mode,
+            "data[modeX]":modeX,
+            "data[ph]":allData
+        };
+        
+        
+        $.ajax({
+            dataType:"json",
+            url: path+"\/phrases\/savePhrModeAll",
+            type: "POST",
+            data: modeData,
+            success:function (data, textStatus) {
+                if( data.data) {
+                    //alert(data.data.mode);
+                    
+                    $phrases.each(function(i){
+                        
+                        if(updated[i] == 1){
+                           var $item  = $.tmplItem(this);
+                           $item.data.mode = data.data.mode;
+                           $item.update();                           
+                           
+                        }
+                        
+                    });
+                    
+                    
+
     
+
+
+                } else if(data.error){
+                    alert("Error here: "+data.error);
+                } else if(data.error_code){
+                    alert(data.error_code+' | '+data.error_detail+' | '+data.error_str);
+                } else {
+                    //flash_message("Couldn't be deleted", "fler" );
+                    alert('No Data')
+                }
+            },
+                    
+            error:function(){
+                alert('Problem with the server. Try again later.');
+            }
+        }); 
+
+          
+        
+        
+    };
+ 
+    $("#cmp-setModeWrp").find(".cmp-save").click(f_file4_savePhraseModeAll);
+ 
     
 });
