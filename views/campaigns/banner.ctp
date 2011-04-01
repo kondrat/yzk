@@ -74,6 +74,7 @@
 
 <div class="span-17">
     <div id="cmp-setModeBtn" class="cmp-setModeBtn"><?php __('Set mode for all phrases');?></div>
+    <div id="cmp-unSetModeBtn" class="cmp-unSetModeBtn"><?php __('UnSet mode for all phrases');?></div>
 </div>
 <div id="cmp-setModeWrp" class="cmp-setModeWrp span-18 hide"></div>
 

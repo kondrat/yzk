@@ -85,7 +85,7 @@
 
         <div class="container" style="">
             <div class="lt-pagefooter"> 
-                <div class="span-24s">
+                <div class="span-18">
                     <div class="lt-footerNote">
                         <?php echo $html->link($_SERVER['HTTP_HOST'], "/"); ?> &copy;<?php echo date('Y'); ?>
                     </div>

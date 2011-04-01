@@ -92,7 +92,12 @@ class UpdatePriceShell extends Shell {
         //getting information about banners.
         foreach ($resAllCampaignsIdbatch10 as $k2 => $v2) {
 
-            $params2 = array('CampaignIDS' => $v2, 'Filter' => array('StatusArchive' => array('No')));
+            $params2 = array(
+                'CampaignIDS' => $v2, 
+                'Filter' => array('StatusArchive' => array('No'),
+                                    'IsActive' => array('Yes')
+                    )
+                );
             $tempBanners = json_decode($getYnData->getYnData($pathToCerts, 'GetBanners', $params2), TRUE);
             $resAllBanners[] = $tempBanners['data'];
             unset($tempBanners);

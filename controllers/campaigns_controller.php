@@ -64,9 +64,52 @@ class CampaignsController extends AppController {
 
 
         $this->set('clientName', $clientName);
-        //$authUserId = $this->Auth->user('id');
+     
     }
 
+    
+     /**
+     * @return type
+     * 
+     */
+    function index2() {
+
+        $this->set('title_for_layout', __('Campaigns', true));
+        $this->set('menuType', 'regged');
+
+        $clientName = null;
+
+
+        if (isset($this->params['named']['client']) && $this->params['named']['client'] !== null) {
+
+            if ($this->Auth->user('group_id') == 4) {
+                
+                $clientName = $this->Auth->user('ynLogin');
+                if($clientName != $this->params['named']['client']){
+                    $this->redirect('/');
+                }
+                
+                
+            } else {
+                $clientName = Sanitize::paranoid($this->params['named']['client'], array('-'));
+            }
+            
+        } else {
+            if ($this->Auth->user('group_id') == 4) {
+                $clientName = $this->Auth->user('ynLogin');
+            }
+        }
+
+
+        $this->set('clientName', $clientName);
+     
+    }   
+    
+    
+    
+    
+    
+    
     /**
      *  retriving given client's campaings from api.direct.yandex.ru via ajax
      * @param
@@ -97,8 +140,11 @@ class CampaignsController extends AppController {
                 }
 
 
-                $params = array($clientName);
-                $content = $this->getYnData->getYnData($pathToCerts, 'GetCampaignsList', $params);
+                $params = array(
+                                'Logins' => array($clientName),
+                                'Filter' => array('StatusArchive'=>array('No'))
+                    );
+                $content = $this->getYnData->getYnData($pathToCerts, 'GetCampaignsListFilter', $params);
 
 
             
@@ -122,7 +168,7 @@ class CampaignsController extends AppController {
         $this->set('title_for_layout', __('Campaign', true));
         $this->set('menuType', 'regged');
 
-        $authUserId = $this->Auth->user('id');
+        //$authUserId = $this->Auth->user('id');
     }
 
     /**
@@ -141,7 +187,12 @@ class CampaignsController extends AppController {
             $this->autoRender = FALSE;
             
             $pathToCerts = Configure::read('pathToCerts');
-            $params = array('CampaignIDS'=>array($this->data['campid']));
+            $params = array('CampaignIDS'=>array($this->data['campid']),
+                            'Filter' => array(
+                                'StatusArchive'=> array('No'),
+                                'IsActive'=>array('Yes')
+                            )
+                );
             
             $resAllBanners = json_decode($this->getYnData->getYnData($pathToCerts,'GetBanners', $params), TRUE);          
             
@@ -163,7 +214,7 @@ class CampaignsController extends AppController {
         $this->set('title_for_layout', __('Banner', true));
         $this->set('menuType', 'regged');
 
-        $authUserId = $this->Auth->user('id');
+        //$authUserId = $this->Auth->user('id');
         
 
 
@@ -208,6 +259,11 @@ class CampaignsController extends AppController {
             $modes = $this->setPrice->modes;
             
             foreach ($resAllPhrases['data'] as $k => $v){
+                //here we cutting off "stop words"
+                $pos = strpos($resAllPhrases['data'][$k]['Phrase'], '-');
+                if($pos){
+                   $resAllPhrases['data'][$k]['Phrase'] = substr($resAllPhrases['data'][$k]['Phrase'], 0, $pos-1); 
+                }
                 
                 foreach ($phrasesFromDb as $k2=>$v2){
                     if( $v["PhraseID"] == $v2['Phrase']['phrase_yn_id']){

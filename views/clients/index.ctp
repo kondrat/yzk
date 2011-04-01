@@ -4,7 +4,7 @@
        {{if StatusArch == 'No'}}
         <div  class="clt-client  span-17">
           
-            <div class="clt-login span-4"><?php echo $this->Html->link('${Login}', array("controller" => "campaigns", "action" => "index", "client" => '${Login}')); ?></div>
+            <div class="clt-login span-4"><?php echo $this->Html->link('${Login}', array("controller" => "campaigns", "action" => "index2", "client" => '${Login}')); ?></div>
             <div class="clt-fio span-4">${FIO}</div>
             {{if Phone}}
             <div class="clt-phone span-3">${Phone}</div>

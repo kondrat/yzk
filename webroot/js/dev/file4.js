@@ -335,5 +335,8 @@ jQuery(document).ready(function(){
  
     $("#cmp-setModeWrp").find(".cmp-save").click(f_file4_savePhraseModeAll);
  
+    $("#cmp-unSetModeBtn").click(function(){
+        alert('Not done yet, sorry');
+    });
     
 });

@@ -36,14 +36,6 @@ class ClientsController extends AppController {
      */
     public function index() {
         $this->set('title_for_layout', __('Clients', true));
-
-        $authUserId = $this->Auth->user('id');
-
-        $t = $this->Client->find('all', array(
-                    'conditions' => array('user_id' => $authUserId)
-                        )
-        );
-        
         $this->set('menuType', 'regged');
     }
 

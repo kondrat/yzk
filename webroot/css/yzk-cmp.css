@@ -17,6 +17,12 @@
     position: relative;
     padding: 4px 0;
 }
+/*
+.cmp-client:hover{
+    background-color: #E6EFC2;
+    border-bottom: 1px solid #ddd;
+}
+*/
 .cmp-clientActive{
     color: goldenrod;
     background-color: SeaShell;
@@ -37,9 +43,9 @@
     z-index: 1000;
 }
 .cmp-edit, .cmp-delete{
-    background-color: #ccc;
+    background-color: #eee;
     border: 1px solid #ddd;
-    color: #FFFFFF;
+    color: gray;
     text-align: center;
     cursor: pointer;
 
@@ -55,6 +61,7 @@
 }
 .cmp-edit:hover{
     background-color: goldenrod;
+    color: #fff;
     
 }
 .cmp-editDis, .cmp-deleteDis{
@@ -69,6 +76,7 @@
 }
 .cmp-delete:hover{
     background-color: #ff0033;
+    color: #fff;
 }
 .cmp-xspan{
     color: #fff;
@@ -91,10 +99,7 @@
     font-weight: bold;
     color: #2A801B;
 }
-.cmp-setModeBtn{
-    background-color: #529214;
-    border: 1px solid #2A801B;
-    color: #FFFFFF;
+.cmp-setModeBtn, .cmp-unSetModeBtn{
     cursor: pointer;
     float: left;
     margin: 5px;
@@ -102,6 +107,22 @@
     
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    border-radius: 5px;
+    border-radius: 5px;   
+}
+.cmp-setModeBtn{
+    background-color: #529214;
+    border: 1px solid #2A801B;
+    color: #FFFFFF;
+
+}
+.cmp-unSetModeBtn{
+    background-color: #eee;
+    border: 1px solid #ddd;
+    color: gray;
+}
+.cmp-navBar{
+    background-color: #EEEEEE;
+    margin-bottom: 5px;
+    padding: 3px;
 }
 

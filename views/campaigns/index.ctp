@@ -7,7 +7,7 @@
             <div class="cmp-name span-4">
             <?php echo $this->Html->link('${Name}', array(
                 'plugin' => false,
-                'controller' => 'campaigns', 'action' => 'campaign', 'campid' => '${CampaignID}', 'campname' => '${Name}','client'=>$clientName)
+                'controller' => 'campaigns','action' => 'campaign','client'=>$clientName,'campid' => '${CampaignID}','campname' => '${Name}')
             );
             ?>
             </div>
@@ -19,9 +19,9 @@
         {{/if}}
     </script>
 
-<div class="span-17" style="background-color: #EEEEEE; margin-bottom: 5px;padding: 3px;">
-    <div class="span-17"><?php echo $this->Html->link(__("clients",true),array('plugin'=>null,'controller'=>'clients','action'=>'index'));?>&nbsp;/&nbsp;<?php __('campagins'); ?>:</div>
-    <div class="span-17"><?php __('Client');?>:&nbsp;<span style="font-style: italic;color: brown;"><?php echo $clientName;?></span></div>
+<div class="span-18" class="clt-navigBar">
+    <div class="span-18"><?php echo $this->Html->link(__("clients",true),array('plugin'=>null,'controller'=>'clients','action'=>'index'));?>&nbsp;/&nbsp;<?php __('campagins'); ?>:</div>
+    <div class="span-18"><?php __('Client');?>:&nbsp;<span style="font-style: italic;color: brown;"><?php echo $clientName;?></span></div>
 </div>
     
 <div id="cmp-clientCampListWrp" class="cmp-clientCampListWrp span-14 prepend-1" data-clname="<?php echo $clientName; ?>">
