@@ -50,14 +50,28 @@ jQuery(document).ready(function(){
     };
  
     f_file4_getClientsCampInfo();
-    
+ 
+ 
+ 
+ 
+ 
+ 
+ 
     $file4_cmpClientBannerWrp.delegate(".cmp-client","mouseenter",function(){
         $(this).addClass("clt-clientHgl");
     })
     $file4_cmpClientBannerWrp.delegate(".cmp-client","mouseleave",function(){
         $(this).removeClass("clt-clientHgl");
     })
-    
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
     $file4_cmpClientBannerWrp.delegate(".cmp-edit","click",function(){
          
         var $this = $(this);
@@ -75,7 +89,6 @@ jQuery(document).ready(function(){
         var $thisParent = $this.parents(".cmp-client");
         
         $thisParent.find(".cmp-modes").hide().end().removeClass("cmp-clientActive");
-
 
     })
 
@@ -211,7 +224,14 @@ jQuery(document).ready(function(){
         }
     })
     
-    
+
+
+
+
+
+
+
+
     var $file4_cmpSetModeWrp = $("#cmp-setModeWrp");
     
     $("#cmp-modesTmpl").tmpl().appendTo($file4_cmpSetModeWrp);

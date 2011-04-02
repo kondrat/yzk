@@ -102,7 +102,7 @@ class CampaignsController extends AppController {
 
 
         $this->set('clientName', $clientName);
-     
+        $this->set("modes", $this->setPrice->modes);
     }   
     
     
@@ -142,7 +142,10 @@ class CampaignsController extends AppController {
 
                 $params = array(
                                 'Logins' => array($clientName),
-                                'Filter' => array('StatusArchive'=>array('No'))
+                                'Filter' => array(
+                                    'StatusArchive'=>array('No')
+                                    
+                                    )
                     );
                 $content = $this->getYnData->getYnData($pathToCerts, 'GetCampaignsListFilter', $params);
 
@@ -237,58 +240,57 @@ class CampaignsController extends AppController {
             $this->autoRender = FALSE;
 
 
-          
+
             $phrasesFromDb = array();
             $resAllPhrases = array();
             $modes = array();
-            $bannersID = array($this->data['bannid']);
+            $bannid = null;
+            $bannersID = array();
+            
+            if(isset($this->data['bannid'])){
+                $bannid = Sanitize::paranoid($this->data['bannid']);
+                $bannersID = array($bannid);
+            }
 
             //getting information about phrases( filtered not archive);
             $pathToCerts = Configure::read('pathToCerts');
             $params = array('BannerIDS' => $bannersID, 'FieldsNames' => array('Phrase', 'Shows', 'Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin'), 'RequestPrices' => 'Yes');
-            
-            
-            $resAllPhrases = json_decode($this->getYnData->getYnData($pathToCerts,'GetBannerPhrasesFilter', $params), TRUE);
 
-            $this->loadModel('Phrase');
-            $phrasesFromDb = $this->Phrase->find("all",
-                    array(
-                    //"conditions"=>array("agent_id" => $this->Auth->user('id') )
-            ));
-            
-            $modes = $this->setPrice->modes;
-            
-            foreach ($resAllPhrases['data'] as $k => $v){
-                //here we cutting off "stop words"
-                $pos = strpos($resAllPhrases['data'][$k]['Phrase'], '-');
-                if($pos){
-                   $resAllPhrases['data'][$k]['Phrase'] = substr($resAllPhrases['data'][$k]['Phrase'], 0, $pos-1); 
-                }
-                
-                foreach ($phrasesFromDb as $k2=>$v2){
-                    if( $v["PhraseID"] == $v2['Phrase']['phrase_yn_id']){
-                        foreach($modes as $vModes){
-                           if($v2['Phrase']['mode'] == $vModes['name']) {
-                              $resAllPhrases['data'][$k]['mode'] = sprintf($vModes['desc'], $v2['Phrase']['mode_x']);
-                              break;
-                           }
-                           
+
+            $resAllPhrases = json_decode($this->getYnData->getYnData($pathToCerts, 'GetBannerPhrasesFilter', $params), TRUE);
+
+            if (isset($resAllPhrases['data']) && $resAllPhrases['data'] != array()) {
+                $this->loadModel('Phrase');
+                $phrasesFromDb = $this->Phrase->find("all", array(
+                                //"conditions"=>array("agent_id" => $this->Auth->user('id') )
+                        ));
+
+                $modes = $this->setPrice->modes;
+
+                foreach ($resAllPhrases['data'] as $k => $v) {
+                    //here we cutting off "stop words"
+                    $pos = strpos($resAllPhrases['data'][$k]['Phrase'], '-');
+                    if ($pos) {
+                        $resAllPhrases['data'][$k]['Phrase'] = substr($resAllPhrases['data'][$k]['Phrase'], 0, $pos - 1);
+                    }
+
+                    foreach ($phrasesFromDb as $k2 => $v2) {
+                        if ($v["PhraseID"] == $v2['Phrase']['phrase_yn_id']) {
+                            foreach ($modes as $vModes) {
+                                if ($v2['Phrase']['mode'] == $vModes['name']) {
+                                    $resAllPhrases['data'][$k]['mode'] = sprintf($vModes['desc'], $v2['Phrase']['mode_x']);
+                                    break;
+                                }
+                            }
+
+                            //$resAllPhrases['data'][$k]['modeX'] = $v2['Phrase']['mode_x'];
+                            break;
                         }
-                        
-                        //$resAllPhrases['data'][$k]['modeX'] = $v2['Phrase']['mode_x'];
-                        break;
                     }
                 }
-                
-                
-                
-            }  
-            
-            
-            
+            }
 
-
-            $content = json_encode( $resAllPhrases);
+            $content = json_encode($resAllPhrases);
             $this->header('Content-Type: application/json');
             return ($content);
         }

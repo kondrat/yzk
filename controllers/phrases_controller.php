@@ -52,65 +52,7 @@ class PhrasesController extends AppController {
 
     
 
-    /**
-     *  retriving data from api.direct.yandex.ru via ajax
-     * @param
-     * 
-     * @return type json
-     * @access public
-     */
-    public function savePhrMode() {
-
-        $content = array();
-        $exsictedPhrase = array();
-        
-        if ($this->RequestHandler->isAjax()) {
-
-            Configure::write('debug', 0);
-            $this->autoLayout = false;
-            $this->autoRender = FALSE;
-
-
-            if (isset($this->data['mode']) && isset($this->data['modeX'])) { 
-                //@todo sanitize this
-                $this->data['Phrase']['banner_yn_id'] = $this->data['banId'];
-                $this->data['Phrase']['campaing_yn_id'] = $this->data['campId'];
-                $this->data['Phrase']['phrase_yn_id'] = $this->data['phrId'];
-                $this->data['Phrase']['mode'] = $this->data['mode'];
-                $this->data['Phrase']['mode_x'] = $this->data['modeX'];
-
-                $exsictedPhrase = $this->Phrase->find('first',array(
-                    'conditions'=>array('Phrase.phrase_yn_id'=>$this->data['Phrase']['phrase_yn_id']),
-                    'contain'=>false
-                ));
-                
-                if($exsictedPhrase != array()){
-                    $this->data['Phrase']['id'] = $exsictedPhrase['Phrase']['id'];
-                }
-                
-                $this->Phrase->create();
-                if( $this->Phrase->save($this->data) ){
-                    
-                   $modes = $this->setPrice->modes; 
-                   foreach ($modes as $k => $v){
-                       if($this->data['Phrase']['mode'] == $v['name']){
-                           $mode = sprintf($v['desc'],$this->data['Phrase']['mode_x'] );
-                       }
-                   }
-                   $content['data']['mode'] = $mode;
-                   
-                } else {
-                   $content['error'] = 'not saved'; 
-                }
-                
-                
-            }
-        }
-
-        $contents = json_encode($content);
-        $this->header('Content-Type: application/json');
-        return ($contents);
-    }
+ 
     
     /**
      *
@@ -174,6 +116,8 @@ class PhrasesController extends AppController {
             $this->autoRender = FALSE;
             $checker = 0;
 
+            $this->data = Sanitize::clean($this->data);
+            
             if (isset($this->data['mode']) && isset($this->data['modeX'])) { 
                 //@todo sanitize this
                 
@@ -227,6 +171,68 @@ class PhrasesController extends AppController {
         $this->header('Content-Type: application/json');
         return ($contents);
     }
+    
+    
+    
+   /**
+     *  retriving data from api.direct.yandex.ru via ajax
+     * @param
+     * 
+     * @return type json
+     * @access public
+     */
+//    public function savePhrMode() {
+//
+//        $content = array();
+//        $exsictedPhrase = array();
+//        
+//        if ($this->RequestHandler->isAjax()) {
+//
+//            Configure::write('debug', 0);
+//            $this->autoLayout = false;
+//            $this->autoRender = FALSE;
+//
+//
+//            if (isset($this->data['mode']) && isset($this->data['modeX'])) { 
+//                //@todo sanitize this
+//                $this->data['Phrase']['banner_yn_id'] = $this->data['banId'];
+//                $this->data['Phrase']['campaing_yn_id'] = $this->data['campId'];
+//                $this->data['Phrase']['phrase_yn_id'] = $this->data['phrId'];
+//                $this->data['Phrase']['mode'] = $this->data['mode'];
+//                $this->data['Phrase']['mode_x'] = $this->data['modeX'];
+//
+//                $exsictedPhrase = $this->Phrase->find('first',array(
+//                    'conditions'=>array('Phrase.phrase_yn_id'=>$this->data['Phrase']['phrase_yn_id']),
+//                    'contain'=>false
+//                ));
+//                
+//                if($exsictedPhrase != array()){
+//                    $this->data['Phrase']['id'] = $exsictedPhrase['Phrase']['id'];
+//                }
+//                
+//                $this->Phrase->create();
+//                if( $this->Phrase->save($this->data) ){
+//                    
+//                   $modes = $this->setPrice->modes; 
+//                   foreach ($modes as $k => $v){
+//                       if($this->data['Phrase']['mode'] == $v['name']){
+//                           $mode = sprintf($v['desc'],$this->data['Phrase']['mode_x'] );
+//                       }
+//                   }
+//                   $content['data']['mode'] = $mode;
+//                   
+//                } else {
+//                   $content['error'] = 'not saved'; 
+//                }
+//                
+//                
+//            }
+//        }
+//
+//        $contents = json_encode($content);
+//        $this->header('Content-Type: application/json');
+//        return ($contents);
+//    }
 }
 
 ?>

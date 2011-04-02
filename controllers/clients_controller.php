@@ -58,6 +58,8 @@ class ClientsController extends AppController {
 
 
             $resAllClients = array();
+            $existedClients = array();
+            
             $pathToCerts = Configure::read('pathToCerts');
             
             $params = "";
@@ -65,31 +67,47 @@ class ClientsController extends AppController {
             $resAllClients = json_decode($this->getYnData->getYnData($pathToCerts,'GetClientsList', $params), TRUE);           
                             
                 if( isset($resAllClients["data"]) && $resAllClients['data'] != array() ) {
+                    
                      $existedClients = $this->Client->find('all', array(
                                 'conditions' => array('Client.agent_id'=> $this->Auth->user('id')),
-                                'fields' => array('ynname'),
+                                'fields' => array('ynname','pass','User.email'),
                                 'contain' => false
                             ));
-                    $existedClients = Set::extract('/Client/ynname', $existedClients);
-                    
-                    $newContens = $resAllClients;//json_decode($contents, TRUE);
-                    
-                      foreach ($newContens['data'] as $k => $v) {
+                     
+                    if( $existedClients != array()){
+                       
+                        
+                        $newContens = $resAllClients;//json_decode($contents, TRUE);
 
-                        foreach ($existedClients as $val){
-                            if($newContens['data'][$k]['Login'] == $val){
-                                $newContens['data'][$k]['reg'] = 'yes'; 
-                                break;
-                            } else {
-                                $newContens['data'][$k]['reg'] = 'no';
+                          foreach ($newContens['data'] as $k => $v) {
+
+                            foreach ($existedClients as $val){
+
+                                if($newContens['data'][$k]['Login'] == $val['Client']['ynname']){
+
+                                    $newContens['data'][$k]['reg'] = 'yes';
+                                    $newContens['data'][$k]['pass'] = $val['Client']['pass'];
+                                    $newContens['data'][$k]['regemail'] = $val['User']['email'];
+                                    break;
+
+                                } else {
+                                    $newContens['data'][$k]['reg'] = 'no';
+                                }
+
                             }
+
+
                         }
-
-
-                    }                  
+                        
+                       $contents = json_encode($newContens);
+                       
+                    } else {
+                       $contents = json_encode($resAllClients); 
+                    }
                     
-                   $contents = json_encode($newContens); 
+                    
                 } else {
+                   //here we returning mistake from yandex
                    $contents = json_encode($resAllClients);
                 }
 

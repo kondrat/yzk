@@ -142,7 +142,7 @@ msgstr "Запомнить меня"
 #: /plugins/users/views/users/request_password_change.ctp:23;23
 #: /plugins/users/views/users/reset_password.ctp:7;7
 msgid "Submit"
-msgstr "Ввод"
+msgstr "Войти"
 
 #: /plugins/users/views/elements/login_form.ctp:65;65
 #: /views/elements/pageHead/topMenu/top_menu.ctp:30;40;30;40
@@ -266,7 +266,7 @@ msgstr ""
 #: /plugins/users/views/users/groups.ctp:44;44
 #: /plugins/users/views/users/index.ctp:43;43
 msgid "Edit"
-msgstr ""
+msgstr "Редактировать"
 
 #: /plugins/users/views/groups/index.ctp:31;31
 #: /plugins/users/views/details/admin_index.ctp:17;17
@@ -464,7 +464,7 @@ msgstr ""
 
 #: /views/campaigns/banner.ctp:19;19
 msgid "eidt"
-msgstr ""
+msgstr "редактировать"
 
 #: /views/campaigns/banner.ctp:20;20
 msgid "del"
@@ -487,12 +487,12 @@ msgstr "Закрыть"
 #: /views/campaigns/campaign.ctp:24;24
 #: /views/campaigns/index.ctp:23;23
 msgid "clients"
-msgstr ""
+msgstr "клиетны"
 
 #: /views/campaigns/banner.ctp:56;56
 #: /views/campaigns/campaign.ctp:25;25
 msgid "campaigns"
-msgstr ""
+msgstr "кампании"
 
 #: /views/campaigns/banner.ctp:57;57
 #: /views/campaigns/campaign.ctp:26;26
@@ -507,7 +507,7 @@ msgstr ""
 #: /views/campaigns/campaign.ctp:29;29
 #: /views/campaigns/index.ctp:24;24
 msgid "Client"
-msgstr ""
+msgstr "Клиент"
 
 #: /views/campaigns/banner.ctp:74;74
 msgid "Set mode for all"
@@ -545,7 +545,7 @@ msgstr ""
 
 #: /views/campaigns/index.ctp:32;32
 msgid "Campaing"
-msgstr ""
+msgstr "Кампания"
 
 #: /views/campaigns/index.ctp:33;33
 msgid "Clicks"

@@ -109,20 +109,55 @@
     -moz-border-radius: 5px;
     border-radius: 5px;   
 }
-.cmp-setModeBtn{
-    background-color: #529214;
-    border: 1px solid #2A801B;
-    color: #FFFFFF;
+.cmp-setModeBtn, .cmp-unSetModeBtn{
+    background-color: #ddd;
+    border: 1px solid #ccc;
+    color: gray;
 
 }
-.cmp-unSetModeBtn{
-    background-color: #eee;
-    border: 1px solid #ddd;
-    color: gray;
+.cmp-setModeBtn:hover{
+    background-color: #529214;
+    color: #fff;   
+}
+.cmp-setModeBtnAct{
+    background-color: #529214;
+    color: #fff;    
+}
+.cmp-unSetModeBtn:hover{
+    background-color: #ff0033;
+    color: #fff;
 }
 .cmp-navBar{
     background-color: #EEEEEE;
     margin-bottom: 5px;
-    padding: 3px;
+    padding: 10px;
 }
-
+.cmp-navBarData{
+    font-style: italic;
+    color: brown;
+}
+.cmp-navBarCam, .cmp-navBarBan, .cmp-navBarPhr{
+    color: gray;
+}
+.cmp-navBarAct{
+    color: black;
+}
+.cmp-navBarLnk{
+    color: #0066CC;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.cmp-navBarLnk:hover{
+    color: #0099FF;
+}
+.cmp-navBarCtrl{
+    background-color: #FFFFFF;
+    display: block;
+    float: left;
+    margin: 5px;
+    padding: 3px 10px;
+    
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;    
+}

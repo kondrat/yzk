@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 jQuery(document).ready(function(){
+    
     var $file1_cltClientListWrp = $("#clt-clientListWrp");
     var $file1_selectedItem = null;
     
@@ -13,13 +14,14 @@ jQuery(document).ready(function(){
             url: path+"\/clients\/getYnClData",
             type: "POST",
             data: {
-                "data[method]":'GetClientsList'
+                
                         
             },
             success:function (data, textStatus) {
+                
                 if( data.data) {
                     //alert('success'); 
-                    $file1_cltClientListWrp.find(".clt-loader").hide();
+                    
                     $file1_cltClientListWrp.find(".clt-clientHd").show();
                     $("#clt-clientListTmpl").tmpl(data.data).appendTo($file1_cltClientListWrp);
                          
@@ -33,11 +35,16 @@ jQuery(document).ready(function(){
                     //flash_message("Couldn't be deleted", "fler" );
                     alert('No Data')
                 }
+                
+                $("#clt-navBarWrp").find(".clt-loader").hide();
             },
                     
             error:function(){
                 alert('Problem with the server. Try again later.');
+                 $("#clt-navBarWrp").find(".clt-loader").hide();
             }
+            
+            
         }); 
 
     };
@@ -51,27 +58,31 @@ jQuery(document).ready(function(){
         $(this).removeClass("clt-clientHgl");
     })
     
-    $file1_cltClientListWrp.delegate(".clt-cltDataEdit","click",function(){
-        alert("Sorry, not done yet");
-    })    
+   
     
     
-    $file1_cltClientListWrp.delegate(".clt-newCltReg","click",function(event){
+    var f_file1_usrRegView = function(event){
+        
         event.preventDefault();
         
-         if($file1_selectedItem){
+        //close previously selected item;
+        if($file1_selectedItem){
             $file1_selectedItem.tmpl = $("#clt-clientListTmpl").template();
             $file1_selectedItem.update();
         }
  
  
- 
+        
         var $thisWrp = $(this).parent(".clt-client");
         $file1_selectedItem  = $.tmplItem(this);
         $file1_selectedItem.tmpl = $("#clt-clientRegtTmpl").template();
         $file1_selectedItem.update(); 
         
-    })
+    };
+
+
+    $file1_cltClientListWrp.delegate(".clt-viewUsr","click",f_file1_usrRegView);
+
 
     $file1_cltClientListWrp.delegate("#clt-closeFormBtn","click",function(){
         
@@ -89,6 +100,9 @@ jQuery(document).ready(function(){
 
 
     $file1_cltClientListWrp.delegate("#clt-cltRegBtn","click",function(){
+        
+        $("#clt-regFormLoader").show();
+        
         var $this = $(this);
         var $thisWrp = $this.parents(".clt-cltRegWrp");
         var tmplItem = $.tmplItem( $thisWrp );
@@ -104,6 +118,9 @@ jQuery(document).ready(function(){
                 "data[email]":thisEmail                      
             },
             success:function (data, textStatus) {
+                
+                $("#clt-regFormLoader").hide();
+                
                 if( data.savedUserId) {
                     
                     if($file1_selectedItem){
@@ -128,6 +145,7 @@ jQuery(document).ready(function(){
                     
             error:function(){
                 alert('Problem with the server. Try again later.');
+                $("#clt-regFormLoader").hide();
             }
         });        
         
@@ -135,6 +153,13 @@ jQuery(document).ready(function(){
         
         
     });
- 
+
+
+
+
+
+
+
+
  
 });
