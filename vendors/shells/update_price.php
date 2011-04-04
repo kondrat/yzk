@@ -1,6 +1,7 @@
 <?php
 
 App::import('Component', 'getYnData');
+App::import('Component','setPrice');
 
 class UpdatePriceShell extends Shell {
 
@@ -115,6 +116,10 @@ class UpdatePriceShell extends Shell {
             //$this->out("resAllBanners = array()");
             return;
         }
+ 
+        
+        
+ 
         
         //and finaly we get bannersIds as one array. next we need to check if ammount less then 1000 (yandex.api restiction);
         $resAllBannersIDs = array();
@@ -131,7 +136,7 @@ class UpdatePriceShell extends Shell {
         
         
         //getting information about phrases( filtered not archive);
-        $params3 = array('BannerIDS' => $resAllBannersIDs, 'FieldsNames' => array('Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin'), 'RequestPrices' => 'Yes');
+        $params3 = array('BannerIDS' => $resAllBannersIDs, 'FieldsNames' => array('Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin','LowCTR'), 'RequestPrices' => 'Yes');
 
         //$params3 = array('BannerIDS'=>array(4345227),'FieldsNames'=>array('Price','Max','Min','PremiumMax','PremiumMin' ),'RequestPrices'=>'Yes' );
 
@@ -140,8 +145,15 @@ class UpdatePriceShell extends Shell {
             return;
         }
 
-        $this->out("res All Phrases: ".count($resAllPhrases['data'])."\n");
+        $this->out("res All Phrases before: ".count($resAllPhrases['data'])."\n");
 
+        foreach ($resAllPhrases['data'] as $k9 => $v9){
+            if($resAllPhrases['data'][$k9]['LowCTR'] == 'Yes'){
+                unset($resAllPhrases['data'][$k9]);
+            }
+        }
+       $this->out("Res All Phra after: ".count($resAllPhrases['data'])."\n");
+        
         
         $Start = $this->getTime();
 
@@ -157,8 +169,11 @@ class UpdatePriceShell extends Shell {
 
             foreach ($resAllPhrases['data'] as $k6 => $v6) {
 
-                if ($v5['Phrase']['phrase_yn_id'] == $v6['PhraseID'] && $v5['Phrase']['campaing_yn_id'] == $v6['CampaignID'] && $v5['Phrase']['banner_yn_id'] == $v6['BannerID']) {
-
+                if ($v5['Phrase']['phrase_yn_id'] == $v6['PhraseID'] && $v5['Phrase']['campaing_yn_id'] == $v6['CampaignID'] && $v5['Phrase']['banner_yn_id'] == $v6['BannerID']&&$v6['LowCTR'] != 'Yes' ) {
+                    
+                    $mode = $v5['Phrase']['mode'];
+                    $modeX = $v5['Phrase']['mode_x'];
+                    
                     //$phraseToUpdate[$k5]['id'] = $v5['Phrase']['id'];
                     //$phraseToUpdate[$k5]['ynPhraseId'] = $v5['Phrase']['phrase_yn_id'];
                     $phraseToUpdate[$k5]['todel'] = 'notdel';                   
@@ -208,7 +223,13 @@ class UpdatePriceShell extends Shell {
             }
         }       
         
-        print_r($phraseToUpdate1000);
+        //print_r($phraseToUpdate1000);
+        
+        
+        
+        
+        
+        
         
         
         //@todo Update price finaly. 1000 phrases per request

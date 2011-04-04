@@ -1,4 +1,4 @@
-<?php echo $this->Html->script(array('dev/file2')); ?>
+    <?php echo $this->Html->script(array('dev/file2')); ?>
 
     <script id="cmp-clientCompListHdTmpl" type="text/x-jquery-tmpl">
          <div  class="clt-clientHd  span-18">
@@ -80,23 +80,33 @@
 
     <div  class="clt-clientHd  span-18">
         <div class="span-1"><?php echo $this->Form->checkbox('toMode', array('disabled' => 'disabled')); ?></div>
-        <div class="cmp-phraseHd span-8"><?php __('Phrase'); ?></div>
+        <div class="cmp-phraseHd span-5"><?php __('Phrase'); ?></div>
         <div class="cmp-showsHd span-2"><?php __('Shows'); ?></div>
         <div class="cmp-priceHd span-2"><?php __('Price'); ?></div>
+        <div class="cmp-minMaxPricesHd span-3"><?php __('Position price'); ?></div>
         <div class="cmp-modeHd span-3"><?php __('Mode'); ?></div>
         <div class="cmp-actionHd span-2 last"><?php __('Action'); ?></div>        
     </div>
     {{tmpl(data) "#cmp-clientBannerTmpl"}}
 </script>
 <script id="cmp-clientBannerTmpl" type="text/x-jquery-tmpl">
-
+    
+    {{if Min }}
+    
     <div  class="cmp-client  span-18">
         <div class="span-1"><?php echo $this->Form->checkbox('toMode', array('id'=>'ch-${PhraseID}' ,'disabled'=>'disabled'));?></div>
-        <div class="cmp-phrase span-8">${Phrase}</div>       
+        <div class="cmp-phrase span-5">${Phrase}</div>       
 
         <div class="cmp-shows span-2 last">${Shows}</div>
         <div class="cmp-price span-2 last">${Price}</div>
-      
+        <div class="cmp-minMaxPrices span-3">
+            
+            <div class="cmp-minPr"><?php __('Min warranty:');?>&nbsp;${Min}</div>
+            <div class="cmp-maxPr"><?php __('Max warranty:');?>&nbsp;${Max}</div>
+            <div class="cmp-minPremPr"><?php __('Min Premium:');?>&nbsp;${PremiumMin}</div>
+            <div class="cmp-maxPremPr"><?php __('Max Premium:');?>&nbsp;${PremiumMax}</div> 
+                        
+        </div>
         <div class="span-3 cmp-string">
             {{if mode}}
                 <span class="cmp-modeStr">${mode}</span>
@@ -111,8 +121,30 @@
             <div class="span-2 last cmp-edit"><?php __('create');?></div>
         {{/if}}
         <div class="cmp-modesEditWrp span-18"></div>
-    </div>
+    </div> 
+    
+    {{else}}
+        
+    <div  class="cmp-clientLowCtr  span-18">
+        <div class="cmp-lowCtrFrst span-1">#</div>
+        <div class="cmp-phrase span-5">${Phrase}</div>       
 
+        <div class="cmp-shows span-2 last">${Shows}</div>
+        <div class="cmp-price span-2 last">${Price}</div>                     
+        <div class="cmp-lowCtr span-3"><?php __('Low CTR!');?></div>
+                 
+        <div class="span-3 cmp-string">
+            {{if mode}}
+                <span class="cmp-modeStr">${mode}</span>
+            {{else}}
+                <?php __("no mode set yet");?>
+            {{/if}}
+        </div>
+        <div class="span-2 cmp-noedit">----</div>       
+                         
+    </div>
+    {{/if}}
+    
 </script>
 
 
@@ -159,7 +191,7 @@
     
     <div class="span-18">
         <div id="cmp-navBarCtrl" class="cmp-navBarCtrl">
-            s
+
             <?php if($this->Session->read('Auth.User.group_id') == 3):?> 
                 <?php echo $this->Html->link(__("clients", true), array('plugin' => null, 'controller' => 'clients', 'action' => 'index')); ?>&nbsp;/&nbsp;
             <?php endif ?>

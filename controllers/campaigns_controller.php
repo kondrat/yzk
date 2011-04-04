@@ -254,11 +254,13 @@ class CampaignsController extends AppController {
 
             //getting information about phrases( filtered not archive);
             $pathToCerts = Configure::read('pathToCerts');
-            $params = array('BannerIDS' => $bannersID, 'FieldsNames' => array('Phrase', 'Shows', 'Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin'), 'RequestPrices' => 'Yes');
+            $params = array('BannerIDS' => $bannersID, 
+                //'FieldsNames' => array('Phrase', 'Shows', 'Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin'),
+                'RequestPrices' => 'Yes');
 
 
             $resAllPhrases = json_decode($this->getYnData->getYnData($pathToCerts, 'GetBannerPhrasesFilter', $params), TRUE);
-
+            
             if (isset($resAllPhrases['data']) && $resAllPhrases['data'] != array()) {
                 $this->loadModel('Phrase');
                 $phrasesFromDb = $this->Phrase->find("all", array(
@@ -266,7 +268,8 @@ class CampaignsController extends AppController {
                         ));
 
                 $modes = $this->setPrice->modes;
-
+                $lowCtr['data'] = array();
+                
                 foreach ($resAllPhrases['data'] as $k => $v) {
                     //here we cutting off "stop words"
                     $pos = strpos($resAllPhrases['data'][$k]['Phrase'], '-');
@@ -287,9 +290,20 @@ class CampaignsController extends AppController {
                             break;
                         }
                     }
+                    
+                    if($v['LowCTR'] == 'Yes'){
+                        
+                        $lowCtr['data'][] = $resAllPhrases['data'][$k];
+                        unset($resAllPhrases['data'][$k]);
+                    }
+                    
+                    
                 }
             }
-
+            
+            
+            
+            $resAllPhrases['data'] = array_merge($resAllPhrases['data'], $lowCtr['data']);
             $content = json_encode($resAllPhrases);
             $this->header('Content-Type: application/json');
             return ($content);

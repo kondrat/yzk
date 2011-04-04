@@ -161,3 +161,16 @@
     -moz-border-radius: 5px;
     border-radius: 5px;    
 }
+.cmp-clientLowCtr{
+    background-color: #eee;
+    color: #ccc;
+    margin-bottom: 5px;
+    padding: 5px 0;
+}
+.cmp-lowCtr{
+    color:gray;
+    font-weight:bold;
+}
+.cmp-lowCtrFrst{
+    margin: 0 5px;
+}

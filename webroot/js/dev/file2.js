@@ -265,8 +265,8 @@ jQuery(document).ready(function(){
         var $this = $(this);
         var $thisParent = $this.parents(".cmp-client");
         
-        $thisParent.find(".cmp-modes").hide().end().removeClass("cmp-clientActive").end().find("input:checkbox").attr({"checked":false});
-
+        $thisParent.find(".cmp-modes").hide().end().removeClass("cmp-clientActive");
+        $thisParent.find("input:checkbox").attr({"checked":false});
     })
 
 
