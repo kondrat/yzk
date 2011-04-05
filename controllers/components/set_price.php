@@ -18,19 +18,23 @@ class setPriceComponent extends Object {
                 array(
                     "name" => "maxP",
                     //"func" => "$price/100*$x+$price",
-                    "desc" => "Warranty + %s%%" //two % to print "%"leteral
+                    //two % to print "%"leteral
+                    "desc" => __("Warranty + %s%%",true),
+                    "priceType" => "max"
                 ),
                 array(
                     "name" => "maxC",
                     //"func" => "$price+$x",
-                    "desc" => "Warranty + %s cent"
+                    "desc" => __("Warranty + %s cent",true),
+                    "priceType" => "min"
                 )
             );  
-    function setPrice($method=NULL, $price=NULL, $x = NULL) {
+    function setPrice($method=NULL, $price=array(), $x= NULL) {
 
         switch ($method) {
             case 'maxP':
-                $resPrice = $price / 100 * $x + $price;
+                $pr = $price[];
+                $resPrice = $pr / 100 * $x + $pr;
                 break;
             case 'maxC':
                 $resPrice = $price + $x;

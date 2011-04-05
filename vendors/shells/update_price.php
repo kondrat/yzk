@@ -152,6 +152,7 @@ class UpdatePriceShell extends Shell {
                 unset($resAllPhrases['data'][$k9]);
             }
         }
+        
        $this->out("Res All Phra after: ".count($resAllPhrases['data'])."\n");
         
         
