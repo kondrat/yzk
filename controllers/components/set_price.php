@@ -14,30 +14,103 @@ class setPriceComponent extends Object {
      * @return json 
      */
     
-    var $modes = array(
+    
+    //two % to print "%"leteral
+    public $modes = array(
+        
+        
                 array(
-                    "name" => "maxP",
-                    //"func" => "$price/100*$x+$price",
-                    //two % to print "%"leteral
-                    "desc" => __("Warranty + %s%%",true),
+                    "name" => "minPlusP",                  
+                    "desc" => "Guaranty + %s%%",
+                    "priceType" => "min"
+                ),
+                array(
+                    "name" => "minPlusC",
+                    "desc" => "Guaranty + %s cent",
+                    "priceType" => "min"
+                ),
+        
+
+        
+                array(
+                    "name" => "maxMinusP",
+                    "desc" => "GuarantyMax - %s%%",
+                    "priceType" => "max"
+                ),       
+                array(
+                    "name" => "maxMinusC",
+                    "desc" => "GuarantyMax - %s cent",
                     "priceType" => "max"
                 ),
                 array(
-                    "name" => "maxC",
-                    //"func" => "$price+$x",
-                    "desc" => __("Warranty + %s cent",true),
-                    "priceType" => "min"
-                )
-            );  
-    function setPrice($method=NULL, $price=array(), $x= NULL) {
+                    "name" => "maxPlusP",
+                    "desc" => "GuarantyMax + %s%%",
+                    "priceType" => "max"
+                ),
+                array(
+                    "name" => "maxPlusC",
+                    "desc" => "GuarantyMax + %s cent",
+                    "priceType" => "max"
+                ),
+        
+ 
+        
+                array(
+                    "name" => "premMinMinusP",
+                    "desc" => "PremiumMin - %s%%",
+                    "priceType" => "premMin"
+                ),       
+                array(
+                    "name" => "premMinMinusC",
+                    "desc" => "PremiumMin - %s cent",
+                    "priceType" => "premMin"
+                ),
+                array(
+                    "name" => "premMinPlusP",
+                    "desc" => "PremiumMin + %s%%",
+                    "priceType" => "premMin"
+                ),
+                array(
+                    "name" => "premMinPlusC",
+                    "desc" => "PremiumMin + %s cent",
+                    "priceType" => "premMin"
+                ),
+
+ 
+        
+                array(
+                    "name" => "premMaxMinusP",
+                    "desc" => "PremiumMax - %s%%",
+                    "priceType" => "premMax"
+                ),       
+                array(
+                    "name" => "premMaxMinusC",
+                    "desc" => "PremiumMax - %s cent",
+                    "priceType" => "premMax"
+                ),
+                array(
+                    "name" => "premMaxPlusP",
+                    "desc" => "PremiumMax + %s%%",
+                    "priceType" => "premMax"
+                ),
+                array(
+                    "name" => "premMaxPlusC",
+                    "desc" => "PremiumMax + %s cent",
+                    "priceType" => "premMax"
+                )       
+                
+        
+            );
+    
+    function setPrice($method=NULL,$x= NULL, $min=NULL, $max=NULL,$premMin=NULL, $premMax=NULL) {
 
         switch ($method) {
-            case 'maxP':
-                $pr = $price[];
-                $resPrice = $pr / 100 * $x + $pr;
+            case 'minPlusP':
+                //$pr = $price[];
+                $resPrice = $min / 100 * $x + $min;
                 break;
-            case 'maxC':
-                $resPrice = $price + $x;
+            case 'minPlusC':
+                $resPrice = $min + $x;
                 break;
             default :
                 $resPrice = 0;
