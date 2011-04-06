@@ -56,7 +56,7 @@ class ClientsController extends AppController {
             $this->autoLayout = false;
             $this->autoRender = FALSE;
 
-
+            $contents = array();
             $resAllClients = array();
             $existedClients = array();
             
@@ -67,6 +67,8 @@ class ClientsController extends AppController {
             $resAllClients = json_decode($this->getYnData->getYnData($pathToCerts,'GetClientsList', $params), TRUE);           
                             
                 if( isset($resAllClients["data"]) && $resAllClients['data'] != array() ) {
+                    
+                    
                     
                      $existedClients = $this->Client->find('all', array(
                                 'conditions' => array('Client.agent_id'=> $this->Auth->user('id')),
@@ -108,9 +110,16 @@ class ClientsController extends AppController {
                     
                 } else {
                    //here we returning mistake from yandex
-                   $contents = json_encode($resAllClients);
+                   if($resAllClients){
+                        $contents = json_encode($resAllClients);
+                   }else{
+                       $contents = json_encode(array('error' =>__('No client\'s data from yandex',true)));
+                   }
                 }
-
+             
+                
+    
+            
             $this->header('Content-Type: application/json');
             return ($contents);
         }

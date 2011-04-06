@@ -50,6 +50,10 @@ class UpdatePriceShell extends Shell {
 
         if ($resAllClients == array() || !isset($resAllClients['data'])) {
             $this->out("resAllClients = array()");
+            
+            //log this situation
+            
+            
             return;
         }
         

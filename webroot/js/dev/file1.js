@@ -14,11 +14,12 @@ jQuery(document).ready(function(){
             url: path+"\/clients\/getYnClData",
             type: "POST",
             data: {
-                
+               
                         
             },
             success:function (data, textStatus) {
                 
+
                 if( data.data) {
                     //alert('success'); 
                     
