@@ -14,13 +14,19 @@ class UpdatePriceShell extends Shell {
 
     function main() {
 
-        //$Start = $this->getTime(); 
-
-        $this->out('result:' . "\n");
+        
+        
+        
+        $Start = $this->getTime(); 
+        
+ 
+        
+        //$this->out('result:' . "\n");
 
         ini_set("max_execution_time", 500);
 
         $getYnData = new getYnDataComponent();
+        $setPrice = new setPriceComponent();
         Configure::load('vars');
         $pathToCerts = Configure::read('pathToCerts');
 
@@ -32,6 +38,9 @@ class UpdatePriceShell extends Shell {
         $resAllBanners = array();
 
 
+        
+        //getting phrases from DB
+        
         $allDbPharses = $this->Phrase->find('all');
 
         if ($allDbPharses == array()) {
@@ -49,14 +58,13 @@ class UpdatePriceShell extends Shell {
 
 
         if ($resAllClients == array() || !isset($resAllClients['data'])) {
-            $this->out("resAllClients = array()");
-            
-            //log this situation
-            
-            
+            $this->out("resAllClients = array()");            
+            //log this situation                      
             return;
         }
         
+//        print_r($resAllClients['data']);
+//        return;
         $this->out("Res All Clients Arch: ".count($resAllClients['data']."\n"));
         
 
@@ -69,6 +77,7 @@ class UpdatePriceShell extends Shell {
         }
         
         $this->out("Res All Clients NOT Arch: ".count($resActiveClients)."\n");
+
         
         //getting information about clients campaigns( filtered not archive);
         $params = array('Logins' => $resActiveClients, 'Filter' => array(
@@ -108,7 +117,8 @@ class UpdatePriceShell extends Shell {
             $params2 = array(
                 'CampaignIDS' => $v2, 
                 'Filter' => array('StatusArchive' => array('No'),
-                                    'IsActive' => array('Yes')
+                                    'IsActive' => array('Yes'),
+                                    'StatusShow' => array('Yes')
                     )
                 );
             $tempBanners = json_decode($getYnData->getYnData($pathToCerts, 'GetBanners', $params2), TRUE);
@@ -142,8 +152,6 @@ class UpdatePriceShell extends Shell {
         //getting information about phrases( filtered not archive);
         $params3 = array('BannerIDS' => $resAllBannersIDs, 'FieldsNames' => array('Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin','LowCTR'), 'RequestPrices' => 'Yes');
 
-        //$params3 = array('BannerIDS'=>array(4345227),'FieldsNames'=>array('Price','Max','Min','PremiumMax','PremiumMin' ),'RequestPrices'=>'Yes' );
-
         $resAllPhrases = json_decode($getYnData->getYnData($pathToCerts, 'GetBannerPhrasesFilter', $params3), TRUE);
         if (!isset($resAllPhrases['data'])) {
             return;
@@ -160,28 +168,31 @@ class UpdatePriceShell extends Shell {
        $this->out("Res All Phra after: ".count($resAllPhrases['data'])."\n");
         
         
-        $Start = $this->getTime();
+        //$Start = $this->getTime();
 
         $phraseToUpdate = array();
 
         
         foreach ($allDbPharses as $k5 => $v5) {
 
-
-            $phraseToUpdate[$k5]['id'] = $v5['Phrase']['id'];
-            $phraseToUpdate[$k5]['todel'] = 'yes';//$v5['Phrase']['id'];
-            $phraseToUpdate[$k5]['ynPhraseId'] = $v5['Phrase']['phrase_yn_id'];
-
+          
             foreach ($resAllPhrases['data'] as $k6 => $v6) {
 
                 if ($v5['Phrase']['phrase_yn_id'] == $v6['PhraseID'] && $v5['Phrase']['campaing_yn_id'] == $v6['CampaignID'] && $v5['Phrase']['banner_yn_id'] == $v6['BannerID']&&$v6['LowCTR'] != 'Yes' ) {
                     
                     $mode = $v5['Phrase']['mode'];
                     $modeX = $v5['Phrase']['mode_x'];
+                                        
+                    $newPrice = $setPrice->setPrice( $mode,$modeX,$v6['Min'],$v6['Max'],$v6['PremiumMin'],$v6['PremiumMax'],$v6['Price'] );
                     
-                    //$phraseToUpdate[$k5]['id'] = $v5['Phrase']['id'];
-                    //$phraseToUpdate[$k5]['ynPhraseId'] = $v5['Phrase']['phrase_yn_id'];
-                    $phraseToUpdate[$k5]['todel'] = 'notdel';                   
+                    if ($newPrice > 0) {
+                        $phraseToUpdate[$k5]['CampaignID'] = $v5['Phrase']['campaing_yn_id'];
+                        $phraseToUpdate[$k5]['BannerID'] = $v5['Phrase']['banner_yn_id'];
+                        $phraseToUpdate[$k5]['PhraseID'] = $v5['Phrase']['phrase_yn_id'];
+                        $phraseToUpdate[$k5]['Price'] = $newPrice;
+                    }
+                    
+                    
                     break;
                     
                 }
@@ -191,36 +202,25 @@ class UpdatePriceShell extends Shell {
             
         }
   
-
+        //print_r($phraseToUpdate);
         
         $this->out("Res phrase To Update: ".count($phraseToUpdate)."\n");
         
-        $phraseToDel = array();
-        $phraseFinal = array();
         
-        foreach ($phraseToUpdate as $v7){
-            if($v7['todel'] != 'notdel'){
-               $phraseToDel[] =  $v7['id'];
-            } else {
-                $phraseFinal[] = $v7['ynPhraseId'];
-            }
-        }
+
         
-        $this->out("Res phrase Final: ".count($phraseFinal)."\n");
+ 
         
-        //deleting all the phrases wich are not confirmed
-        if( $phraseToDel!= array() ) {
-            $this->Phrase->deleteAll( 
-                    array('Phrase.id' => $phraseToDel)               
-            );
-        }
-        
+//@todo
   
         $phraseToUpdate1000 = array();
         $i = 0;
         $j = 0;
-        foreach ($phraseFinal as $k8 => $v8) {
-            $phraseToUpdate1000[$j][$i] = $v8['ynPhraseId'];
+        foreach ($phraseToUpdate as $k8 => $v8) {
+            $phraseToUpdate1000[$j][$i]["CampaignID"] = $v8["CampaignID"];
+            $phraseToUpdate1000[$j][$i]["BannerID"] = $v8["BannerID"];
+            $phraseToUpdate1000[$j][$i]["PhraseID"] = $v8["PhraseID"];
+            $phraseToUpdate1000[$j][$i]["Price"] = $v8["Price"];
             $i++;
             if ($i == 1000) {
                 $j++;
@@ -229,21 +229,41 @@ class UpdatePriceShell extends Shell {
         }       
         
         //print_r($phraseToUpdate1000);
+        //updating prices for all phrases ( filtered not archive);
+        foreach ($phraseToUpdate1000 as $v9){
+            
+            
+                
+                $params4 = $v9;
+                $resAllUpdatedPrices[] = json_decode($getYnData->getYnData($pathToCerts, 'UpdatePrices', $params4), TRUE);
+                
+            
+        }
+        
+        $updatedResForLog = "updateOk";
+        foreach ($resAllUpdatedPrices as $v10){
+            if($v10 == 0){
+                $updatedResForLog = "notUpdated";
+            }
+        }
         
         
-        
-        
-        
+
         
         
         
         //@todo Update price finaly. 1000 phrases per request
 
-        $this->out('----------------------------------------' . "\n");
+        
 
         $End = $this->getTime();
-        $this->out("Time taken = " . number_format(($End - $Start), 2) . " secs\n");
+        $timeRes = "Time taken = " . number_format(($End - $Start), 2);
+        $this->out($timeRes . " secs\n");
         
+        $this->out("done at  ".date('d-m-Y:H.i.s')."\n");
+        $this->out("____________________________________________________\n");
+        
+        CakeLog::write('updateRes', $updatedResForLog.' | '.$timeRes.' sek');
     }
 
 }

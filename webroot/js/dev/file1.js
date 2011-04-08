@@ -15,7 +15,7 @@ jQuery(document).ready(function(){
             type: "POST",
             data: {
                
-                        
+               "hi":"test"         
             },
             success:function (data, textStatus) {
                 

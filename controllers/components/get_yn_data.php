@@ -13,7 +13,7 @@ class getYnDataComponent extends Object {
      * @param array $params
      * @return json 
      */
-    function getYnData($pathToCerts = NULL, $method= NULL, $params=array()) {
+    function getYnData($pathToCerts = NULL, $method= NULL, $params=NULL) {
         // create a new cURL resource
         $ch = curl_init();
 
@@ -29,12 +29,22 @@ class getYnDataComponent extends Object {
         //$method = ''; //$this->data['method'];
         //$params = '';
         //request for yandex in json.
-        $jsonReq = json_encode(
+        
+        if($params == NULL){
+            $jsonReq = json_encode(
                 array(
-                    "method" => $method,
-                    "param" => $params
+                    "method" => $method
                 )
-        );
+            ); 
+        } else {
+
+            $jsonReq = json_encode(
+                    array(
+                        "method" => $method,
+                        "param" => $params
+                    )
+            );
+        }
 
 
 
