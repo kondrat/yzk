@@ -101,10 +101,13 @@
         <div class="cmp-price span-2 last">${Price}</div>
         <div class="cmp-minMaxPrices span-3">
             
-            <div class="cmp-minPr"><?php __('Min Guaranty:');?>&nbsp;${Min}</div>
-            <div class="cmp-maxPr"><?php __('Max Guaranty:');?>&nbsp;${Max}</div>
-            <div class="cmp-minPremPr"><?php __('Min Premium:');?>&nbsp;${PremiumMin}</div>
             <div class="cmp-maxPremPr"><?php __('Max Premium:');?>&nbsp;${PremiumMax}</div> 
+            <div class="cmp-minPremPr"><?php __('Min Premium:');?>&nbsp;${PremiumMin}</div>
+            <div class="cmp-maxPr"><?php __('Max Guaranty:');?>&nbsp;${Max}</div>
+            <div class="cmp-minPr"><?php __('Min Guaranty:');?>&nbsp;${Min}</div>
+            
+            
+            
                         
         </div>
         <div class="span-3 cmp-string">
