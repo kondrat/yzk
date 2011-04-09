@@ -244,6 +244,7 @@ class UpdatePriceShell extends Shell {
         foreach ($resAllUpdatedPrices as $v10){
             if($v10 == 0){
                 $updatedResForLog = "notUpdated";
+                break;
             }
         }
         
@@ -261,7 +262,7 @@ class UpdatePriceShell extends Shell {
         $this->out($timeRes . " secs\n");
         
         $this->out("done at  ".date('d-m-Y:H.i.s')."\n");
-        $this->out("____________________________________________________\n");
+        $this->out("-------------------------------------------------\n");
         
         CakeLog::write('updateRes', $updatedResForLog.' | '.$timeRes.' sek');
     }
