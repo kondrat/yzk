@@ -183,7 +183,7 @@ class UpdatePriceShell extends Shell {
                     $mode = $v5['Phrase']['mode'];
                     $modeX = $v5['Phrase']['mode_x'];
                                         
-                    $newPrice = $setPrice->setPrice( $mode,$modeX,$v6['Min'],$v6['Max'],$v6['PremiumMin'],$v6['PremiumMax'],$v6['Price'] );
+                    $newPrice = $setPrice->setPrice( $mode,$modeX,$v6['Min'],$v6['Max'],$v6['PremiumMin'],$v6['PremiumMax'],$v5['Phrase']['price'] );
                     
                     if ($newPrice > 0) {
                         $phraseToUpdate[$k5]['CampaignID'] = $v5['Phrase']['campaing_yn_id'];

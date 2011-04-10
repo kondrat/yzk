@@ -118,19 +118,24 @@ class PhrasesController extends AppController {
 
             $this->data = Sanitize::clean($this->data);
             
-            if (isset($this->data['mode']) && isset($this->data['modeX'])) { 
+            if (isset($this->data['mode']) && isset($this->data['modeX'])&& isset($this->data['maxPr'])) { 
                 //@todo sanitize this
                 
                 if( isset($this->data['ph']) && is_array($this->data['ph']) && $this->data['ph'] != array() ){
-                 
+ 
+                    
+                    $this->data['Phrase']['mode'] = $this->data['mode'];
+                    $this->data['Phrase']['mode_x'] = $this->data['modeX'];
+                    $this->data['Phrase']['price'] = $this->data['maxPr'];                    
+                    
+                    
                     foreach ($this->data['ph'] as $k=>$v){
                         
                         $this->data['Phrase']['banner_yn_id'] = $v['bnId'];
                         $this->data['Phrase']['campaing_yn_id'] = $v['cmId'];
                         $this->data['Phrase']['phrase_yn_id'] = $v['phId']; 
                         
-                        $this->data['Phrase']['mode'] = $this->data['mode'];
-                        $this->data['Phrase']['mode_x'] = $this->data['modeX'];
+
                         
                          $exsictedPhrase = $this->Phrase->find('first',array(
                             'conditions'=>array('Phrase.phrase_yn_id'=>$this->data['Phrase']['phrase_yn_id']),
@@ -155,9 +160,15 @@ class PhrasesController extends AppController {
                         foreach ($modes as $k => $v) {
                             if ($this->data['Phrase']['mode'] == $v['name']) {
                                 $mode = sprintf($v['desc'], $this->data['Phrase']['mode_x']);
+                                $modeCode = $v['name'];
+                                $modeX = $this->data['Phrase']['mode_x'];
                             }
                         }
                         $content['data']['mode'] = $mode;
+                        $content['data']['modeCode'] = $modeCode;
+                        $content['data']['modeX'] = $modeX;
+                        
+                        $content['data']['maxPrice'] = $this->data['maxPr'];
                     } else {
                         $content['error'] = 'not saved';
                     }

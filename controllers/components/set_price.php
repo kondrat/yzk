@@ -144,7 +144,13 @@ class setPriceComponent extends Object {
                 $resPrice = 0;
                 break;
         }
+ 
         
+        if($maxPrice != NULL){
+            if($resPrice > $maxPrice){
+               $resPrice = $maxPrice; 
+            }
+        }
 
         return $resPrice;
     }

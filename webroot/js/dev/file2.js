@@ -172,7 +172,7 @@ jQuery(document).ready(function(){
                     
                     $("#cmp-clientBannerHdTmpl").tmpl(data).appendTo($file2_campResWrp);
 
-
+                    //collect all edit/del buttons of each items
                     $file2_modeEditBtn = $file2_campResWrp.find('.cmp-edit');
                     $file2_modeDelBtn = $file2_campResWrp.find('.cmp-delete');
                     
@@ -253,11 +253,23 @@ jQuery(document).ready(function(){
         var $this = $(this);
         var $thisParent = $this.parents(".cmp-client");
         var $thisModesEditor = $thisParent.find(".cmp-modesEditWrp");
+        var thisTmplItem = $thisParent.tmplItem();
+        
+        
         $file2_campResWrp.find(".cmp-modes").remove().end().find(".cmp-client").removeClass("cmp-clientActive");
         $thisParent.addClass("cmp-clientActive");
        
         $("#cmp-modesTmpl").tmpl().appendTo($thisModesEditor);
-        $thisParent.find("input:checkbox").attr({"checked":true});
+        $thisParent.find("input:checkbox").attr({"checked":true});       
+        $thisParent.find("option").each(function(){
+            if($(this).val() == thisTmplItem.data.modeCode){
+                $(this).attr("selected","selected");
+                return;
+            }
+        });
+        $thisParent.find("input.cmp-xinput").val(thisTmplItem.data.modeX);
+        $thisParent.find("input.cmp-maxPrInput").val(thisTmplItem.data.maxPrice);
+         
     })
 
 
@@ -301,8 +313,13 @@ jQuery(document).ready(function(){
                     if( data.data) {
                         
                         $file2_selectedItem.data.mode = null;
+                        $file2_selectedItem.data.modeCode = null;
+                        $file2_selectedItem.data.modeX = null;
+                        $file2_selectedItem.data.maxPrice = null;
                         $file2_selectedItem.update();
                         $file2_selectedItem = null;     
+
+
 
                     } else if(data.error){
                         alert("Error here: "+data.error);
@@ -338,14 +355,14 @@ jQuery(document).ready(function(){
            mm.attr({"disabled":false});
            mm.attr({"checked":true});
            
-           $file2_modeEditBtn.removeClass('cmp-edit').addClass('cmp-editDis');
+           $file2_campResWrp.find('.cmp-edit').removeClass('cmp-edit').addClass('cmp-editDis');
            $file2_modeDelBtn.removeClass('cmp-delete').addClass('cmp-deleteDis');
-           $file2_campResWrp.find(".cmp-modes").remove().end().find(".cmp-client").removeClass("cmp-clientActive");
+           $file2_campResWrp.find('.cmp-delete').find(".cmp-modes").remove().end().find(".cmp-client").removeClass("cmp-clientActive");
            
           
            $("#cmp-modesTmpl").tmpl().appendTo($("#cmp-setModeWrp"));           
            
-            $("#cmp-setModeWrp").show();
+           $("#cmp-setModeWrp").show();
            
         } else {
             
@@ -353,15 +370,17 @@ jQuery(document).ready(function(){
            
            mm.attr({"disabled":"disabled"}); 
            mm.attr({"checked":false}); 
-           
-           $file2_modeEditBtn.removeClass('cmp-editDis').addClass('cmp-edit');
-           $file2_modeDelBtn.removeClass('cmp-deleteDis').addClass('cmp-delete');
+
+
+                            
+           $file2_campResWrp.find('.cmp-edit').removeClass('cmp-editDis').addClass('cmp-edit');
+           $file2_campResWrp.find('.cmp-delete').removeClass('cmp-deleteDis').addClass('cmp-delete');
            
            $("#cmp-setModeWrp").hide();
         }
         
 
-    })    
+    });    
 
     $file2_campResWrp.delegate("#toMode","click",function(){
         var $this = $(this);
@@ -384,6 +403,7 @@ jQuery(document).ready(function(){
         var $phrases = $file2_campResWrp.find(".cmp-client");
         var allData = new Object;
         var updated = new Object;
+        console.log($phrases);
         $phrases.each(function(i){
             updated[i] = 0;
             if( $(this).find('input[id|="ch"]').next().attr("checked") == true ){
@@ -398,10 +418,10 @@ jQuery(document).ready(function(){
         }) 
         
         
-        var mode = $(".cmp-modes").find("select").val();
-        
+        var mode = $(".cmp-modes").find("select").val();        
         var modeX = $(".cmp-modes").find(".cmp-xinput").val();
-
+        var maxPrice = $(".cmp-modes").find(".cmp-maxPrInput").val();
+        
         if(mode ==""){
             alert("Please, select the mode");
             return;
@@ -410,10 +430,15 @@ jQuery(document).ready(function(){
             alert("Please, select the number");
             return;
         }       
+        if(maxPrice ==""){
+            alert("Please, select the maximum price");
+            return;
+        }
         
         var modeData = {
             "data[mode]":mode,
             "data[modeX]":modeX,
+            "data[maxPr]":maxPrice,
             "data[ph]":allData
         };
         
@@ -425,20 +450,31 @@ jQuery(document).ready(function(){
             data: modeData,
             success:function (data, textStatus) {
                 if( data.data) {
-                    //alert(data.data.mode);
-                    
+                                      
                     $phrases.each(function(i){
                         
                         if(updated[i] == 1){
                            var $item  = $.tmplItem(this);
                            $item.data.mode = data.data.mode;
-                           $item.update();                                                      
+                           $item.data.modeCode = data.data.modeCode;
+                           $item.data.modeX = data.data.modeX;
+                           $item.data.maxPrice = data.data.maxPrice;
+                           $item.update(); 
+                          
                         }
                                                
                     });
+
+ //@todo replace whith with good solution
+                    if(!$("#cmp-setModeWrp").is(":hidden")){
+                       $("#cmp-setModeBtn").trigger("click");
+                       
+                       
+                       
+                    } else {
+                        
+                    }
                     
-                    
-                    $("#cmp-setModeBtn").trigger("click");
     
 
 
@@ -462,7 +498,7 @@ jQuery(document).ready(function(){
         
     };
  
-    //$("#cmp-setModeWrp").find(".cmp-save").live("click",f_file4_savePhraseModeAll);
+    
     $file2_campResWrp.delegate(".cmp-save","click",f_file2_savePhraseModeAll);
     
  
@@ -489,5 +525,21 @@ jQuery(document).ready(function(){
         $(this).removeClass("clt-clientHgl");
     })
  
+     /* Declare the functions for getting the items and subfolders, etc. 
+       These could be simple global functions. 
+       (Here we are adding them to the window object, which is equivalent). */
+
+ 
+    $.extend( window, { 
+        returnCtr: function( tmplItem ) {
+            var res = 0;
+            if(tmplItem.data.Shows > 0){
+              res = tmplItem.data.Clicks/tmplItem.data.Shows*100;  
+            }
+            
+            return res.toFixed(2);
+        }
+    });
+
  
 });

@@ -81,7 +81,7 @@
     <div  class="clt-clientHd  span-18">
         <div class="span-1"><?php echo $this->Form->checkbox('toMode', array('disabled' => 'disabled')); ?></div>
         <div class="cmp-phraseHd span-5"><?php __('Phrase'); ?></div>
-        <div class="cmp-showsHd span-2"><?php __('Shows'); ?></div>
+        <div class="cmp-strHd span-2"><?php __('CTR'); ?></div>
         <div class="cmp-priceHd span-2"><?php __('Price'); ?></div>
         <div class="cmp-minMaxPricesHd span-3"><?php __('Position price'); ?></div>
         <div class="cmp-modeHd span-3"><?php __('Mode'); ?></div>
@@ -96,15 +96,18 @@
     <div  class="cmp-client  span-18">
         <div class="span-1"><?php echo $this->Form->checkbox('toMode', array('id'=>'ch-${PhraseID}' ,'disabled'=>'disabled'));?></div>
         <div class="cmp-phrase span-5">${Phrase}</div>       
-
-        <div class="cmp-shows span-2 last">${Shows}</div>
+        <div class="cmp-ctr span-2">
+            <div class="cmp-clicksCtr span-2 last"><?php __('Clicks:');?>&nbsp;${Clicks}</div>
+            <div class="cmp-showsCtr span-2 last"><?php __('Shows:');?>&nbsp;${Shows}</div>           
+            <div class="cmp-ctrCtr span-2 last"><?php __('CTR:');?>&nbsp;${returnCtr($item)}%</div>
+        </div>
         <div class="cmp-price span-2 last">${Price}</div>
         <div class="cmp-minMaxPrices span-3">
             
-            <div class="cmp-maxPremPr"><?php __('Max Premium:');?>&nbsp;${PremiumMax}</div> 
-            <div class="cmp-minPremPr"><?php __('Min Premium:');?>&nbsp;${PremiumMin}</div>
-            <div class="cmp-maxPr"><?php __('Max Guaranty:');?>&nbsp;${Max}</div>
-            <div class="cmp-minPr"><?php __('Min Guaranty:');?>&nbsp;${Min}</div>
+            <div class="cmp-maxPremPr"><?php __('Premium Max:');?>&nbsp;${PremiumMax}</div> 
+            <div class="cmp-minPremPr"><?php __('Premium Min:');?>&nbsp;${PremiumMin}</div>
+            <div class="cmp-maxPr"><?php __('Guaranty Max:');?>&nbsp;${Max}</div>
+            <div class="cmp-minPr"><?php __('Guaranty Min:');?>&nbsp;${Min}</div>
             
             
             
@@ -112,14 +115,21 @@
         </div>
         <div class="span-3 cmp-string">
             {{if mode}}
-                <span class="cmp-modeStr">${mode}</span>
+                <div class="span-3 cmp-modeStr">${mode}</div>
             {{else}}
                 <?php __("no mode set yet");?>
             {{/if}}
+            {{if maxPrice}}
+            <div class="span-3 cmp-maxPriceStr"><?php __('Max price:');?>&nbsp;${maxPrice}&#36;</div>
+            {{else}}
+                <?php __("no maxPrice set yet");?>
+            {{/if}}
         </div>
         {{if mode}}
-            <div class="span-1 cmp-edit"><?php __('eidt');?></div>       
-            <div class="span-1 last cmp-delete"><?php __('del');?></div>
+            <div class="span-2 last">
+                <div class="span-2 last cmp-edit"><?php __('eidt');?></div>       
+                <div class="span-2 last cmp-delete"><?php __('del');?></div>
+            </div>
         {{else}}
             <div class="span-2 last cmp-edit"><?php __('create');?></div>
         {{/if}}
@@ -131,8 +141,11 @@
     <div  class="cmp-clientLowCtr  span-18">
         <div class="cmp-lowCtrFrst span-1">#</div>
         <div class="cmp-phrase span-5">${Phrase}</div>       
-
-        <div class="cmp-shows span-2 last">${Shows}</div>
+        <div class="cmp-ctr span-2 last">
+            <div class="cmp-clicksCtr span-2 last"><?php __('Clicks:');?>&nbsp;${Clicks}</div>
+            <div class="cmp-showsCtr span-2 last"><?php __('Shows:');?>&nbsp;${Shows}</div>           
+            <div class="cmp-ctrCtr span-2 last"><?php __('CTR:');?>&nbsp;${returnCtr($item)}%</div>
+        </div>
         <div class="cmp-price span-2 last">${Price}</div>                     
         <div class="cmp-lowCtr span-3"><?php __('Low CTR!');?></div>
                  
@@ -171,6 +184,7 @@
             }
             ?>
             <span class="cmp-xspan">&nbsp;X&nbsp;=&nbsp;</span><input class="cmp-xinput" name="cmp-x" />&nbsp;
+            <span class="cmp-maxPrice">&nbsp;<?php __('Max price');?>&nbsp;=&nbsp;</span><input class="cmp-maxPrInput" name="cmp-maxpr" />&nbsp;
             <span class="cmp-save"><?php __('Save');?></span>
             <span class="cmp-close"><?php __('Close');?></span>
 

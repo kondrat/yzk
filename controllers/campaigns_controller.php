@@ -282,10 +282,13 @@ class CampaignsController extends AppController {
                             foreach ($modes as $vModes) {
                                 if ($v2['Phrase']['mode'] == $vModes['name']) {
                                     $resAllPhrases['data'][$k]['mode'] = sprintf($vModes['desc'], $v2['Phrase']['mode_x']);
+                                    $resAllPhrases['data'][$k]['modeCode'] = $vModes['name'];
+                                    $resAllPhrases['data'][$k]['modeX'] = $v2['Phrase']['mode_x'];
                                     break;
                                 }
                             }
-
+                            $resAllPhrases['data'][$k]['maxPrice'] = $v2['Phrase']['price'];
+                            
                             //$resAllPhrases['data'][$k]['modeX'] = $v2['Phrase']['mode_x'];
                             break;
                         }
