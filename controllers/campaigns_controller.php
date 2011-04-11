@@ -30,49 +30,12 @@ class CampaignsController extends AppController {
         $this->disableCache();
     }
 
-    /**
-     * @return type
-     * 
-     */
-    function index() {
-
-        $this->set('title_for_layout', __('Campaigns', true));
-        $this->set('menuType', 'regged');
-
-        $clientName = null;
-
-
-        if (isset($this->params['named']['client']) && $this->params['named']['client'] !== null) {
-
-            if ($this->Auth->user('group_id') == 4) {
-                
-                $clientName = $this->Auth->user('ynLogin');
-                if($clientName != $this->params['named']['client']){
-                    $this->redirect('/');
-                }
-                
-                
-            } else {
-                $clientName = Sanitize::paranoid($this->params['named']['client'], array('-'));
-            }
-            
-        } else {
-            if ($this->Auth->user('group_id') == 4) {
-                $clientName = $this->Auth->user('ynLogin');
-            }
-        }
-
-
-        $this->set('clientName', $clientName);
-     
-    }
-
-    
+  
      /**
      * @return type
      * 
      */
-    function index2() {
+    function index() {
 
         $this->set('title_for_layout', __('Campaigns', true));
         $this->set('menuType', 'regged');
@@ -268,6 +231,14 @@ class CampaignsController extends AppController {
                         ));
 
                 $modes = $this->setPrice->modes;
+                $modesSet = array();
+                foreach ($modes as $k3=>$v3){
+                    foreach ($v3 as $k4=>$v4){
+                      $modesSet[] = $v4;   
+                    }  
+                }
+                
+                
                 $lowCtr['data'] = array();
                 
                 foreach ($resAllPhrases['data'] as $k => $v) {
@@ -279,7 +250,7 @@ class CampaignsController extends AppController {
 
                     foreach ($phrasesFromDb as $k2 => $v2) {
                         if ($v["PhraseID"] == $v2['Phrase']['phrase_yn_id']) {
-                            foreach ($modes as $vModes) {
+                            foreach ($modesSet as $vModes) {
                                 if ($v2['Phrase']['mode'] == $vModes['name']) {
                                     $resAllPhrases['data'][$k]['mode'] = sprintf($vModes['desc'], $v2['Phrase']['mode_x']);
                                     $resAllPhrases['data'][$k]['modeCode'] = $vModes['name'];

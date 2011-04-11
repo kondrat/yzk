@@ -5,11 +5,8 @@
 jQuery(document).ready(function(){
     
     var $file2_campResWrp = $("#cmp-campResWrp");
- 
-    var $file2_cmpLoaderWrp = $("#cmp-loaderWrp");
-    
-    var $file2_cmpNavBarCtrl = $("#cmp-navBarCtrl");
-    
+    var $file2_cmpLoaderWrp = $("#cmp-loaderWrp");   
+    var $file2_cmpNavBarCtrl = $("#cmp-navBarCtrl");  
     var $file2_selectedItem = null;
  
  
@@ -82,8 +79,7 @@ jQuery(document).ready(function(){
             dataType:"json",
             url: path+"\/campaigns\/getYnCampInfo",
             type: "POST",
-            data: {
-                
+            data: {                
                 "data[campid]":$("#cmp-navBarCam").data("cmpId")
             },
             success:function (data, textStatus) {
@@ -131,9 +127,7 @@ jQuery(document).ready(function(){
         var $thisParent = $(this).parents(".cmp-client");
         
         var $thisDataItem = $thisParent.tmplItem();
-        
-        
-        
+              
         $("#cmp-navBarCam").data({"cmpId":$thisDataItem.data.CampaignID,"cmpName":$thisDataItem.data.Name});
          
         f_file2_getClientsCampInfo();
@@ -173,8 +167,8 @@ jQuery(document).ready(function(){
                     $("#cmp-clientBannerHdTmpl").tmpl(data).appendTo($file2_campResWrp);
 
                     //collect all edit/del buttons of each items
-                    $file2_modeEditBtn = $file2_campResWrp.find('.cmp-edit');
-                    $file2_modeDelBtn = $file2_campResWrp.find('.cmp-delete');
+                    //$file2_modeEditBtn = $file2_campResWrp.find('.cmp-edit');
+                    //$file2_modeDelBtn = $file2_campResWrp.find('.cmp-delete');
                     
                     $("#cmp-navBarCamName").show().find("span").text($("#cmp-navBarCam").data("cmpName"));
                     $("#cmp-navBarBnTlt").show().find("span").text($("#cmp-navBarBan").data("bnTtl"));
@@ -310,6 +304,7 @@ jQuery(document).ready(function(){
                 type: "POST",
                 data: modeData,
                 success:function (data, textStatus) {
+                    
                     if( data.data) {
                         
                         $file2_selectedItem.data.mode = null;
@@ -341,46 +336,50 @@ jQuery(document).ready(function(){
     $file2_campResWrp.delegate(".cmp-delete","click",f_file2_delPhraseMode);
 
 
-    //mass update phrases. edit and delete
+    //mass or single update phrases. edit and delete
 
     $file2_campResWrp.delegate("#cmp-setModeBtn","click", function(){
         
         var $this = $(this);
-        var mm = $file2_campResWrp.find("input:checkbox");
+        var checkBoxSet = $file2_campResWrp.find("input:checkbox");
         
-        if( $("#cmp-setModeWrp").is(":hidden") ){
-            
+        if( $this.hasClass("cmp-setModeBtnAct") ){
+           
+           $this.removeClass("cmp-setModeBtnAct");
+           
+           checkBoxSet.attr({"disabled":"disabled"}); 
+           checkBoxSet.attr({"checked":false}); 
+                          
+           $file2_campResWrp.find('.cmp-editDis').removeClass('cmp-editDis').addClass('cmp-edit');
+           $file2_campResWrp.find('.cmp-deleteDis').removeClass('cmp-deleteDis').addClass('cmp-delete');
+           
+           $("#cmp-setModeWrp").hide();
+          
+        } else {
+ 
            $this.addClass("cmp-setModeBtnAct");
             
-           mm.attr({"disabled":false});
-           mm.attr({"checked":true});
+           checkBoxSet.attr({"disabled":false});
+           checkBoxSet.attr({"checked":true});
            
            $file2_campResWrp.find('.cmp-edit').removeClass('cmp-edit').addClass('cmp-editDis');
-           $file2_modeDelBtn.removeClass('cmp-delete').addClass('cmp-deleteDis');
-           $file2_campResWrp.find('.cmp-delete').find(".cmp-modes").remove().end().find(".cmp-client").removeClass("cmp-clientActive");
+           $file2_campResWrp.find('.cmp-delete').removeClass('cmp-delete').addClass('cmp-deleteDis');
+           $file2_campResWrp.find(".cmp-modes").remove().end().find(".cmp-client").removeClass("cmp-clientActive");
            
           
            $("#cmp-modesTmpl").tmpl().appendTo($("#cmp-setModeWrp"));           
            
-           $("#cmp-setModeWrp").show();
-           
-        } else {
-            
-           $this.removeClass("cmp-setModeBtnAct");
-           
-           mm.attr({"disabled":"disabled"}); 
-           mm.attr({"checked":false}); 
+           $("#cmp-setModeWrp").show();          
 
-
-                            
-           $file2_campResWrp.find('.cmp-edit').removeClass('cmp-editDis').addClass('cmp-edit');
-           $file2_campResWrp.find('.cmp-delete').removeClass('cmp-deleteDis').addClass('cmp-delete');
-           
-           $("#cmp-setModeWrp").hide();
         }
         
 
     });    
+
+    $file2_campResWrp.delegate("#cmp-setModeWrp .cmp-close","click", function(){
+        $("#cmp-setModeBtn").trigger("click");
+    });
+
 
     $file2_campResWrp.delegate("#toMode","click",function(){
         var $this = $(this);
@@ -403,7 +402,7 @@ jQuery(document).ready(function(){
         var $phrases = $file2_campResWrp.find(".cmp-client");
         var allData = new Object;
         var updated = new Object;
-        console.log($phrases);
+        
         $phrases.each(function(i){
             updated[i] = 0;
             if( $(this).find('input[id|="ch"]').next().attr("checked") == true ){
@@ -465,15 +464,11 @@ jQuery(document).ready(function(){
                                                
                     });
 
- //@todo replace whith with good solution
-                    if(!$("#cmp-setModeWrp").is(":hidden")){
+
                        $("#cmp-setModeBtn").trigger("click");
                        
                        
-                       
-                    } else {
-                        
-                    }
+
                     
     
 

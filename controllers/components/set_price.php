@@ -15,75 +15,83 @@ class setPriceComponent extends Object {
      */
     //two % to print "%"leteral
     public $modes = array(
-        array(
-            "name" => "minPlusP",
-            "desc" => "Guaranty + %s%%",
-            "priceType" => "min"
+        'Guaranty' => array(
+            array(
+                "name" => "minPlusP",
+                "desc" => "Guaranty + %s%%",
+                "priceType" => "min"
+            ),
+            array(
+                "name" => "minPlusC",
+                "desc" => "Guaranty + %s cent",
+                "priceType" => "min"
+            )
         ),
-        array(
-            "name" => "minPlusC",
-            "desc" => "Guaranty + %s cent",
-            "priceType" => "min"
+        'GuarantyMax' => array(
+            array(
+                "name" => "maxMinusP",
+                "desc" => "GuarantyMax - %s%%",
+                "priceType" => "max"
+            ),
+            array(
+                "name" => "maxMinusC",
+                "desc" => "GuarantyMax - %s cent",
+                "priceType" => "max"
+            ),
+            array(
+                "name" => "maxPlusP",
+                "desc" => "GuarantyMax + %s%%",
+                "priceType" => "max"
+            ),
+            array(
+                "name" => "maxPlusC",
+                "desc" => "GuarantyMax + %s cent",
+                "priceType" => "max"
+            )
         ),
-        array(
-            "name" => "maxMinusP",
-            "desc" => "GuarantyMax - %s%%",
-            "priceType" => "max"
+        'PremiumMin' => array(
+            array(
+                "name" => "premMinMinusP",
+                "desc" => "PremiumMin - %s%%",
+                "priceType" => "premMin"
+            ),
+            array(
+                "name" => "premMinMinusC",
+                "desc" => "PremiumMin - %s cent",
+                "priceType" => "premMin"
+            ),
+            array(
+                "name" => "premMinPlusP",
+                "desc" => "PremiumMin + %s%%",
+                "priceType" => "premMin"
+            ),
+            array(
+                "name" => "premMinPlusC",
+                "desc" => "PremiumMin + %s cent",
+                "priceType" => "premMin"
+            )
         ),
-        array(
-            "name" => "maxMinusC",
-            "desc" => "GuarantyMax - %s cent",
-            "priceType" => "max"
-        ),
-        array(
-            "name" => "maxPlusP",
-            "desc" => "GuarantyMax + %s%%",
-            "priceType" => "max"
-        ),
-        array(
-            "name" => "maxPlusC",
-            "desc" => "GuarantyMax + %s cent",
-            "priceType" => "max"
-        ),
-        array(
-            "name" => "premMinMinusP",
-            "desc" => "PremiumMin - %s%%",
-            "priceType" => "premMin"
-        ),
-        array(
-            "name" => "premMinMinusC",
-            "desc" => "PremiumMin - %s cent",
-            "priceType" => "premMin"
-        ),
-        array(
-            "name" => "premMinPlusP",
-            "desc" => "PremiumMin + %s%%",
-            "priceType" => "premMin"
-        ),
-        array(
-            "name" => "premMinPlusC",
-            "desc" => "PremiumMin + %s cent",
-            "priceType" => "premMin"
-        ),
-        array(
-            "name" => "premMaxMinusP",
-            "desc" => "PremiumMax - %s%%",
-            "priceType" => "premMax"
-        ),
-        array(
-            "name" => "premMaxMinusC",
-            "desc" => "PremiumMax - %s cent",
-            "priceType" => "premMax"
-        ),
-        array(
-            "name" => "premMaxPlusP",
-            "desc" => "PremiumMax + %s%%",
-            "priceType" => "premMax"
-        ),
-        array(
-            "name" => "premMaxPlusC",
-            "desc" => "PremiumMax + %s cent",
-            "priceType" => "premMax"
+        'PremiumMax' => array(
+            array(
+                "name" => "premMaxMinusP",
+                "desc" => "PremiumMax - %s%%",
+                "priceType" => "premMax"
+            ),
+            array(
+                "name" => "premMaxMinusC",
+                "desc" => "PremiumMax - %s cent",
+                "priceType" => "premMax"
+            ),
+            array(
+                "name" => "premMaxPlusP",
+                "desc" => "PremiumMax + %s%%",
+                "priceType" => "premMax"
+            ),
+            array(
+                "name" => "premMaxPlusC",
+                "desc" => "PremiumMax + %s cent",
+                "priceType" => "premMax"
+            )
         )
     );
 
@@ -97,7 +105,7 @@ class setPriceComponent extends Object {
                 $resPrice = $min + $x / 100;
                 break;
 
-            
+
             case 'maxMinusP':
                 $resPrice = $max - $max / 100 * $x;
                 break;
@@ -144,11 +152,11 @@ class setPriceComponent extends Object {
                 $resPrice = 0;
                 break;
         }
- 
-        
-        if($maxPrice != NULL){
-            if($resPrice > $maxPrice){
-               $resPrice = $maxPrice; 
+
+
+        if ($maxPrice != NULL) {
+            if ($resPrice > $maxPrice) {
+                $resPrice = $maxPrice;
             }
         }
 

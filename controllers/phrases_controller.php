@@ -118,8 +118,9 @@ class PhrasesController extends AppController {
 
             $this->data = Sanitize::clean($this->data);
             
-            if (isset($this->data['mode']) && isset($this->data['modeX'])&& isset($this->data['maxPr'])) { 
-                //@todo sanitize this
+            if (isset($this->data['mode'])  && isset($this->data['modeX'])&& isset($this->data['maxPr'])) { 
+                
+                
                 
                 if( isset($this->data['ph']) && is_array($this->data['ph']) && $this->data['ph'] != array() ){
  
@@ -158,11 +159,15 @@ class PhrasesController extends AppController {
                     if ($checker == 1) {
                         $modes = $this->setPrice->modes;
                         foreach ($modes as $k => $v) {
-                            if ($this->data['Phrase']['mode'] == $v['name']) {
-                                $mode = sprintf($v['desc'], $this->data['Phrase']['mode_x']);
-                                $modeCode = $v['name'];
-                                $modeX = $this->data['Phrase']['mode_x'];
+                            foreach ($v as $k1=>$v1){
+                                if ($this->data['Phrase']['mode'] == $v1['name']) {
+                                    $mode = sprintf($v1['desc'], $this->data['Phrase']['mode_x']);
+                                    $modeCode = $v1['name'];
+                                    $modeX = $this->data['Phrase']['mode_x'];
+                                    break;
+                                }
                             }
+                            
                         }
                         $content['data']['mode'] = $mode;
                         $content['data']['modeCode'] = $modeCode;
@@ -175,6 +180,8 @@ class PhrasesController extends AppController {
                     
                 }
              
+            } else {
+               $contents = json_encode(array('error'=>__('Update mode failed',true))); 
             }
         }
 
