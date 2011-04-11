@@ -464,8 +464,11 @@ jQuery(document).ready(function(){
                                                
                     });
 
-
-                       $("#cmp-setModeBtn").trigger("click");
+                    if($("#cmp-setModeBtn").hasClass("cmp-setModeBtnAct")){
+                       $("#cmp-setModeBtn").trigger("click"); 
+                    }
+                       
+                       
                        
                        
 
