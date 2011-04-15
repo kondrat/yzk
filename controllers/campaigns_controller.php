@@ -5,7 +5,7 @@ App::import('Sanitize');
 class CampaignsController extends AppController {
 
     var $name = 'Campaigns';
-    var $publicActions = array('getYnCampList','getYnCampInfo','getYnBanInfo');
+    var $publicActions = array('getYnCampList', 'getYnCampInfo', 'getYnBanInfo');
     var $helpers = array('Text');
     var $components = array('setPrice');
 
@@ -30,8 +30,7 @@ class CampaignsController extends AppController {
         $this->disableCache();
     }
 
-  
-     /**
+    /**
      * @return type
      * 
      */
@@ -46,17 +45,14 @@ class CampaignsController extends AppController {
         if (isset($this->params['named']['client']) && $this->params['named']['client'] !== null) {
 
             if ($this->Auth->user('group_id') == 4) {
-                
+
                 $clientName = $this->Auth->user('ynLogin');
-                if($clientName != $this->params['named']['client']){
+                if ($clientName != $this->params['named']['client']) {
                     $this->redirect('/');
                 }
-                
-                
             } else {
                 $clientName = Sanitize::paranoid($this->params['named']['client'], array('-'));
             }
-            
         } else {
             if ($this->Auth->user('group_id') == 4) {
                 $clientName = $this->Auth->user('ynLogin');
@@ -66,13 +62,8 @@ class CampaignsController extends AppController {
 
         $this->set('clientName', $clientName);
         $this->set("modes", $this->setPrice->modes);
-    }   
-    
-    
-    
-    
-    
-    
+    }
+
     /**
      *  retriving given client's campaings from api.direct.yandex.ru via ajax
      * @param
@@ -94,26 +85,35 @@ class CampaignsController extends AppController {
 
             $clientName = Sanitize::paranoid($this->data['clname'], array('-'));
 
-  
 
-                if ($this->Auth->user('group_id') == 4) {
-                    $clientName = $this->Auth->user('ynLogin');
-                } else {
-                    $clientName = Sanitize::paranoid($this->data['clname'], array('-'));
+
+            if ($this->Auth->user('group_id') == 4) {
+                $clientName = $this->Auth->user('ynLogin');
+            } else {
+                $clientName = Sanitize::paranoid($this->data['clname'], array('-'));
+            }
+
+
+            $params = array(
+                'Logins' => array($clientName),
+                'Filter' => array(
+                    'StatusArchive' => array('No')
+                )
+            );
+            $resAllCamp = json_decode($this->getYnData->getYnData($pathToCerts, 'GetCampaignsListFilter', $params), TRUE);
+
+            function cmp($a, $b) {
+                if ($a["CampaignID"] == $b["CampaignID"]) {
+                    return 0;
                 }
+                return ($a["CampaignID"] < $b["CampaignID"]) ? -1 : 1;
+            }
+
+            usort($resAllCamp['data'], "cmp");
+                
 
 
-                $params = array(
-                                'Logins' => array($clientName),
-                                'Filter' => array(
-                                    'StatusArchive'=>array('No')
-                                    
-                                    )
-                    );
-                $content = $this->getYnData->getYnData($pathToCerts, 'GetCampaignsListFilter', $params);
-
-
-            
+            $content = json_encode($resAllCamp);
             $this->header('Content-Type: application/json');
             return ($content);
         }
@@ -151,25 +151,39 @@ class CampaignsController extends AppController {
             Configure::write('debug', 0);
             $this->autoLayout = false;
             $this->autoRender = FALSE;
-            
-            $pathToCerts = Configure::read('pathToCerts');
-            $params = array('CampaignIDS'=>array($this->data['campid']),
-                            'Filter' => array(
-                                'StatusArchive'=> array('No'),
-                                'IsActive'=>array('Yes')
-                            )
-                );
-            
-            $resAllBanners = json_decode($this->getYnData->getYnData($pathToCerts,'GetBanners', $params), TRUE);          
-            
-            
 
-            $content = json_encode( $resAllBanners );
+            $pathToCerts = Configure::read('pathToCerts');
+            $params = array('CampaignIDS' => array($this->data['campid']),
+                'Filter' => array(
+                    'StatusArchive' => array('No'),
+                    'IsActive' => array('Yes')
+                )
+            );
+
+            $resAllBanners = json_decode($this->getYnData->getYnData($pathToCerts, 'GetBanners', $params), TRUE);
+
+            //due to yandex sort is unpredictable
+
+
+            function cmp($a, $b) {
+                if ($a["BannerID"] == $b["BannerID"]) {
+                    return 0;
+                }
+                return ($a["BannerID"] < $b["BannerID"]) ? -1 : 1;
+            }
+
+            usort($resAllBanners['data'], "cmp");
+
+
+
+
+
+            $content = json_encode($resAllBanners);
             $this->header('Content-Type: application/json');
             return ($content);
         }
     }
-    
+
     /**
      * show info aboud cirtain banner
      * 
@@ -181,11 +195,12 @@ class CampaignsController extends AppController {
         $this->set('menuType', 'regged');
 
         //$authUserId = $this->Auth->user('id');
-        
+
 
 
         $this->set("modes", $this->setPrice->modes);
     }
+
     /**
      * retriving data from api.direct.yandex.ru via ajax
      * 
@@ -209,21 +224,21 @@ class CampaignsController extends AppController {
             $modes = array();
             $bannid = null;
             $bannersID = array();
-            
-            if(isset($this->data['bannid'])){
+
+            if (isset($this->data['bannid'])) {
                 $bannid = Sanitize::paranoid($this->data['bannid']);
                 $bannersID = array($bannid);
             }
 
             //getting information about phrases( filtered not archive);
             $pathToCerts = Configure::read('pathToCerts');
-            $params = array('BannerIDS' => $bannersID, 
+            $params = array('BannerIDS' => $bannersID,
                 //'FieldsNames' => array('Phrase', 'Shows', 'Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin'),
                 'RequestPrices' => 'Yes');
 
 
             $resAllPhrases = json_decode($this->getYnData->getYnData($pathToCerts, 'GetBannerPhrasesFilter', $params), TRUE);
-            
+
             if (isset($resAllPhrases['data']) && $resAllPhrases['data'] != array()) {
                 $this->loadModel('Phrase');
                 $phrasesFromDb = $this->Phrase->find("all", array(
@@ -232,15 +247,17 @@ class CampaignsController extends AppController {
 
                 $modes = $this->setPrice->modes;
                 $modesSet = array();
-                foreach ($modes as $k3=>$v3){
-                    foreach ($v3 as $k4=>$v4){
-                      $modesSet[] = $v4;   
-                    }  
+                foreach ($modes as $k3 => $v3) {
+                    foreach ($v3 as $k4 => $v4) {
+                        $modesSet[] = $v4;
+                    }
                 }
-                
-                
+
+
                 $lowCtr['data'] = array();
-                
+                $goodCtr['data'] = array();
+
+
                 foreach ($resAllPhrases['data'] as $k => $v) {
                     //here we cutting off "stop words"
                     $pos = strpos($resAllPhrases['data'][$k]['Phrase'], '-');
@@ -248,6 +265,7 @@ class CampaignsController extends AppController {
                         $resAllPhrases['data'][$k]['Phrase'] = substr($resAllPhrases['data'][$k]['Phrase'], 0, $pos - 1);
                     }
 
+                    //adding modes information 
                     foreach ($phrasesFromDb as $k2 => $v2) {
                         if ($v["PhraseID"] == $v2['Phrase']['phrase_yn_id']) {
                             foreach ($modesSet as $vModes) {
@@ -259,25 +277,25 @@ class CampaignsController extends AppController {
                                 }
                             }
                             $resAllPhrases['data'][$k]['maxPrice'] = $v2['Phrase']['price'];
-                            
+
                             //$resAllPhrases['data'][$k]['modeX'] = $v2['Phrase']['mode_x'];
                             break;
                         }
                     }
-                    
-                    if($v['LowCTR'] == 'Yes'){
-                        
-                        $lowCtr['data'][] = $resAllPhrases['data'][$k];
-                        unset($resAllPhrases['data'][$k]);
+
+                    if ($v['LowCTR'] == 'Yes') {
+
+                        $lowCtr['data'][$v["PhraseID"]] = $resAllPhrases['data'][$k];
+                        //unset($resAllPhrases['data'][$k]);
+                    } else {
+                        $goodCtr['data'][$v["PhraseID"]] = $resAllPhrases['data'][$k];
                     }
-                    
-                    
                 }
             }
-            
-            
-            
-            $resAllPhrases['data'] = array_merge($resAllPhrases['data'], $lowCtr['data']);
+            //sort by the
+            ksort($goodCtr['data']);
+
+            $resAllPhrases['data'] = array_merge($goodCtr['data'], $lowCtr['data']);
             $content = json_encode($resAllPhrases);
             $this->header('Content-Type: application/json');
             return ($content);
