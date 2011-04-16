@@ -17,6 +17,14 @@
     position: relative;
     padding: 4px 0;
 }
+.cmp-clientStop, .cmp-clientStop a{
+    background-color: lightGrey;
+    color: gray;
+}
+.cmp-clientStop a:hover{
+    color: #0099ff;
+}
+
 /*
 .cmp-client:hover{
     background-color: #E6EFC2;
@@ -190,4 +198,21 @@
 }
 .cmp-ctrCtr{
     border-top: 1px solid #ccc;
+}
+.cmp-startStop {
+    border: 1px solid gray;
+    padding: 0 3px;
+    color: gray;
+    background-color: #ddd;
+    cursor: pointer;
+    text-align: center;
+    
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px; 
+}
+.cmp-startStop:hover{
+    color: #fff;
+    background-color: gray;
+    border-color: darkgray;
 }

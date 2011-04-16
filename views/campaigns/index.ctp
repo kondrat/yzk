@@ -5,20 +5,28 @@
 
 
     <script id="cmp-clientCompListHdTmpl" type="text/x-jquery-tmpl">
-         <div  class="clt-clientHd  span-18">
+         
 
+         <div  class="clt-clientHd  span-18">
+             
             <div class="cmp-nameHd span-4"><?php __('Campaing'); ?></div>
             <div class="cmp-clicksHd span-2"><?php __('Clicks'); ?></div>
             <div class="cmp-showsHd span-2"><?php __('Shows'); ?></div>
             <div class="cmp-startdateHd span-2"><?php __('StartDate'); ?></div>
-            <div class="cmp-sumHd span-1"><?php __('Sum'); ?></div>
+            <div class="cmp-sumHd span-2"><?php __('Sum'); ?></div>
+            <div class="cmp-stopStartHd spna-2"><?php __('Stop/Resume');?></div>
 
         </div> 
             {{tmpl(data) "#cmp-clientCompListTmpl"}}
     </script>
     <script id="cmp-clientCompListTmpl" type="text/x-jquery-tmpl">
        
-        <div  class="cmp-client  span-17">        
+         
+         {{if StatusShow == "Yes"}}
+         <div  class="cmp-client  span-17">
+         {{else}}
+         <div  class="cmp-client cmp-clientStop  span-17">
+         {{/if}}
             <div class="cmp-name span-4">
             <?php echo $this->Html->link('${Name}', array(
                 'plugin' => false,
@@ -30,7 +38,12 @@
             <div class="cmp-clicks span-2">${Clicks}</div>
             <div class="cmp-shows span-2">${Shows}</div>
             <div class="cmp-startdate span-2">${StartDate}</div>
-            <div class="cmp-sum span-1">${Sum}</div>
+            <div class="cmp-sum span-2">${Sum}</div>
+            {{if StatusShow == "Yes"}}
+                <div class="cmp-startStop span-2"><?php __('Stop');?></div>
+            {{else}}
+                <div class="cmp-startStop span-2"><?php __('Resume');?></div>
+            {{/if}}
         </div>       
        
     </script>
@@ -112,10 +125,7 @@
             <div class="cmp-minPremPr"><?php __('Premium Min:');?>&nbsp;${PremiumMin}</div>
             <div class="cmp-maxPr"><?php __('Guaranty Max:');?>&nbsp;${Max}</div>
             <div class="cmp-minPr"><?php __('Guaranty Min:');?>&nbsp;${Min}</div>
-            
-            
-            
-                        
+                                    
         </div>
         <div class="span-3 cmp-string">
             {{if mode}}
