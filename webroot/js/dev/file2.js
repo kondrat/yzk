@@ -505,9 +505,50 @@ jQuery(document).ready(function(){
     });
 
 
+// im working here now
+//to check the returned status before update
 
-
-
+    $file2_campResWrp.delegate(".cmp-startStop","click",function(){
+        
+        var $this = $(this);
+        var $thisParernt = $this.parents(".cmp-client");
+        var $item  = $.tmplItem($thisParernt);
+        var campID = $item.data.CampaignID;
+        var campStatus = $item.data.StatusShow;
+        var campData = {
+            "data[campId]":campID,
+            "data[statShow]":campStatus
+        };
+        $.ajax({
+            dataType:"json",
+            url: path+"\/campaigns\/startStop",
+            type: "POST",
+            data: campData,
+            success:function (data, textStatus) {
+                if( data.data) {
+                  if($item.data.StatusShow == 'Yes'){
+                    $item.data.StatusShow = "No";   
+                  } else {
+                     $item.data.StatusShow = "Yes"; 
+                  }
+                                     
+                  $item.update();
+              
+                } else if(data.error){
+                    alert("Error here: "+data.error);
+                } else if(data.error_code){
+                    alert(data.error_code+' | '+data.error_detail+' | '+data.error_str);
+                } else {
+                    //flash_message("Couldn't be deleted", "fler" );
+                    alert('No Data')
+                }
+            },
+                    
+            error:function(){
+                alert('Problem with the server. Try again later.');
+            }
+        }); 
+    })
 
 
 
@@ -538,6 +579,9 @@ jQuery(document).ready(function(){
             return res.toFixed(2);
         }
     });
-
+    
+    
+    
+    
  
 });

@@ -5,7 +5,7 @@ App::import('Sanitize');
 class CampaignsController extends AppController {
 
     var $name = 'Campaigns';
-    var $publicActions = array('getYnCampList', 'getYnCampInfo', 'getYnBanInfo');
+    var $publicActions = array('getYnCampList', 'getYnCampInfo', 'getYnBanInfo','startStop');
     var $helpers = array('Text');
     var $components = array('setPrice');
 
@@ -301,6 +301,50 @@ class CampaignsController extends AppController {
             return ($content);
         }
     }
+    
+  /**
+   * starts of stops campaigns
+   * 
+   * @param int
+   * @return json
+   * @access public
+   */
+    public function startStop(){
+        
+        $startStopFn = 'StopCampaign';
+        
+        if ($this->RequestHandler->isAjax()) {
+
+            Configure::write('debug', 0);
+            $this->autoLayout = false;
+            $this->autoRender = FALSE;
+
+            $pathToCerts = Configure::read('pathToCerts');
+
+            $campaignId = Sanitize::paranoid($this->data['campId']);
+
+
+            $params = array(
+                'CampaignID' => $campaignId
+            );
+            if($this->data['statShow'] === 'No'){
+                $startStopFn = 'ResumeCampaign';
+            }
+            
+            
+            $resAllCamp = json_decode($this->getYnData->getYnData($pathToCerts, $startStopFn, $params), TRUE);
+
+                
+
+
+            $content = json_encode($resAllCamp);
+            $this->header('Content-Type: application/json');
+            return ($content);
+        }       
+    }
+    
+    
+    
 
 }
 
