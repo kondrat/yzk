@@ -550,6 +550,85 @@ jQuery(document).ready(function(){
         }); 
     })
 
+//i'm working here'
+    $file2_campResWrp.delegate(".cmp-dayBud","click",function(){
+        var $this = $(this);
+        var $thisParernt = $this.parents(".cmp-client");
+        var $item  = $.tmplItem($thisParernt);
+        $item.tmpl = $("#cmp-clientCompBugTmpl").template();
+        $item.update();
+        
+        $($item.nodes).find('input').css({"color":"red"}).focus();
+    })
+
+    $file2_campResWrp.delegate(".cmp-budClose","click",function(){
+        var $this = $(this);
+        var $thisParernt = $this.parents(".cmp-client");
+        var $item  = $.tmplItem($thisParernt);
+        $item.tmpl = $("#cmp-clientCompListTmpl").template();
+        $item.update();
+        
+    })
+
+
+    $file2_campResWrp.delegate(".cmp-budOk","click",function(){
+        
+        var $this = $(this);
+        var $thisParernt = $this.parents(".cmp-client");
+        var $item  = $.tmplItem($thisParernt);
+        var dayBud = parseFloat($thisParernt.find(".cmp-budInput").val()); 
+        var dayBudData = {
+            "data[campId]": $item.data.CampaignID,
+            "data[db]":dayBud
+        }; 
+        if(!isNaN(dayBud)){
+            $.ajax({
+                dataType:"json",
+                url: path+"\/campaigns\/dayBud",
+                type: "POST",
+                data: dayBudData,
+                success:function (data, textStatus) {
+                    if( data.data) {
+                       $item.data.dayLim = data.data;
+
+                      //$item.data
+
+                    } else if(data.error){
+                        alert("Error here: "+data.error);
+                    } else if(data.error_code){
+                        alert(data.error_code+' | '+data.error_detail+' | '+data.error_str);
+                    } else {
+                        //flash_message("Couldn't be deleted", "fler" );
+                        alert('No Data')
+                    }
+                },
+
+                error:function(){
+                    alert('Problem with the server. Try again later.');
+                }
+            });
+        } else {
+            alert('Incorrect data');
+        }
+        
+        $item.tmpl = $("#cmp-clientCompListTmpl").template();
+        $item.update();
+        
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

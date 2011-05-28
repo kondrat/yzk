@@ -2,12 +2,20 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1">
         <file>
+            <url>controllers/campaigns_controller.php</url>
+            <line>372</line>
+        </file>
+        <file>
+            <url>views/campaigns/index.ctp</url>
+            <line>64</line>
+        </file>
+        <file>
             <url>webroot/js/dev/file4.js</url>
             <line>259</line>
         </file>
         <file>
             <url>webroot/js/dev/file2.js</url>
-            <line>529</line>
+            <line>578</line>
         </file>
     </editor-bookmarks>
 </project-private>

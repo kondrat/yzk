@@ -26,7 +26,7 @@
 
 
         echo $this->Html->script(array(
-            'jq/jquery-1.5.1.min',
+            'jq/jquery-1.6.1.min',
             'plug/tipsy/javascripts/jquery.tipsy',
             'jq/jquery.tmpl.min',
             'plug/jquery.universalpaginate',

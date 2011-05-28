@@ -5,7 +5,7 @@ App::import('Sanitize');
 class CampaignsController extends AppController {
 
     var $name = 'Campaigns';
-    var $publicActions = array('getYnCampList', 'getYnCampInfo', 'getYnBanInfo','startStop');
+    var $publicActions = array('getYnCampList', 'getYnCampInfo', 'getYnBanInfo','startStop','dayBud');
     var $helpers = array('Text');
     var $components = array('setPrice');
 
@@ -110,8 +110,11 @@ class CampaignsController extends AppController {
             }
 
             usort($resAllCamp['data'], "cmp");
-                
-
+            
+            //gettin info form DB about day budget Limit
+            
+            $camFromDb = $this->Campaign->find('all');
+            $resAllCamp['test'] = $camFromDb;
 
             $content = json_encode($resAllCamp);
             $this->header('Content-Type: application/json');
@@ -345,7 +348,48 @@ class CampaignsController extends AppController {
     
     
     
+  /**
+   * sets and unsets max day budget
+   * 
+   * @param float
+   * @return json
+   * @access public
+   */
+    public function dayBud(){
+        
+        $dayBud = 0;
+        
+        if ($this->RequestHandler->isAjax()) {
 
+            Configure::write('debug', 0);
+            $this->autoLayout = false;
+            $this->autoRender = FALSE;
+
+            
+
+            $dayBud = (double)$this->data['db'];
+            $campaignId = Sanitize::paranoid($this->data['campId']);
+
+            $this->data['Campaign']['daymax'] = $dayBud;
+            $this->data['Campaign']['campaing_yn_id'] = $campaignId;
+            
+            if($this->Campaign->save($this->data) ){
+              $resAllCamp['data'] = $dayBud;  
+            } else {
+               $resAllCamp['error'] = 'Not saved'; 
+            }
+            
+
+                
+
+
+            $content = json_encode($resAllCamp);
+            $this->header('Content-Type: application/json');
+            return ($content);
+        }       
+    }
+    
+    
 }
 
 ?>

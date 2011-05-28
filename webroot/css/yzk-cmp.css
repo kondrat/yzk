@@ -216,3 +216,18 @@
     background-color: gray;
     border-color: darkgray;
 }
+.cmp-dayBud{
+    cursor: pointer;
+    text-decoration: underline;
+}
+.cmp-clientBud{
+    border-top: 2px solid green;
+    border-bottom: 2px solid green;
+}
+.cmp-budClose, .cmp-budOk{
+    background-color: gray;
+    border: 1px solid black;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+}
