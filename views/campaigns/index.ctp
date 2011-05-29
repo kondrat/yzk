@@ -14,6 +14,7 @@
             <div class="cmp-showsHd span-2"><?php __('Shows'); ?></div>
             <div class="cmp-startdateHd span-2"><?php __('StartDate'); ?></div>
             <div class="cmp-sumHd span-2"><?php __('Sum'); ?></div>
+            <div class="cmp-dayBudHd span-2"><?php __('Max Budget');?></div>
             <div class="cmp-stopStartHd spna-2"><?php __('Stop/Resume');?></div>
 
         </div> 
@@ -39,6 +40,11 @@
             <div class="cmp-shows span-2">${Shows}</div>
             <div class="cmp-startdate span-2">${StartDate}</div>
             <div class="cmp-sum span-2">${Sum}</div>
+            {{if dayLim == 0}}
+                <div class="cmp-dayBud span-2"><?php __('Unlimit');?></div>
+            {{else}}
+                 <div class="cmp-dayBud span-2">${dayLim}</div>
+            {{/if}}     
             {{if StatusShow == "Yes"}}
                 <div class="cmp-startStop span-2"><?php __('Stop');?></div>
             {{else}}
@@ -47,6 +53,25 @@
         </div>       
        
     </script>
+
+    <script id="cmp-clientCompBugTmpl" type="text/x-jquery-tmpl">
+       
+        
+         <div  class="cmp-client cmp-clientBud  span-17" style="background-color:gainsboro;">
+
+            <div class="cmp-name span-3">${Name}</div>
+
+            
+            <div class="cmp-dayBud span-2"><input class="cmp-budInput" name="cmp-dayBud" /></div>
+            <div class="span-14 prepend-3">
+                <div class="cmp-budOk  span-1">OK</div>
+                <div class="cmp-budClose span-2"><?php __('Close');?></div>
+            </div>
+        </div>       
+       
+    </script>
+
+
 
 
 
@@ -243,7 +268,14 @@
 </div>
 
 
+<?php 
+    echo (double)"d34.1sdf";
+    echo '<br />';
+    echo $this->Number->precision("18!@#$~#$#%%27776.9sdf1873645", 2 );
+    echo '<br />';
+    echo round(99.111, 2)
 
+?>
 
 
 <div id="cmp-campResWrp" class="cmp-campResWrp span-18" data-clname="<?php echo $clientName; ?>"></div>
