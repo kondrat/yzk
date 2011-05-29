@@ -375,6 +375,7 @@ class CampaignsController extends AppController {
     public function dayBud(){
         
         $dayBud = 0;
+        $currentYnCamp = array();
         
         if ($this->RequestHandler->isAjax()) {
 
@@ -389,6 +390,14 @@ class CampaignsController extends AppController {
 
             $this->data['Campaign']['day_lim'] = $dayBud;
             $this->data['Campaign']['campaign_yn_id'] = $campaignId;
+            
+            $currentYnCamp = $this->Campaign->find('first',array(
+                'conditions' => array('Campaign.campaign_yn_id'=> $campaignId )
+            ));
+            
+            if($currentYnCamp != array()){
+               $this->data['Campaign']['id'] = $currentYnCamp['Campaign']['id'];
+            }
             
             if($this->Campaign->save($this->data) ){
               $resAllCamp['dayLim'] = $dayBud;  
