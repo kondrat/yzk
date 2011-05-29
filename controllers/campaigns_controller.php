@@ -113,9 +113,26 @@ class CampaignsController extends AppController {
             
             //gettin info form DB about day budget Limit
             
-            $camFromDb = $this->Campaign->find('all');
+            $campId = Set::extract('/data/CampaignID',$resAllCamp);
+            $resAllCamp['campId'] = $campId;
+            
+            $camFromDb = $this->Campaign->find('all', array(
+                        'conditions' => array('Campaign.campaign_yn_id' => $campId)
+                            )
+            );
             $resAllCamp['test'] = $camFromDb;
 
+            foreach ($resAllCamp['data'] as $k=>$v){
+                $resAllCamp['data'][$k]['dayLim'] = 0;
+                foreach ($camFromDb as $k2=>$v2){
+                    if($v2['Campaign']['campaign_yn_id'] == $resAllCamp['data'][$k]['CampaignID']){
+                       $resAllCamp['data'][$k]['dayLim'] = $v2['Campaign']['day_lim'];
+                       break;
+                    }
+                }
+            }
+            
+            
             $content = json_encode($resAllCamp);
             $this->header('Content-Type: application/json');
             return ($content);
@@ -367,14 +384,14 @@ class CampaignsController extends AppController {
 
             
 
-            $dayBud = (double)$this->data['db'];
+            $dayBud = (double)$this->data['dbLim'];
             $campaignId = Sanitize::paranoid($this->data['campId']);
 
-            $this->data['Campaign']['daymax'] = $dayBud;
-            $this->data['Campaign']['campaing_yn_id'] = $campaignId;
+            $this->data['Campaign']['day_lim'] = $dayBud;
+            $this->data['Campaign']['campaign_yn_id'] = $campaignId;
             
             if($this->Campaign->save($this->data) ){
-              $resAllCamp['data'] = $dayBud;  
+              $resAllCamp['dayLim'] = $dayBud;  
             } else {
                $resAllCamp['error'] = 'Not saved'; 
             }

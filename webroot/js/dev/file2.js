@@ -557,8 +557,11 @@ jQuery(document).ready(function(){
         var $item  = $.tmplItem($thisParernt);
         $item.tmpl = $("#cmp-clientCompBugTmpl").template();
         $item.update();
-        
-        $($item.nodes).find('input').css({"color":"red"}).focus();
+        var dayLimCurVal = '';
+        if($item.data.dayLim > 0 ){
+            dayLimCurVal = $item.data.dayLim;
+        }
+        $($item.nodes).find('input').css({"color":"red"}).val(dayLimCurVal).focus();
     })
 
     $file2_campResWrp.delegate(".cmp-budClose","click",function(){
@@ -579,7 +582,7 @@ jQuery(document).ready(function(){
         var dayBud = parseFloat($thisParernt.find(".cmp-budInput").val()); 
         var dayBudData = {
             "data[campId]": $item.data.CampaignID,
-            "data[db]":dayBud
+            "data[dbLim]":dayBud
         }; 
         if(!isNaN(dayBud)){
             $.ajax({
@@ -588,8 +591,9 @@ jQuery(document).ready(function(){
                 type: "POST",
                 data: dayBudData,
                 success:function (data, textStatus) {
-                    if( data.data) {
-                       $item.data.dayLim = data.data;
+                    if( data.dayLim) {
+                        
+                       $item.data.dayLim = data.dayLim;
 
                       //$item.data
 
@@ -601,18 +605,22 @@ jQuery(document).ready(function(){
                         //flash_message("Couldn't be deleted", "fler" );
                         alert('No Data')
                     }
+                    
+                    $item.tmpl = $("#cmp-clientCompListTmpl").template();
+                    $item.update();                   
+                                       
                 },
 
                 error:function(){
                     alert('Problem with the server. Try again later.');
+
                 }
             });
         } else {
             alert('Incorrect data');
         }
         
-        $item.tmpl = $("#cmp-clientCompListTmpl").template();
-        $item.update();
+
         
     })
 
