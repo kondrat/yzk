@@ -579,19 +579,28 @@ jQuery(document).ready(function(){
         var $this = $(this);
         var $thisParernt = $this.parents(".cmp-client");
         var $item  = $.tmplItem($thisParernt);
-        var dayBud = parseFloat($thisParernt.find(".cmp-budInput").val()); 
+        var dayBud = 0;
+        var dayBudInputVal = $thisParernt.find(".cmp-budInput").val();
+        if(dayBudInputVal != ''){
+            dayBud = parseFloat($thisParernt.find(".cmp-budInput").val()); 
+        }
+            
+        
+        
+        
+        
         var dayBudData = {
             "data[campId]": $item.data.CampaignID,
             "data[dbLim]":dayBud
         }; 
-        if(!isNaN(dayBud)){
+        if(!isNaN(dayBud) ){
             $.ajax({
                 dataType:"json",
                 url: path+"\/campaigns\/dayBud",
                 type: "POST",
                 data: dayBudData,
                 success:function (data, textStatus) {
-                    if( data.dayLim) {
+                    if( data.dayLim || data.dayLim === 0) {
                         
                        $item.data.dayLim = data.dayLim;
 

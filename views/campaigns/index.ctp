@@ -269,11 +269,11 @@
 
 
 <?php 
-    echo (double)"d34.1sdf";
-    echo '<br />';
-    echo $this->Number->precision("18!@#$~#$#%%27776.9sdf1873645", 2 );
-    echo '<br />';
-    echo round(99.111, 2)
+//    echo (double)"drrf";
+//    echo '<br />';
+//    echo $this->Number->precision("18!@#$~#$#%%27776.9sdf1873645", 2 );
+//    echo '<br />';
+//    echo round(99.111, 2)
 
 ?>
 
