@@ -118,11 +118,11 @@ class PhrasesController extends AppController {
 
             $this->data = Sanitize::clean($this->data);
             
-            if (isset($this->data['mode'])  && isset($this->data['modeX'])&& isset($this->data['maxPr'])) { 
+             
                 
                 
                 
-                if( isset($this->data['ph']) && is_array($this->data['ph']) && $this->data['ph'] != array() ){
+            if( isset($this->data['mode'])  && isset($this->data['modeX'])&& isset($this->data['maxPr']) && isset($this->data['ph']) && is_array($this->data['ph']) && $this->data['ph'] != array() ){
  
                     
                     $this->data['Phrase']['mode'] = $this->data['mode'];
@@ -178,10 +178,10 @@ class PhrasesController extends AppController {
                         $content['error'] = 'not saved';
                     }
                     
-                }
+                
              
             } else {
-               $contents = json_encode(array('error'=>__('Update mode failed',true))); 
+               $content = array('error'=>__('Update mode failed',true)); 
             }
         }
 

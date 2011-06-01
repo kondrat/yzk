@@ -254,10 +254,10 @@ jQuery(document).ready(function(){
         $thisParent.addClass("cmp-clientActive");
        
         $("#cmp-modesTmpl").tmpl().appendTo($thisModesEditor);
-        $thisParent.find("input:checkbox").attr({"checked":true});       
+        $thisParent.find("input:checkbox").prop({"checked":true});       
         $thisParent.find("option").each(function(){
             if($(this).val() == thisTmplItem.data.modeCode){
-                $(this).attr("selected","selected");
+                $(this).prop("selected","selected");
                 return;
             }
         });
@@ -272,7 +272,7 @@ jQuery(document).ready(function(){
         var $thisParent = $this.parents(".cmp-client");
         
         $thisParent.find(".cmp-modes").hide().end().removeClass("cmp-clientActive");
-        $thisParent.find("input:checkbox").attr({"checked":false});
+        $thisParent.find("input:checkbox").prop({"checked":false});
     })
 
 
@@ -347,8 +347,8 @@ jQuery(document).ready(function(){
            
            $this.removeClass("cmp-setModeBtnAct");
            
-           checkBoxSet.attr({"disabled":"disabled"}); 
-           checkBoxSet.attr({"checked":false}); 
+           checkBoxSet.prop({"disabled":"disabled"}); 
+           checkBoxSet.prop({"checked":false}); 
                           
            $file2_campResWrp.find('.cmp-editDis').removeClass('cmp-editDis').addClass('cmp-edit');
            $file2_campResWrp.find('.cmp-deleteDis').removeClass('cmp-deleteDis').addClass('cmp-delete');
@@ -359,8 +359,8 @@ jQuery(document).ready(function(){
  
            $this.addClass("cmp-setModeBtnAct");
             
-           checkBoxSet.attr({"disabled":false});
-           checkBoxSet.attr({"checked":true});
+           checkBoxSet.prop({"disabled":false});
+           checkBoxSet.prop({"checked":true});
            
            $file2_campResWrp.find('.cmp-edit').removeClass('cmp-edit').addClass('cmp-editDis');
            $file2_campResWrp.find('.cmp-delete').removeClass('cmp-delete').addClass('cmp-deleteDis');
@@ -383,10 +383,10 @@ jQuery(document).ready(function(){
 
     $file2_campResWrp.delegate("#toMode","click",function(){
         var $this = $(this);
-        if($this.attr("checked") == true){
-           $file2_campResWrp.find('input[id|="ch"]').attr({"checked":true});
-        } else if($this.attr("checked") == false) {
-           $file2_campResWrp.find('input[id|="ch"]').attr({"checked":false}); 
+        if($this.prop("checked") == true){
+           $file2_campResWrp.find('input[id|="ch"]').prop({"checked":true});
+        } else if($this.prop("checked") == false) {
+           $file2_campResWrp.find('input[id|="ch"]').prop({"checked":false}); 
         }      
     })
 
@@ -405,7 +405,7 @@ jQuery(document).ready(function(){
         
         $phrases.each(function(i){
             updated[i] = 0;
-            if( $(this).find('input[id|="ch"]').next().attr("checked") == true ){
+            if( $(this).find('input[id|="ch"]').next().prop("checked") == true ){
                 
                 var $item  = $.tmplItem(this);
                 allData[i] = new Object;

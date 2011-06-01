@@ -240,15 +240,15 @@ jQuery(document).ready(function(){
         var $this = $(this);
         
         if( $file4_cmpSetModeWrp.is(":hidden") ){
-           $file4_checkBoxes.attr({"disabled":false});
-           $file4_checkBoxes.attr({"checked":true});
+           $file4_checkBoxes.prop({"disabled":false});
+           $file4_checkBoxes.prop({"checked":true});
            $file4_cmpSetModeWrp.show();
            $file4_modeEditBtn.removeClass('cmp-edit').addClass('cmp-editDis');
            $file4_modeDelBtn.removeClass('cmp-delete').addClass('cmp-deleteDis');
            $file4_cmpClientBannerWrp.find(".cmp-modes").remove().end().find(".cmp-client").removeClass("cmp-clientActive");
         } else {
-           $file4_checkBoxes.attr({"disabled":"disabled"}); 
-           $file4_checkBoxes.attr({"checked":false}); 
+           $file4_checkBoxes.prop({"disabled":"disabled"}); 
+           $file4_checkBoxes.prop({"checked":false}); 
            $file4_cmpSetModeWrp.hide();
            $file4_modeEditBtn.removeClass('cmp-editDis').addClass('cmp-edit');
            $file4_modeDelBtn.removeClass('cmp-deleteDis').addClass('cmp-delete');
@@ -259,10 +259,10 @@ jQuery(document).ready(function(){
 
     $("#toMode").click(function(){
         var $this = $(this);
-        if($this.attr("checked") == true){
-           $file4_cmpClientBannerWrp.find('input[id|="ch"]').attr({"checked":true});
-        } else if($this.attr("checked") == false) {
-           $file4_cmpClientBannerWrp.find('input[id|="ch"]').attr({"checked":false}); 
+        if($this.prop("checked") == true){
+           $file4_cmpClientBannerWrp.find('input[id|="ch"]').prop({"checked":true});
+        } else if($this.prop("checked") == false) {
+           $file4_cmpClientBannerWrp.find('input[id|="ch"]').prop({"checked":false}); 
         }      
     })
 
@@ -276,7 +276,7 @@ jQuery(document).ready(function(){
         var updated = new Object;
         $phrases.each(function(i){
             updated[i] = 0;
-            if( $(this).find('input[id|="ch"]').next().attr("checked") == true ){
+            if( $(this).find('input[id|="ch"]').next().prop("checked") == true ){
                 
                 var $item  = $.tmplItem(this);
                 allData[i] = new Object;
