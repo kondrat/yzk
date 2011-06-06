@@ -30,38 +30,58 @@ class CheckSumShell extends Shell {
 
 
         $stoppedDbCampaigns = array();
-        $stoppedYnCampaignIds = array();
         
-        //getting phrases from DB
+        
+        //getting campaigns from DB
         
         $stoppedDbCampaigns = $this->Campaign->find('all',
-                array('conditions'=>array('Campaign.stoped'=>1),
-                        'fields'=>array('Campaign.campaign_yn_id','Campaign.id')
+                array(
+                        //'conditions'=>array('Campaign.stoped'=>1),
+                        'fields'=>array('Campaign.campaign_yn_id','Campaign.id','Campaign.stoped')
                     )
         );
 
-        $stoppedYnCampaignIds = Set::extract('/Campaign/campaign_yn_id',$stoppedDbCampaigns);
+        
         
  
             
-        //$resAllCamp = json_decode($getYnData->getYnData($pathToCerts, 'ResumeCampaign', $params), TRUE);
         
-        //print_r($resAllCamp);
+        
+        $notResumed = 0;
+        $resumed = 0;
         
         foreach( $stoppedDbCampaigns as $k => $v){
             
-             $params = array(
-                'CampaignID' => $v['Campaign']['campaign_yn_id']
-            );
-            $resResume = json_decode($getYnData->getYnData($pathToCerts, 'ResumeCampaign', $params), TRUE);
-            if($resResume['data'] === 1){
+            $this->data['Campaign']['stoped'] = 0;
+            
+            if( $v['Campaign']['stoped'] == 1 ){
+                
+                $params = array(
+                    'CampaignID' => $v['Campaign']['campaign_yn_id']
+                );
+
+                $resResume = json_decode($getYnData->getYnData($pathToCerts, 'ResumeCampaign', $params), TRUE);
+
+                if( isset($resResume['data']) && $resResume['data'] != 1){                
+                    $this->data['Campaign']['stoped'] = 1;
+                    $notResumed++;
+                } else if(isset($resResume['error_code'])){
+                    $this->data['Campaign']['stoped'] = 1;
+                    $notResumed++;
+                    CakeLog::write('campResume','campaing: '.$v['Campaign']['campaign_yn_id'].' error code: '.$resResume['error_code']);
+                } else {
+                    $resumed++;
+                }
                 
                 
-                $this->data['Campaign']['stoped'] = 0;
-                 $this->data['Campaign']['id'] = $v['Campaign']['id'];
+            }
+            
+            
                  
-                 $this->Campaign->save($this->data);
-            } 
+            $this->data['Campaign']['id'] = $v['Campaign']['id'];            
+            $this->data['Campaign']['day_spend'] = 0;
+             
+            $this->Campaign->save($this->data);
             
         }
         
@@ -78,12 +98,12 @@ class CheckSumShell extends Shell {
 
         $End = $this->getTime();
         $timeRes = "Time taken = " . number_format(($End - $Start), 2);
-        $this->out($timeRes . " secs\n");
         
+        $this->out($timeRes . " secs\n");        
         $this->out("done at  ".date('d-m-Y:H.i.s')."\n");
         $this->out("-------------------------------------------------\n");
         
-        CakeLog::write('campResume',count($stoppedDbCampaigns).' | '.$timeRes.' sek');
+        CakeLog::write('campResume','total Campaigns: '.count($stoppedDbCampaigns).' Resumed: '.$resumed.', not Resumed: '.$notResumed.' | '.$timeRes.' sek');
     }
 
 }
