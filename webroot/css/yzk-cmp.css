@@ -231,3 +231,12 @@
     cursor: pointer;
     text-align: center;
 }
+.cmp-stoped{
+    color: red;
+}
+.cmp-dayLimit{
+    color: red;
+}
+.cmp-clientDayLim{
+    
+}

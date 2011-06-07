@@ -120,13 +120,19 @@ class CampaignsController extends AppController {
                         'conditions' => array('Campaign.campaign_yn_id' => $campId)
                             )
             );
-            $resAllCamp['test'] = $camFromDb;
+            //$resAllCamp['test'] = $camFromDb;
 
             foreach ($resAllCamp['data'] as $k=>$v){
                 $resAllCamp['data'][$k]['dayLim'] = 0;
+                $resAllCamp['data'][$k]['daySpend'] = 0;
+                $resAllCamp['data'][$k]['stoped'] = 0;
+                
                 foreach ($camFromDb as $k2=>$v2){
                     if($v2['Campaign']['campaign_yn_id'] == $resAllCamp['data'][$k]['CampaignID']){
                        $resAllCamp['data'][$k]['dayLim'] = $v2['Campaign']['day_lim'];
+                       $resAllCamp['data'][$k]['daySpend'] = $v2['Campaign']['day_spend'];
+                       $resAllCamp['data'][$k]['stoped'] = $v2['Campaign']['stoped'];
+                       
                        break;
                     }
                 }
