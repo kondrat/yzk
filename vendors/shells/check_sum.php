@@ -103,7 +103,7 @@ class CheckSumShell extends Shell {
         $this->out("done at  ".date('d-m-Y:H.i.s')."\n");
         $this->out("-------------------------------------------------\n");
         
-        CakeLog::write('campResume','total Campaigns: '.count($stoppedDbCampaigns).' Resumed: '.$resumed.', not Resumed: '.$notResumed.' | '.$timeRes.' sek');
+        CakeLog::write('campResume','total Campaigns: '.count($stoppedDbCampaigns).' Resumed: '.$resumed.', Resumed Error: '.$notResumed.' | '.$timeRes.' sek');
     }
 
 }

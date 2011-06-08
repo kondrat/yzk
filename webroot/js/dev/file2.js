@@ -550,7 +550,7 @@ jQuery(document).ready(function(){
         }); 
     })
 
-//i'm working here'
+
     $file2_campResWrp.delegate(".cmp-dayBud","click",function(){
         var $this = $(this);
         var $thisParernt = $this.parents(".cmp-client");
@@ -603,7 +603,8 @@ jQuery(document).ready(function(){
                     if( data.dayLim || data.dayLim === 0) {
                         
                        $item.data.dayLim = data.dayLim;
-
+                       $item.data.stoped = data.stoped;
+                       $item.data.StatusShow = data.StatusShow;
                       //$item.data
 
                     } else if(data.error){

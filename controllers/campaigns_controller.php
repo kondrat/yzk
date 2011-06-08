@@ -360,7 +360,21 @@ class CampaignsController extends AppController {
             
             $resAllCamp = json_decode($this->getYnData->getYnData($pathToCerts, $startStopFn, $params), TRUE);
 
+            if (isset($resAllCamp['data']) && $resAllCamp['data'] == 1){
+                $toggledCamId = array();
+                $toggledCamId = $this->Campaign->find('first', array(
+                    'conditions'=>array('Campaing.campaign_yn_id' => $campaignId)
+                ));
                 
+                if($toggledCamId != array()){
+                    
+                    //i'm workign here. add logic for stoped campaings;
+                    
+                    
+                }
+                
+                
+            }   
 
 
             $content = json_encode($resAllCamp);
@@ -381,6 +395,9 @@ class CampaignsController extends AppController {
     public function dayBud(){
         
         $dayBud = 0;
+        $stoped = 0;
+        $statusShow = 'Yes';
+        
         $currentYnCamp = array();
         
         if ($this->RequestHandler->isAjax()) {
@@ -389,7 +406,7 @@ class CampaignsController extends AppController {
             $this->autoLayout = false;
             $this->autoRender = FALSE;
 
-            
+             $pathToCerts = Configure::read('pathToCerts');
 
             $dayBud = (double)$this->data['dbLim'];
             $campaignId = Sanitize::paranoid($this->data['campId']);
@@ -404,9 +421,48 @@ class CampaignsController extends AppController {
             if($currentYnCamp != array()){
                $this->data['Campaign']['id'] = $currentYnCamp['Campaign']['id'];
             }
+ 
+            //to check current day spend and start or stop campaign
+            
+                    $params = array(
+                        'CampaignID' => $campaignId
+                    );
+                    
+                    
+            if( $dayBud > $currentYnCamp['Campaign']['day_spend'] && $dayBud != 0 || $dayBud == 0){
+                
+                if ($currentYnCamp['Campaign']['stoped'] == 1) {
+
+                    $resAllCamp = json_decode($this->getYnData->getYnData($pathToCerts, 'ResumeCampaign', $params), TRUE);
+                    
+                    if(isset($resAllCamp['data']) && $resAllCamp['data'] == 1){
+                        $this->data['Campaign']['stoped'] = 0;
+                        $statusShow = 'Yes';
+                    }
+                    
+                }
+                
+            } else {
+                
+                $resAllCamp = json_decode($this->getYnData->getYnData($pathToCerts, 'StopCampaign', $params), TRUE);
+
+                if (isset($resAllCamp['data']) && $resAllCamp['data'] == 1) {
+                    $this->data['Campaign']['stoped'] = 1;
+                    $statusShow = 'No';
+                    $stoped = 1;
+                }
+                
+            }
+            
+            
+            
             
             if($this->Campaign->save($this->data) ){
-              $resAllCamp['dayLim'] = $dayBud;  
+              $resAllCamp['dayLim'] = $dayBud;
+              $resAllCamp['stoped'] = $stoped;
+              $resAllCamp['StatusShow'] = $statusShow;
+
+              
             } else {
                $resAllCamp['error'] = 'Not saved'; 
             }

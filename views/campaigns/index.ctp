@@ -7,13 +7,14 @@
     <script id="cmp-clientCompListHdTmpl" type="text/x-jquery-tmpl">
          
 
-         <div  class="clt-clientHd  span-20">
+         <div  class="clt-clientHd  span-18">
              
             <div class="cmp-nameHd span-4"><?php __('Campaing'); ?></div>
-            <div class="cmp-clicksHd span-2"><?php __('Clicks'); ?></div>
+            
             <div class="cmp-showsHd span-2"><?php __('Shows'); ?></div>
-            <div class="cmp-startdateHd span-2"><?php __('StartDate'); ?></div>
+            
             <div class="cmp-sumHd span-2"><?php __('Sum'); ?></div>
+            <div class="cmp-restHd span-2"><?php __('Rest'); ?></div>
             <div class="cmp-dayBudHd span-2"><?php __('Day Budget');?></div>
             <div class="cmp-daySpendHd span-2"><?php __('Day spend');?></div>
             <div class="cmp-stopStartHd spna-2"><?php __('Stop/Resume');?></div>
@@ -24,12 +25,12 @@
     <script id="cmp-clientCompListTmpl" type="text/x-jquery-tmpl">
        
          
-         {{if StatusShow == "Yes" && stoped == 0 }}
-            <div  class="cmp-client  span-20">
+         {{if StatusShow == "Yes"}}
+            <div  class="cmp-client  span-18">
          {{else StatusShow == "No" && stoped == 0 }}
-            <div  class="cmp-client cmp-clientStop  span-20">
-         {{else StatusShow == "No" && stoped == 1 }}
-            <div  class="cmp-client cmp-clientDayLim  span-20">
+            <div  class="cmp-client cmp-clientStop  span-18">
+         {{else stoped == 1 }}
+            <div  class="cmp-client cmp-clientDayLim  span-18">
          {{/if}}
             <div class="cmp-name span-4">
             <?php echo $this->Html->link('${Name}', array(
@@ -39,22 +40,22 @@
             );
             ?>
             </div>
-            <div class="cmp-clicks span-2">${Clicks}</div>
+            
             <div class="cmp-shows span-2">${Shows}</div>
-            <div class="cmp-startdate span-2">${StartDate}</div>
+            
             <div class="cmp-sum span-2">${Sum}</div>
+            <div class="cmp-rest span-2">${Rest}</div>
+            
             {{if dayLim == 0}}
                 <div class="cmp-dayBud span-2"><?php __('Unlimit');?></div>
             {{else}}
                  <div class="cmp-dayBud span-2">${dayLim}</div>
             {{/if}}
-            {{if stoped == 0}}
-                <div class="cmp-daySpend span-2">${daySpend}</div>
-            {{else}}
-                  <div class="cmp-daySpend cmp-stoped span-2">${daySpend}</div>
-            {{/if}}           
+
+            <div class="cmp-daySpend span-2">${daySpend}</div>
+           
             
-            {{if StatusShow == "Yes" && stoped == 0 }}
+            {{if StatusShow == "Yes"}}
                 <div class="cmp-startStop span-2"><?php __('Stop');?></div>
             {{else StatusShow == "No" && stoped == 0 }}
                 <div class="cmp-startStop span-2"><?php __('Resume');?></div>
@@ -68,7 +69,7 @@
     <script id="cmp-clientCompBugTmpl" type="text/x-jquery-tmpl">
        
         
-         <div  class="cmp-client cmp-clientBud  span-20" style="background-color:gainsboro;">
+         <div  class="cmp-client cmp-clientBud  span-18" style="background-color:gainsboro;">
 
             <div class="cmp-name span-3">${Name}</div>
 
