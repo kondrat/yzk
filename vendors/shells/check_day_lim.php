@@ -59,14 +59,17 @@ class CheckDayLimShell extends Shell {
                     if( $v['Campaign']['campaign_yn_id'] == $v2['CampaignID'] ){
                        
                         $this->data['Campaign']['id'] = $v['Campaign']['id'];
-                        $this->data['Campaign']['rest_sum'] = $v2['Rest'];
                         
-                        $sendStep = $v['Campaign']['rest_sum'] - $v2['Rest'];
+                        $rest = round($v2['Rest'],2);
+                        
+                        $this->data['Campaign']['rest_sum'] = $rest;
+                        
+                        $sendStep = $v['Campaign']['rest_sum'] - $rest;
                         //if we add money, so the rest of money more then on previous step
                         if($sendStep > 0 ){
                             
                             $daySpend = $sendStep + $v['Campaign']['day_spend'];
-                            $this->data['Campaign']['day_spend'] = $daySpend;
+                            $this->data['Campaign']['day_spend'] = round($daySpend,2);
                             
 
                             
