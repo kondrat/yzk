@@ -80,6 +80,7 @@ class CheckSumShell extends Shell {
                  
             $this->data['Campaign']['id'] = $v['Campaign']['id'];            
             $this->data['Campaign']['day_spend'] = 0;
+            $this->data['Campaign']['rest_sum'] = 0;
              
             $this->Campaign->save($this->data);
             

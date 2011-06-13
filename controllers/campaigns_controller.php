@@ -124,7 +124,7 @@ class CampaignsController extends AppController {
 
             foreach ($resAllCamp['data'] as $k=>$v){
                 $resAllCamp['data'][$k]['dayLim'] = 0;
-                $resAllCamp['data'][$k]['daySpend'] = 0;
+                $resAllCamp['data'][$k]['daySpend'] = '--';
                 $resAllCamp['data'][$k]['stoped'] = 0;
                 
                 $resAllCamp['data'][$k]['Rest'] = round($resAllCamp['data'][$k]['Rest'],2);
@@ -408,7 +408,7 @@ class CampaignsController extends AppController {
             $this->autoLayout = false;
             $this->autoRender = FALSE;
 
-             $pathToCerts = Configure::read('pathToCerts');
+            $pathToCerts = Configure::read('pathToCerts');
 
             $dayBud = (double)$this->data['dbLim'];
             $campaignId = Sanitize::paranoid($this->data['campId']);
