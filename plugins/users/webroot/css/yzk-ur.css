@@ -177,8 +177,7 @@ div.ur-inputFormWrap input.form-error {
 /*error block*/
 
 
-#rNameCheck{
-}
+
 span.markCheck{
     background: transparent url("../img/icon/ajax-loader1.gif") no-repeat scroll;
     height:16px;
@@ -187,10 +186,7 @@ span.markCheck{
     float:left;
     margin-right:4px;
 }
-#rNameError{
-}
-#rNameOk{
-}
+
 
 .rTip{
     border:1px solid #eee;

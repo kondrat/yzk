@@ -6,9 +6,9 @@ jQuery(document).ready( function(){
     var $reg_validEmail = '';
     var $reg_usercaptcha = $("#ur-userCapchaReg");
     var $reg_userpass = {
-            pass1: $("#ur-userPassReg1"),
-            pass2: $("#ur-userPassReg2")
-        };
+        pass1: $("#ur-userPassReg1"),
+        pass2: $("#ur-userPassReg2")
+    };
 
 
 
@@ -25,6 +25,7 @@ jQuery(document).ready( function(){
 	
     $("#UserRegForm input").blur(function(){
         if( $(this).val().length === 0 ) {
+
             $(this).parents(".ur-inputFormWrap").find(".ur-formWrapTip div").hide();
         }
     });	
@@ -39,7 +40,7 @@ jQuery(document).ready( function(){
 
 	
     var inpStrTimer;
-    $reg_username.keyup( function(e) {
+    $reg_email.keyup( function(e) {
 		
         //alert(e.which);
         /*
@@ -52,18 +53,28 @@ jQuery(document).ready( function(){
 		
         var InputStr = $(this).val();
 		
-        $("#rName div").hide();	
-        $("#rNameCheck").show();
+        $("#rEmail div").hide();	
+        $("#rEmailCheck").show();
 				
         window.clearInterval(inpStrTimer);
         inpStrTimer = window.setInterval( function() {
 			
             if( InputStr.length > 0 ){
+                
+                var emailRegEx =/.+@.+\..+/; 
+			
+                if( !InputStr.match(emailRegEx) ) {				
+                    $("#rEmail div").hide();				
+                    $("#rEmailError").show().text(rErr.email.email);
+                    return false;
+                }             
+                
+                
                 $.ajax({
                     type: "POST",
                     url: path+"/users/users/userNameCheck/",
                     data: {
-                        "data[User][username]": InputStr, 
+                        "data[User][email]": InputStr, 
                         "data[_Token][key]": $reg_token.val()
                     },
                     dataType: "json",
@@ -71,18 +82,18 @@ jQuery(document).ready( function(){
                     success: function (data) {
                         if (data.stat == 1) {
 										  	
-                            $('#rName div').hide();
-                            $("#rNameOk").show();
+                            $('#rEmail div').hide();
+                            $("#rEmailOk").show();
                         } else {
-                            $('#rName div').hide();
-                            $("#rNameError").show();
-                            $.each(rErr.username , function(key,value){
+                            $('#Email div').hide();
+                            $("#rEmailError").show();
+                            $.each(rErr.email , function(key,value){
                                 if( key === data.error ) {
                                     var ret = value;
                                     if ( data.stW ) {
                                         ret = value+' "'+data.stW+'"';
                                     }
-                                    $("#rNameError").text(ret);
+                                    $("#rEmailError").text(ret);
                                 }
                             });
 										  	
@@ -97,8 +108,8 @@ jQuery(document).ready( function(){
                 });
 					
             } else {
-                $("#rNameCheck").hide();
-                $("#rNameTip").show();
+                $("#rEmailCheck").hide();
+                $("#rEmailTip").show();
             }
 					
             window.clearInterval(inpStrTimer);
@@ -136,57 +147,53 @@ jQuery(document).ready( function(){
 
 
 
-    $reg_email.blur( function() {
-		
-        var InputStr = $(this).val();
-		
-        //var emailRegEx = /^[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9][-a-z0-9]*\.)*(?:[a-z0-9][-a-z0-9]{0,62})\.(?:(?:[a-z]{2}\.)?[a-z]{2,4}|museum|travel)$/i;
-        var emailRegEx =/.+@.+\..+/; 
-			
-        if( InputStr === '' ) {
-            $("#rEmail div").hide();
-
-        } else if( !InputStr.match(emailRegEx) ) {				
-            $("#rEmail div").hide();				
-            $("#rEmailError").show().text(rErr.email.email);
-        } else {
-            if( InputStr !== $reg_validEmail ){
-                $.ajax({
-                    type: "POST",
-                    url: path+"/users/users/userNameCheck/",
-                    data: {
-                        "data[User][email]": InputStr, 
-                        "data[_Token][key]": $reg_token.val()
-                    },
-                    dataType: "json",									
-                    success: function (data) {
-                        if (data.stat == 1) {
-                            // Success!
-                            $reg_validEmail = InputStr;
-                            $('#rEmail div').hide();
-                            $("#rEmailOk").show();
-                        } else {
-                            $('#rEmail div').hide();
-                            $("#rEmailError").show();
-                            $.each(rErr.email , function(key,value){
-                                if( key === data.error ) {
-                                    $("#rEmailError").text(value);
-                                }
-                            });
-										  	
-                        }
-                    },
-                    error: function(response, status) {
-                        alert('An unexpected error has occurred! 2');
-                    //$('.tempTest').html('Problem with the server. Try again later.');
-                    }
-
-									
-                });	
-            }			
-        }
-    }
-    );
+//    $reg_email.blur( function() {
+//		
+//        var InputStr = $(this).val();
+//		
+//        //var emailRegEx = /^[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9][-a-z0-9]*\.)*(?:[a-z0-9][-a-z0-9]{0,62})\.(?:(?:[a-z]{2}\.)?[a-z]{2,4}|museum|travel)$/i;
+//        var emailRegEx =/.+@.+\..+/; 
+//			
+//        if( !InputStr.match(emailRegEx) ) {				
+//            $("#rEmail div").hide();				
+//            $("#rEmailError").show().text(rErr.email.email);
+//        } else {
+//            if( InputStr !== $reg_validEmail ){
+//                $.ajax({
+//                    type: "POST",
+//                    url: path+"/users/users/userNameCheck/",
+//                    data: {
+//                        "data[User][email]": InputStr, 
+//                        "data[_Token][key]": $reg_token.val()
+//                    },
+//                    dataType: "json",									
+//                    success: function (data) {
+//                        if (data.stat == 1) {
+//                            // Success!
+//                            $reg_validEmail = InputStr;
+//                            $('#rEmail div').hide();
+//                            $("#rEmailOk").show();
+//                        } else {
+//                            $('#rEmail div').hide();
+//                            $("#rEmailError").show();
+//                            $.each(rErr.email , function(key,value){
+//                                if( key === data.error ) {
+//                                    $("#rEmailError").text(value);
+//                                }
+//                            });
+//										  	
+//                        }
+//                    },
+//                    error: function(response, status) {
+//                        alert('An unexpected error has occurred!');
+//                    //$('.tempTest').html('Problem with the server. Try again later.');
+//                    }
+//
+//									
+//                });	
+//            }			
+//        }
+//    });
 
 
 

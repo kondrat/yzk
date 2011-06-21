@@ -25,8 +25,8 @@ class CheckDayLimShell extends Shell {
 
         $getYnData = new getYnDataComponent();
         
-        Configure::load('vars');
-        $pathToCerts = Configure::read('pathToCerts');
+        //Configure::load('vars');
+        $pathToCerts = $this->args[0];//Configure::read('pathToCerts');
 
 
         $notStoppedDbCampaigns = array();

@@ -111,7 +111,7 @@ class UsersController extends AppController {
 
 
             //don't foreget about santization and trimm
-            if (isset($this->data['User']['username']) && $this->data['User']['username'] != null) {
+            if (isset($this->data['User']['email']) && $this->data['User']['email'] != null) {
                 $type = 'username';
             } else if (isset($this->data['User']['email']) && $this->data['User']['email'] != null) {
                 $type = 'email';
@@ -208,10 +208,10 @@ class UsersController extends AppController {
 
         if (!empty($this->data)) {
             
-
             /*
              * @todo remove this 3 lines after we open public registation
              */
+            
             unset($this->data['User']['captcha']);
             $this->Session->setFlash(__d('users', 'Registration hasn\'t been opened yet. Sorry for inconvinience', true), 'default', array('class' => 'fler'));       
             $this->redirect('/');           

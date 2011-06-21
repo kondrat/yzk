@@ -18,7 +18,7 @@ class UpdatePriceShell extends Shell {
         
         
         $Start = $this->getTime(); 
-        
+        $startAt = "Start at  " . date('d-m-Y:H.i.s');
  
         
         //$this->out('result:' . "\n");
@@ -27,9 +27,10 @@ class UpdatePriceShell extends Shell {
 
         $getYnData = new getYnDataComponent();
         $setPrice = new setPriceComponent();
-        Configure::load('vars');
-        $pathToCerts = Configure::read('pathToCerts');
-
+        
+//        Configure::load('vars');
+//        $pathToCerts = Configure::read('pathToCerts');
+        $pathToCerts = $this->args[0];
         //getting an information about clients;
         $allDbPharses = array();
 
@@ -262,9 +263,10 @@ class UpdatePriceShell extends Shell {
         $this->out($timeRes . " secs\n");
         
         $this->out("done at  ".date('d-m-Y:H.i.s')."\n");
+        $doneAt = "done at  ".date('d-m-Y:H.i.s');
         $this->out("-------------------------------------------------\n");
         
-        CakeLog::write('updateRes', $updatedResForLog.' | '.$timeRes.' sek');
+        CakeLog::write('updateRes',$startAt.' | '. $updatedResForLog.' | '.$timeRes.' sek, | '.$doneAt);
     }
 
 }
