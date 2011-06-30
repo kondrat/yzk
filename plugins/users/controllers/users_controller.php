@@ -89,9 +89,8 @@ class UsersController extends AppController {
 
         $contents = array();
         $token = '';
-        $type = '';
         $errors = array();
-        $toCheck = '';
+  
 
         Configure::write('debug', 0);
         $this->autoLayout = false;
@@ -111,11 +110,7 @@ class UsersController extends AppController {
 
 
             //don't foreget about santization and trimm
-            if (isset($this->data['User']['email']) && $this->data['User']['email'] != null) {
-                $type = 'username';
-            } else if (isset($this->data['User']['email']) && $this->data['User']['email'] != null) {
-                $type = 'email';
-            } else {
+            if ( !isset($this->data['User']['email']) || $this->data['User']['email'] == null) {
                 $this->Security->blackHole($this, 'Invalid referrer detected for this request!');
             }
 
@@ -127,15 +122,11 @@ class UsersController extends AppController {
             $errors = $this->User->invalidFields();
 
 
-            if (!isset($errors[$type])) {
+            if (!isset($errors['email'])) {
                 $contents['stat'] = 1;
             } else {
                 $contents['stat'] = 0;
-                $contents['error'] = $errors[$type];
-
-                if ($type === 'username' && isset($errors[$type]['stopWords'])) {
-                    $contents['stW'] = $this->_stopWordsCheck($this->data['User']['username']);
-                }
+                $contents['error'] = $errors['email'];
             }
 
             $contents = json_encode($contents);

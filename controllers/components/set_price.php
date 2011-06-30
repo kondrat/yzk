@@ -17,6 +17,11 @@ class setPriceComponent extends Object {
     public $modes = array(
         'Guaranty' => array(
             array(
+                "name" => "minMinusC",
+                "desc" => "Guaranty - %s cent",
+                "priceType" => "min"
+            ),
+            array(
                 "name" => "minPlusP",
                 "desc" => "Guaranty + %s%%",
                 "priceType" => "min"
@@ -98,6 +103,9 @@ class setPriceComponent extends Object {
     function setPrice($method=NULL, $x= NULL, $min=NULL, $max=NULL, $premMin=NULL, $premMax=NULL, $maxPrice=NULL) {
 
         switch ($method) {
+            case 'minMinusC':
+                $resPrice = $min - $x / 100;
+                break;
             case 'minPlusP':
                 $resPrice = $min / 100 * $x + $min;
                 break;

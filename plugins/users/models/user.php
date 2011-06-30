@@ -75,6 +75,7 @@ class User extends AppModel {
             ),
             'checkUnique' => array(
                 'rule' => array('checkUnique', 'email'),
+                'required' => true,
                 //'message' => 'This Email has already been taken!!!',
             ),
         ),

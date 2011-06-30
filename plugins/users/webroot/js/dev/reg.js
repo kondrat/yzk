@@ -85,22 +85,18 @@ jQuery(document).ready( function(){
                             $('#rEmail div').hide();
                             $("#rEmailOk").show();
                         } else {
-                            $('#Email div').hide();
+                            $('#rEmail div').hide();
                             $("#rEmailError").show();
                             $.each(rErr.email , function(key,value){
                                 if( key === data.error ) {
-                                    var ret = value;
-                                    if ( data.stW ) {
-                                        ret = value+' "'+data.stW+'"';
-                                    }
-                                    $("#rEmailError").text(ret);
+                                    $("#rEmailError").text(value);
                                 }
                             });
 										  	
                         }
                     },
                     error: function(response, status) {
-                        alert('An unexpected error has occurred! 1');
+                        alert('An unexpected error has occurred!');
                     //$('.tempTest').html('Problem with the server. Try again later.');
                     }
 
