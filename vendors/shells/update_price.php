@@ -28,9 +28,11 @@ class UpdatePriceShell extends Shell {
         $getYnData = new getYnDataComponent();
         $setPrice = new setPriceComponent();
         
-//        Configure::load('vars');
-//        $pathToCerts = Configure::read('pathToCerts');
-        $pathToCerts = $this->args[0];
+        Configure::load('vars');
+        $pathToCerts = Configure::read('pathToCerts');
+        //$pathToCerts = $this->args[0];
+        //
+        
         //getting an information about clients;
         $allDbPharses = array();
 
