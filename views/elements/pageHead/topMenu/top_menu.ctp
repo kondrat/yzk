@@ -10,11 +10,20 @@ if (!isset($menuType)) {
             <?php echo $html->link(__('Profile', true), array('plugin' => 'users', 'controller' => 'users', 'action' => 'profile'), array('onclick' => 'return false')); ?>
         </div>	 	
         <div class="lt-topMenu">
-            <?php echo $html->link(__('Settings', true), array('plugin' => 'users', 'controller' => 'users', 'action' => 'settings'), array('onclick' => 'return false')); ?>
+            <?php echo $html->link(__('Settings', true), array('plugin' => 'users', 'controller' => 'details', 'action' => 'index'), array()); ?>
         </div>	 	
         <div class="lt-topMenu">
             <?php echo $html->link(__('LogOut now', true), array('plugin' => 'users', 'controller' => 'users', 'action' => 'logout')); ?>
         </div>
+        <?php break; ?>
+    
+    <?php case 'settings';?>
+         <div class="lt-topMenu">
+            <?php echo $html->link(__('Home', true), '/', array()); ?>
+        </div>   
+         <div class="lt-topMenu">
+            <?php echo $html->link(__('LogOut now', true), array('plugin' => 'users', 'controller' => 'users', 'action' => 'logout')); ?>
+        </div>   
         <?php break; ?>
     <?php case 'reg': ?>
         <div class="lt-topMenu" style=""><?php __('Already on'); ?>&nbsp;yzk.go?</div>

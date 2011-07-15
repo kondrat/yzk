@@ -37,6 +37,10 @@ class DetailsController extends UsersAppController {
  * @return void
  */
 	public function index() {
+            
+            $this->set('title_for_layout', __d('users','Settings', true));
+            $this->set('menuType', 'settings');
+            
 		$details = $this->Detail->find('all', array(
 			'contain' => array(),
 			'conditions' => array(
@@ -44,6 +48,13 @@ class DetailsController extends UsersAppController {
 				'Detail.field LIKE' => 'user.%'),
 			'order' => 'Detail.position DESC'));
 		$this->set('details', $details);
+                
+                
+                
+                if( !is_dir(APP.'certs/'.$this->Auth->user('id')) ){
+                    mkdir(APP.'certs/'.$this->Auth->user('id'));
+                }
+          
 	}
 
 /**

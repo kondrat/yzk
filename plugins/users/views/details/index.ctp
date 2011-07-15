@@ -26,3 +26,5 @@ if (!empty($details)) {
 	}
 	echo $this->Form->end(__d('users', 'Submit', true));
 }
+?>
+<h4>upload sertificate:</h4>

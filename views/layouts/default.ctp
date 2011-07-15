@@ -62,9 +62,10 @@
                 </div>
                 <?php
                 
-                if (!isset($menuType) || !in_array($menuType, array('reg', 'login', 'index', 'regged'), true)) {
+                if (!isset($menuType) || !in_array($menuType, array('reg','settings', 'login', 'index', 'regged'), true)) {
                     $menuType = 'default';
                 }
+                
                 echo $this->element('pageHead/topMenu/top_menu', array('menuType' => $menuType));
                 ?>
             </div>
