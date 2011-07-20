@@ -27,7 +27,7 @@ class CheckDayLimShell extends Shell {
         
         Configure::load('vars');
         //$pathToCerts = $this->args[0];
-        Configure::read('pathToCerts');
+        $pathToCerts = Configure::read('pathToCerts');
 
 
         $notStoppedDbCampaigns = array();
