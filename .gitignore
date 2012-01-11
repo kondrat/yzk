@@ -1,6 +1,7 @@
 config/database.php
 config/core.php
 config/vars.php
+certs/*
 tmp/cache/*
 tmp/cache/models/*
 tmp/cache/persistent/*

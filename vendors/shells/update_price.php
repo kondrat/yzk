@@ -25,6 +25,7 @@ class UpdatePriceShell extends Shell {
 
         ini_set("max_execution_time", 500);
 
+
         $getYnData = new getYnDataComponent();
         $setPrice = new setPriceComponent();
         
@@ -118,7 +119,8 @@ class UpdatePriceShell extends Shell {
         foreach ($resAllCampaignsIdbatch10 as $k2 => $v2) {
 
             $params2 = array(
-                'CampaignIDS' => $v2, 
+                'CampaignIDS' => $v2,
+		'GetPhrases' => 'No', 
                 'Filter' => array('StatusArchive' => array('No'),
                                     'IsActive' => array('Yes'),
                                     'StatusShow' => array('Yes')
@@ -146,7 +148,7 @@ class UpdatePriceShell extends Shell {
                 //$this->out($v4['BannerID']."\n");
             }
         }
-        
+	unset($resAllBanners);        
         $this->out("Res All Banners: ".count($resAllBannersIDs)."\n");
         
         
