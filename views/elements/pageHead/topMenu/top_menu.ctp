@@ -7,10 +7,10 @@ if (!isset($menuType)) {
 <?php switch ($menuType):
     case 'regged': ?>
         <div class="lt-topMenu">
-            <?php echo $html->link(__('Profile', true), array('plugin' => 'users', 'controller' => 'users', 'action' => 'profile'), array('onclick' => 'return false')); ?>
+            <?php //echo $html->link(__('Profile', true), array('plugin' => 'users', 'controller' => 'users', 'action' => 'profile'), array('onclick' => 'return false')); ?>
         </div>	 	
         <div class="lt-topMenu">
-            <?php echo $html->link(__('Settings', true), array('plugin' => 'users', 'controller' => 'details', 'action' => 'index'), array()); ?>
+            <?php //echo $html->link(__('Settings', true), array('plugin' => 'users', 'controller' => 'details', 'action' => 'index'), array()); ?>
         </div>	 	
         <div class="lt-topMenu">
             <?php echo $html->link(__('LogOut now', true), array('plugin' => 'users', 'controller' => 'users', 'action' => 'logout')); ?>

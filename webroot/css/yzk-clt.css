@@ -122,3 +122,9 @@ input.clt-inputEmail{
     -moz-border-radius: 5px;
     border-radius: 5px
 }
+.clt-uploadBtn{
+    color: green;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+}

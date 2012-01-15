@@ -60,6 +60,39 @@
     </div>
     <div class="clt-loader"><?php echo $this->Html->image('pic/clt-loader.gif'); ?></div>
 </div>
+
+
+<div class="span-18">
+    
+    <div class="span-18">
+        <div id="clt-notAfter">
+            <?php if($notAfter == null):?>
+                <span style="color: red; font-weight: bold;font-size: large;"><?php __('You haven\'t uploaded valid cerfificate yet');?></span>  
+            <?php else: ?>
+                <?php if($finishSoon == null):?>
+                    <span style="color:blue;"><?php __('Your sertificate valid till: ');?><?php echo $notAfter;?></span>
+                <?php elseif($finishSoon == 'ex'):?>
+                    <span style="color:red;font-weight: bold;font-size: large;"><?php __('Your sertificate EXPIRED!!! ');?></span>
+                <?php elseif ($finishSoon == 'yes'):?>
+                   <span style="color:red;font-weight: bold;font-size: large;"><?php __('Your sertificate valid till: ');?><?php echo $notAfter;?></span> 
+                <?php endif?>
+              
+            <?php endif ?>
+        </div>
+        <div id="clt-uploadBtn" class="clt-uploadBtn">
+            <?php __('Upload sertificate (\'zip\' archaive)');?>
+        </div>            
+    </div>
+    <div id="clt-uploadCert" class="span-18 hide">
+        <?php echo $this->Form->create(null,array(
+            'url'=>array('plugin'=>null,'controller'=>'clients','action'=>'certupload'),
+            'type'=>'file'
+        ));?>
+        <?php echo $this->Form->input('cert',array('type' => 'file','label'=>false));?>
+        <?php echo $this->Form->end('Submit');?>
+    </div>
+</div>
+
 <div id="clt-clientListWrp" class="clt-clientListWrp span-17 prepend-1">
     
     

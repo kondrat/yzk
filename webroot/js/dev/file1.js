@@ -29,7 +29,7 @@ jQuery(document).ready(function(){
 
 
                 } else if(data.error){
-                    alert("Error here: "+data.error);
+                    //alert(data.error);
                 } else if(data.error_code){
                     alert(data.error_code+' | '+data.error_detail+' | '+data.error_str);
                 } else {
@@ -148,14 +148,20 @@ jQuery(document).ready(function(){
                 alert('Problem with the server. Try again later.');
                 $("#clt-regFormLoader").hide();
             }
-        });        
-        
-        
-        
+        });               
         
     });
 
 
+    $("#clt-uploadBtn").click(function(){
+        var $this = $(this);
+        if($this.hasClass("ctl-uploadBtnAct")){
+            $this.removeClass("clt-uploadBtnAct");
+        }else {
+            $this.addClass("clt-uploadBtnAct");
+        }
+        $("#clt-uploadCert").slideToggle();
+    });
 
 
 
