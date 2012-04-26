@@ -26,11 +26,11 @@ function flash_message(message, classs ) {
 
 
 //forms functions
-$.fn.passStrengthCheck = function(strDiv,optionsObj){
+$.fn.passStrengthCheck = function(strayiv,optionsObj){
 		
 	return this.each(function(){
 	
-		if(!strDiv){
+		if(!strayiv){
 			return;
 		}
 		
@@ -38,7 +38,7 @@ $.fn.passStrengthCheck = function(strDiv,optionsObj){
 		
 		var passInput=$(this);
 		
-		var passStatusDomElem = $(strDiv);
+		var passStatusDomElem = $(strayiv);
 		
 
 		//passCheck block
