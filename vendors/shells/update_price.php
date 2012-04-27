@@ -145,6 +145,7 @@ class UpdatePriceShell extends Shell {
             }
         }
 
+        
         //getting information about banners.
         foreach ($resAllCampaignsIdbatch10 as $k2 => $v2) {
 
@@ -216,7 +217,7 @@ class UpdatePriceShell extends Shell {
         
                 foreach ($bannersUpdateId1000 as $k13=>$v13){
                     
-                   $params3 = array('BannerIDS' => $resAllBannersIDs, 'FieldsNames' => array('Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin', 'LowCTR'), 'RequestPrices' => 'Yes');
+                   $params3 = array('BannerIDS' => $v13, 'FieldsNames' => array('Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin', 'LowCTR'), 'RequestPrices' => 'Yes');
                    
                     $resAllPhrasesTmp[] = json_decode($getYnData->getYnData($pathToCerts, 'GetBannerPhrasesFilter', $params3), TRUE);
                     
@@ -240,10 +241,12 @@ class UpdatePriceShell extends Shell {
                     
                 }
                 
-                
+                $resAllPhrases = array();
                 foreach ($resAllPhrasesTmp as $v14){
-                    $resAllPhrases['data'][] = $v14['data'];
+                    //$resAllPhrases['data'][] = $v14;
+                    $resAllPhrases = array_merge($resAllPhrases, $v14);
                 }
+                $this->out("res All Phr count: ".count($resAllPhrases['data']));
 
         //getting information about phrases( filtered not archive);
         //$params3 = array('BannerIDS' => $resAllBannersIDs, 'FieldsNames' => array('Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin', 'LowCTR'), 'RequestPrices' => 'Yes');
