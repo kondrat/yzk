@@ -244,9 +244,10 @@ class UpdatePriceShell extends Shell {
                 $resAllPhrases = array();
                 
                 $this->out("count res All Phr tmp: ".count($resAllPhrasesTmp));
-                foreach ($resAllPhrasesTmp as $v14){
+                debug($resAllPhrasesTmp[1]);
+                foreach ($resAllPhrasesTmp as $k14=> $v14){
                     //$resAllPhrases['data'][] = $v14;
-                    $resAllPhrases = array_merge($resAllPhrases['data'], $v14);
+                    $resAllPhrases = array_merge($resAllPhrases, $v14);
                 }
                 $this->out("res All Phr count: ".count($resAllPhrases['data']));
 
