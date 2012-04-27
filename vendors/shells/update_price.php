@@ -159,6 +159,15 @@ class UpdatePriceShell extends Shell {
             $tempBanners = json_decode($getYnData->getYnData($pathToCerts, 'GetBanners', $params2), TRUE);
             $resAllBanners[] = $tempBanners['data'];
             unset($tempBanners);
+            
+            
+         
+            
+            
+            
+            
+            
+            
         }
 
         if ($resAllBanners == array()) {
@@ -177,6 +186,8 @@ class UpdatePriceShell extends Shell {
 
 
 
+        
+  
 
 
         //and finaly we get bannersIds as one array. next we need to check if ammount less then 1000 (yandex.api restiction);
@@ -190,13 +201,54 @@ class UpdatePriceShell extends Shell {
         unset($resAllBanners);
         $this->out("Res All Banners: " . count($resAllBannersIDs) . "\n");
 
+                 $bannersUpdateId1000 = array();
+                $i = 0;
+                $j = 0;
+                foreach ($resAllBannersIDs as $k12 => $v12) {
+                    $bannersUpdateId1000[$j][$i] = $v12;
+                    $i++;
+                    if ($i == 1000) {
+                        $j++;
+                        $i = 0;
+                    }
+                }
 
-
+        
+                foreach ($bannersUpdateId1000 as $k13=>$v13){
+                    
+                   $params3 = array('BannerIDS' => $resAllBannersIDs, 'FieldsNames' => array('Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin', 'LowCTR'), 'RequestPrices' => 'Yes');
+                   
+                    $resAllPhrasesTmp[] = json_decode($getYnData->getYnData($pathToCerts, 'GetBannerPhrasesFilter', $params3), TRUE);
+                    
+// 
+//                         if (!isset($resAllPhrasesTmp[$k13]['data'])) {
+//
+//                            $End = $this->getTime();
+//                            $timeRes = "Time taken = " . number_format(($End - $Start), 2);
+//                            $this->out($timeRes . " secs\n");
+//                            $this->out("!!!!!!!!!! phrases Tmp not returned for yandex !!!!!!!!!!!");
+//
+//                            $doneAt = "done at  " . date('d-m-Y:H.i.s');
+//                            $this->out("-------------------------------------------------\n");
+//
+//                            CakeLog::write('updateRes', $startAt . ' | phrases not returned for yandex | ' . $timeRes . ' sek, | ' . $doneAt);
+//
+//                            return;
+//                        }                   
+                    
+                    
+                    
+                }
+                
+                
+                foreach ($resAllPhrasesTmp as $v14){
+                    $resAllPhrases['data'][] = $v14['data'];
+                }
 
         //getting information about phrases( filtered not archive);
-        $params3 = array('BannerIDS' => $resAllBannersIDs, 'FieldsNames' => array('Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin', 'LowCTR'), 'RequestPrices' => 'Yes');
+        //$params3 = array('BannerIDS' => $resAllBannersIDs, 'FieldsNames' => array('Price', 'Max', 'Min', 'PremiumMax', 'PremiumMin', 'LowCTR'), 'RequestPrices' => 'Yes');
 
-        $resAllPhrases = json_decode($getYnData->getYnData($pathToCerts, 'GetBannerPhrasesFilter', $params3), TRUE);
+       // $resAllPhrases = json_decode($getYnData->getYnData($pathToCerts, 'GetBannerPhrasesFilter', $params3), TRUE);
         if (!isset($resAllPhrases['data'])) {
 
             $End = $this->getTime();
